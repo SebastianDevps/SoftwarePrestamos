@@ -1,1 +1,7 @@
 # SoftwarePrestamos
+
+-SpringBoot
+
+-React 
+
+#Moral 😎
