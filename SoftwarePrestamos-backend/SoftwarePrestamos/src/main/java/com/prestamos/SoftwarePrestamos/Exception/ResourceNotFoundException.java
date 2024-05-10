@@ -21,4 +21,28 @@ public class ResourceNotFoundException extends RuntimeException{
         this.valorDelCampo = valorDelCampo;
     }
 
+    public String getNombreRecurso() {
+        return nombreRecurso;
+    }
+
+    public void setNombreRecurso(String nombreDelRecurso) {
+        this.nombreRecurso = nombreDelRecurso;
+    }
+
+    public String getNombreCampo() {
+        return nombreCampo;
+    }
+
+    public void setNombreCampo(String nombreDelCampo) {
+        this.nombreCampo = nombreDelCampo;
+    }
+
+    public long getValorDelCampo() {
+        return valorDelCampo;
+    }
+
+    public void setValorDelCampo(long valorDelCampo) {
+        this.valorDelCampo = valorDelCampo;
+    }
+
 }

@@ -26,7 +26,7 @@ public class GlobalExceptionHandle extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(PrestamosAppException.class)
-    public ResponseEntity<ErrorDetalles> manejarBlogAppException(PrestamosAppException exception, WebRequest webRequest){
+    public ResponseEntity<ErrorDetalles> manejarPrestamosAppException(PrestamosAppException exception, WebRequest webRequest){
         ErrorDetalles errorDetalles = new ErrorDetalles(new Date(),exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetalles,HttpStatus.BAD_REQUEST);
     }
