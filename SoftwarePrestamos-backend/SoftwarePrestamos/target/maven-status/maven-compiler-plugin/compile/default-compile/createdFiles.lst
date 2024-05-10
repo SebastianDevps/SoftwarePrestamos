@@ -1,0 +1,10 @@
+com\prestamos\SoftwarePrestamos\SoftwarePrestamosApplication.class
+com\prestamos\SoftwarePrestamos\ServletInitializer.class
+com\prestamos\SoftwarePrestamos\Dto\ClienteDto.class
+com\prestamos\SoftwarePrestamos\Exception\GlobalExceptionHandler.class
+com\prestamos\SoftwarePrestamos\Exception\GlobalExceptionHandler$ApiError.class
+com\prestamos\SoftwarePrestamos\Services\ClienteService.class
+com\prestamos\SoftwarePrestamos\Controller\ClienteController.class
+com\prestamos\SoftwarePrestamos\Repository\ClienteRepository.class
+com\prestamos\SoftwarePrestamos\Entity\Cliente.class
+com\prestamos\SoftwarePrestamos\Entity\Estado.class
