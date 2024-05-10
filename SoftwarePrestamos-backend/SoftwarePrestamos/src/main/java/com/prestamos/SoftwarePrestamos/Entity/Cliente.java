@@ -2,12 +2,16 @@ package com.prestamos.SoftwarePrestamos.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "cliente", uniqueConstraints = { @UniqueConstraint(columnNames = { "cedula" }) })
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "cliente", uniqueConstraints = { @UniqueConstraint(columnNames = { "cedula", "correo" }) })
 public class Cliente {
 
     @Id

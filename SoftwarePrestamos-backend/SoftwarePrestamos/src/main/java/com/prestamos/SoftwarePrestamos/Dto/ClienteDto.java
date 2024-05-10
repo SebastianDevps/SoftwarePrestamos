@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class ClienteDto {
+
     @NotEmpty
     @Size(min = 7, message = "La cedula debe tener minimo 7 digitos.")
     @Size(max = 15, message = "La cedula debe tener maximo 15 digitos.")
