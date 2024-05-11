@@ -24,7 +24,7 @@ const Login = () => {
       text: "Has iniciado sesión correctamente.",
     });
     reset();
-    navigate("/")
+    navigate("/App")
   };
 
   return (

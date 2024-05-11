@@ -33,16 +33,16 @@ public class ClienteService {
         return modelMapper.map(newCliente, ClienteDto.class);
     }
 
-    public ClienteDto editarCliente(ClienteDto clienteDto, long cedula) {
-        Cliente cliente = (clienteRepository.findById(cedula)
+    public ClienteDto editarCliente(ClienteDto clienteDto, String cedula) {
+        Cliente cliente = (clienteRepository.findByCedula(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula)));
         modelMapper.map(clienteDto, cliente);
         Cliente updateCliente = clienteRepository.save(cliente);
         return modelMapper.map(updateCliente, ClienteDto.class);
     }
 
-    public void eliminarCliente(long cedula) {
-        Cliente cliente = clienteRepository.findById(cedula)
+    public void eliminarCliente(String cedula) {
+        Cliente cliente = clienteRepository.findByCedula(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
         clienteRepository.delete(cliente);
     }

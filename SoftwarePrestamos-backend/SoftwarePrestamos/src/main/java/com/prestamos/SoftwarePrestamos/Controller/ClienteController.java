@@ -29,15 +29,15 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.crearCliente(clienteDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{cedula}")
-    public ResponseEntity<ClienteDto> editarCliente(@Valid @RequestBody ClienteDto clienteDto, @PathVariable(name = "cedula") long cedula) {
+    @PutMapping("/{cc}")
+    public ResponseEntity<ClienteDto> editarCliente(@Valid @RequestBody ClienteDto clienteDto, @PathVariable(name = "cc") String cedula) {
         ClienteDto updatedclienteDto = clienteService.editarCliente(clienteDto, cedula);
         return new ResponseEntity<>(updatedclienteDto, HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/{cedula}")
-    public ResponseEntity<String> eliminarCliente(@PathVariable(name = "cedula") long cedula){
+    @DeleteMapping("/{cc}")
+    public ResponseEntity<String> eliminarCliente(@PathVariable(name = "cc") String cedula){
         clienteService.eliminarCliente(cedula);
         return new ResponseEntity<>("Cliente eliminado con exito", HttpStatus.OK);
     }
