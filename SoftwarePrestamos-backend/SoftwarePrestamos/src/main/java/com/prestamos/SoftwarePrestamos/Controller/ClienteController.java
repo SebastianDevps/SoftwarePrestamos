@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin("http://localhost:5173") //permitir peticiones desde el front
 public class ClienteController {
 
     @Autowired
@@ -25,12 +27,12 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDto> crearCliente(@Valid @RequestBody ClienteDto clienteDto) {
+    public ResponseEntity<ClienteDto> crearCliente(@Validated @RequestBody ClienteDto clienteDto) {
         return new ResponseEntity<>(clienteService.crearCliente(clienteDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{cc}")
-    public ResponseEntity<ClienteDto> editarCliente(@Valid @RequestBody ClienteDto clienteDto, @PathVariable(name = "cc") String cedula) {
+    public ResponseEntity<ClienteDto> editarCliente(@Validated @RequestBody ClienteDto clienteDto, @PathVariable(name = "cc") String cedula) {
         ClienteDto updatedclienteDto = clienteService.editarCliente(clienteDto, cedula);
         return new ResponseEntity<>(updatedclienteDto, HttpStatus.OK);
 

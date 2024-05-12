@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 @Entity
 @Builder
@@ -36,6 +40,14 @@ public class Cliente {
 
     @Column(name = "correo", unique = true, nullable = false)
     private String correo;
+
+    @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
+    private Date fechaCreacion;
+
+    @PrePersist
+    protected void onCreate() {
+        fechaCreacion = new Date();
+    }
 
     @Column(name = "estado", nullable = false)
     private Estado estado;

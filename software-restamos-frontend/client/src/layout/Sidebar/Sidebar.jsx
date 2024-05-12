@@ -20,7 +20,7 @@ const Sidebar = () => {
             <div className="user-info">
                 <div className="info-img img-fit-cover">
                 </div>
-                <span className="info-name">Prestamos</span>
+                <span className="info-name">PrestaCol</span>
             </div>
 
             <nav className="navigation">

@@ -1,0 +1,51 @@
+.page-content {
+    max-width: 1500px;           
+    margin: auto;               
+    padding: 20px;              
+    background: #f9f9f9;        
+    position: fixed;            
+    top: 55%;                   
+    left: 60%;                  
+    transform: translate(-50%, -50%); 
+    z-index: 1050;              
+    display: flex;             
+    flex-direction: column;     
+    border-radius: 8px;         
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    overflow: auto;             
+    min-height: 580px;          
+    width: 1050px;
+    max-height: 100vh;           
+
+    .close-button{
+        margin-left: 970px;
+        color: white;
+        .icon{
+            font-size: 30px;
+            color: red;
+        }
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    .table {
+        width: 99%;
+        border-collapse: collapse;
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+    }
+}

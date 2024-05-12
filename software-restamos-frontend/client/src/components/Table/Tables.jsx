@@ -29,6 +29,16 @@ const Tables = () => {
             saldo: "$ 1,500.000",
             saldoTotal: "$ 1,500.000",
             status: "Pendiente",
+        },
+        {
+            id: 1143155,
+            nombre: "Juan",
+            apellido: "Smith",
+            cedula: "15123112121",
+            cuotas: "14",
+            saldo: "$ 1,500.000",
+            saldoTotal: "$ 1,500.000",
+            status: "Pendiente",
         }
     ];
     return (
