@@ -24,7 +24,7 @@ const Login = () => {
       text: "Has iniciado sesión correctamente.",
     });
     reset();
-    navigate("/App")
+    navigate("/app")
   };
 
   return (
@@ -63,7 +63,7 @@ const Login = () => {
                 required: "La contraseña es requerida",
                 minLength: {
                   value: 3,
-                  message: "La contraseña debe ser mayor a 6 caracteres",
+                  message: "La contraseña debe ser mayor a 3 caracteres",
                 },
                 maxLength: {
                   value: 16,

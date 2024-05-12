@@ -1,12 +1,14 @@
 import "./Content.css";
-import ContentTop from '../../components/ContentTop/ContentTop';
 import ContentMain from '../../components/ContentMain/ContentMain';
+import Navbar from "../../components/navApp/Navbar";
 
 const Content = () => {
   return (
-    <div className='main-content'>
-      <ContentTop />
-      <ContentMain />
+    <div className='main'>
+      <Navbar/> 
+      <div className="main-2">
+        <ContentMain />
+      </div>
     </div>
   )
 }

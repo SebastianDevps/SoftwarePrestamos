@@ -1,8 +1,7 @@
-.main-content {
-    background-color: var(--clr-secondary);
-    flex: 1;
-    padding: 32px;
-  }
+.main{
+  background-color: var(--clr-primary);
+  width: 1100px;
+}
 
   @media screen and (max-width: 1400px) {
     .main-content {

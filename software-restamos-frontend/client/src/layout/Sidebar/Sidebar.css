@@ -1,7 +1,9 @@
 /* sidebar */
+@import url("https://fonts.googleapis.com/css?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 .sidebar {
     background-color: var(--clr-primary);
-    width: 260px;
+    width: 270px;
     padding: 36px 20px;
     transition: var(--transition-default);
   }
@@ -9,7 +11,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    column-gap: 16px;
+    column-gap: 18px;
   }
   .info-name {
     font-weight: 500;
@@ -29,7 +31,8 @@
   }
   .navigation {
     margin-top: 28px;
-    height: 600px;
+    font-family: "Poppins";
+    height: 550px;  
     overflow-y: scroll;
   
     &::-webkit-scrollbar {
@@ -52,33 +55,73 @@
   
   .nav-item {
     margin-bottom: 10px;
-    margin-right: 4px;
+    margin-right: 2px;
   }
   .nav-link {
     display: block;
-    height: 44px;
+    height: 46px;
+    font-family: "Poppins";
     border-radius: 8px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: flex;
-    padding: 6px 14px;
-    column-gap: 12px;
+    padding: 6px 0px;
+    column-gap: 10px;
     letter-spacing: 0.03em;
     border: 1px solid transparent;
     transition: var(--transition-default);
+
+    .nav-icon{
+      font-size: 20px;
+    }
   }
   .nav-link:hover {
-    border: 1px solid var(--clr-primar-light);
+    background-color: #8380822c;
+    padding: 6px 1px;
   }
   .nav-link.active {
     background-color: var(--clr-pumpkin);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
       rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
   }
-  .nav-link-icon {
-    width: 22px;
-  }
+    .nav-link-icon {
+      width: 25px;
+    }
   .nav-link-text {
+    text-transform: capitalize;
+  }
+
+  .nav-link-exit {
+    display: block;
+    height: 46px;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex;
+    padding: 6px 0px;
+    column-gap: 12px;
+    letter-spacing: 0.03em;
+    border: 1px solid transparent;
+    color: red;
+    font-weight: 600;
+    transition: var(--transition-default);
+  }
+  .nav-link-exit:hover {
+    background-color: #e70b0be7;
+    color: white;
+  }
+  .nav-link-exit.active {
+    background-color: var(--clr-pumpkin);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  }
+  .nav-icon-exit {
+    font-size: 20px;
+  }
+  .nav-link-exit-text {
     text-transform: capitalize;
   }
 

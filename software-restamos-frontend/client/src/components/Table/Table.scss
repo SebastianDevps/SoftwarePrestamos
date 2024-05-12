@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.table {
+    width: 97%;
+    margin-left: 5px;
+    font-family: "Poppins";
+    .td-head{
+        background: darkgray;
+
+        .tableCell{
+            font-size: 16px;
+            text-align: start;
+            font-weight: 700;
+        }
+    }
+
+    .td-body {  
+        
+        .tableCell{
+            font-size: 15px;
+            font-weight: 400;
+            text-align: start;
+        }
+
+        .cellWrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .status {
+            padding: 5px;
+            border-radius: 5px;
+
+            &.Pagado {
+                color: green;
+                background-color: rgba(0, 128, 0, 0.151);
+            }
+
+            &.Pendiente {
+                color: goldenrod;
+                background-color: rgba(189, 189, 3, 0.103);
+            }
+        }
+    }
+}

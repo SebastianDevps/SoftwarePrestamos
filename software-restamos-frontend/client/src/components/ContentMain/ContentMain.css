@@ -1,9 +1,8 @@
 /* main content holder */
 
-
-.subgrid-two {
+.content-grid-one {
   display: grid;
-  row-gap: 20px;
+  row-gap: 40px;
   height: 100%;
 }
 
