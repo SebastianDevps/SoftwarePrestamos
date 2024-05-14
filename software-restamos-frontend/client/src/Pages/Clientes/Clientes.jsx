@@ -69,8 +69,11 @@ const Clientes = () => {
         });
     };
     
+    const [currentCliente, setCurrentCliente] = useState(null);
 
-    const handleOpenModal = () => {
+
+    const handleOpenModal = (cliente) => {
+        setCurrentCliente(cliente);
         setIsModalOpen(true);
     };
 
@@ -102,9 +105,9 @@ const Clientes = () => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <button className="viewButton" onClick={handleOpenModal} ><FaEye /></button>
+                        <button className="viewButton" onClick={() => handleOpenModal(params.row) } ><FaEye /></button>
                         <button className="editButton"><FaEdit /></button>
-                        <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)} ><MdDelete /></button>
+                        <button className="deleteButton" onClick={() => handleDelete(params.row.cedula) } ><MdDelete /></button>
                     </div>
                 );
             },
@@ -143,7 +146,7 @@ const Clientes = () => {
                     getRowId={(row) => row.id}
                     disableSelectionOnClick
                 />
-                {isModalOpen && <Details onClick={handleCloseModal} />}
+                {isModalOpen && <Details onClick={handleCloseModal} cliente={currentCliente} />}
             </div>
         </div>
     )

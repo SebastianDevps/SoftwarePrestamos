@@ -3,42 +3,79 @@ import "./Details.scss"
 import { IoIosCloseCircle } from "react-icons/io";
 
 
-const Details = ({ onClick }) => {
+const Details = ({ onClick, cliente }) => {
+
+    if (!cliente) return <div>No hay datos disponibles</div>;
+
     return (
         <div className="page-content">
             <center><h2>Datos del cliente</h2></center>
-            <button onClick={onClick} className="close-button"><IoIosCloseCircle className='icon'/></button>
+            <button onClick={onClick} className="close-button"><IoIosCloseCircle className='icon' /></button>
             <table className="table table-hover table-striped">
                 <tbody>
                     <tr>
-                        <td><b>Nombre:</b> Cesar</td>
-                        <td><b>Apellidos:</b> Prueba Efect</td>
+                        <td><b>Nombre:</b> {cliente.nombre} </td>
+                        <td><b>Apellidos:</b> {cliente.apellido} </td>
                     </tr>
                     <tr>
-                        <td><b>Cedula:</b> 124-5487865-3</td>
-                        <td><b>Pasaporte:</b> </td>
+                        <td><b>Cedula:</b> {cliente.cedula} </td>
+                        <td><b>Correo:</b> {cliente.correo} </td>
+
                     </tr>
                     <tr>
-                        <td><b>Teléfono:</b> 468-574-6135</td>
-                        <td><b>Celular:</b> 854-319-8465</td>
+                        <td><b>Celular:</b> {cliente.telefono} </td>
+                        <td><b>Dirección:</b> {cliente.direccion} </td>
                     </tr>
                     <tr>
-                        <td><b>Nacionalidad:</b> Guatemala</td>
-                        <td><b>Ciudad:</b> Distrito Nacional</td>
-                    </tr>
-                    <tr>
-                        <td><b>Dirección:</b> prueba</td>
-                        <td><b>Correo:</b> cesar@example.com</td>
-                    </tr>
-                    <tr>
-                        <td><b>Estado civil:</b> Soltero</td>
-                        <td><b>Sexo:</b> M</td>
+                        <td><b>Fecha de nacimiento:</b> 24-02-1987</td>
+                        <td><b>Nacionalidad:</b> Colombia</td>
                     </tr>
                     <tr>
                         <td><b>Ocupación:</b> Ingeniero</td>
-                        <td><b>Fecha de nacimiento:</b> 24-02-1987</td>
+                        <td><b>Sexo:</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Estado del cliente: </b> {cliente.estado} </td>
+                        <td><b>Fecha de creacion</b> {cliente.fechaCreacion} </td>
                     </tr>
                 </tbody>
+            </table>
+            <center><h2 className='title'>Datos del Prestamo</h2></center>
+            <table className="table2 table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Monto</th>
+                        <th>Porcentaje</th>
+                        <th>Monto a Pagar</th>
+                        <th>Fecha Limite</th>
+                        <th>Estado</th>
+                        <th>Prestamista</th>
+                    </tr>
+                </thead>
+                <tbody className='body'>
+                    {cliente.prestamos && cliente.prestamos.length > 0 ? (
+                        cliente.prestamos.map((prestamo, index) => (
+                            <tr key={index}>
+                                <td>{prestamo.id}</td>
+                                <td>{prestamo.monto}</td>
+                                <td>{prestamo.porcentaje}</td>
+                                <td>{prestamo.montoAPagar}</td>
+                                <td>{prestamo.fechaLimite}</td>
+                                <td>{prestamo.estado}</td>
+                                <td>{prestamo.prestamista}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7" 
+                            style={{ textAlign: "center", fontSize: "20px", color:"red", fontWeight: "bold"}
+                        }>
+                        Este cliente no tiene prestamos</td>
+                        </tr>
+                    )}
+                </tbody>
+
             </table>
         </div>
     )

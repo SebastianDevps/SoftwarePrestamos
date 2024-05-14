@@ -1,5 +1,7 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
+import java.util.*;
 
 @Data
 @Entity
@@ -42,13 +45,17 @@ public class Cliente {
     private String correo;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
-    private Date fechaCreacion;
-
+    private LocalDateTime fechaCreacion;
     @PrePersist
     protected void onCreate() {
-        fechaCreacion = new Date();
+        fechaCreacion = LocalDateTime.now();
     }
 
     @Column(name = "estado", nullable = false)
     private Estado estado;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Prestamo> prestamos = new ArrayList<>();
+
 }

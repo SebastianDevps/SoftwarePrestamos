@@ -1,15 +1,16 @@
 package com.prestamos.SoftwarePrestamos.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prestamos.SoftwarePrestamos.Entity.Estado;
-import jakarta.persistence.UniqueConstraint;
+import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class ClienteDto {
@@ -36,13 +37,16 @@ public class ClienteDto {
     @NotEmpty(message = "El correo electronico no puede estar vacio")
     private String correo;
 
-    private Date fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getFechaCreacion() {
+    public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
     }
 
     @NotEmpty
     private Estado estado;
+
+    private List<Prestamo> prestamos;
+
 }
