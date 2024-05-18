@@ -27,7 +27,7 @@ function Nav() {
           </ul>
         </div>
         <div className="links">
-          <Link to="/Login">
+          <Link to="/login">
             <button type="submit" className="button-nav">
               Ingresar
             </button>

@@ -32,7 +32,7 @@ function PlanCard() {
               isCurrency={true}
             />
             <PlanFeatures />
-            <ActionButton label="Comenzar" navigateTo="/Register" />
+            <ActionButton label="Comenzar" navigateTo="/register" />
           </div>
           {/* Premium */}
           <div className="plan-card premium">
@@ -44,13 +44,13 @@ function PlanCard() {
               isCurrency={true}
             />
             <PlanFeatures />
-            <ActionButton label="Comenzar" navigateTo="/Register" />
+            <ActionButton label="Comenzar" navigateTo="/register" />
           </div>
           {/* Personalizado */}
           <div className="plan-card personalizado">
             <PlanDetails title="Personalizado" documents="Contactanos" />
             <PlanFeatures />
-            <ActionButton label="Comenzar" navigateTo="/Register" />
+            <ActionButton label="Comenzar" navigateTo="/register" />
           </div>
         </div>
       </section>

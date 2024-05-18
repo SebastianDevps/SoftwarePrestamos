@@ -26,9 +26,9 @@ public class PrestamoController {
     }
 
     //implementacion del controlador para crear un prestamo.
-    @PostMapping
-    public ResponseEntity<PrestamoDto> crearPrestamos(@Valid @RequestBody PrestamoDto prestamoDto) {
-        return new ResponseEntity<>(prestamoService.crearPrestamo(prestamoDto), HttpStatus.CREATED);
+    @PostMapping("/{cedula}")
+    public ResponseEntity<PrestamoDto> crearPrestamos(@PathVariable(value = "cedula") String cedula,@Valid @RequestBody PrestamoDto prestamoDto) {
+        return new ResponseEntity<>(prestamoService.crearPrestamo(cedula, prestamoDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

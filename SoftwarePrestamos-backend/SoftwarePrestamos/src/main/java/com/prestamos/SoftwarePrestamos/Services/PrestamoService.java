@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class PrestamoService {
 
-
+    @Autowired
+    private ClienteRepository clienteRepository;
     @Autowired
     private PrestamoRepository prestamoRepository;
     @Autowired
@@ -32,8 +33,13 @@ public class PrestamoService {
     }
 
     //implementación del servicio de creacion del prestamo.
-    public PrestamoDto crearPrestamo(PrestamoDto prestamoDto) {
+    public PrestamoDto crearPrestamo(String cedula, PrestamoDto prestamoDto) {
         Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);
+        Cliente cliente = clienteRepository.findByCedula(cedula)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
+
+        //mandar el id del cliente al entity de prestamo
+        prestamo.setCliente(cliente);
         Prestamo newPrestamo = prestamoRepository.save(prestamo);
         return modelMapper.map(newPrestamo, PrestamoDto.class);
     }
@@ -41,7 +47,7 @@ public class PrestamoService {
     //implementacin del servicio para la actualizacion de un prestamo.
     public PrestamoDto editarPrestamos(PrestamoDto prestamoDto, long id) {
         Prestamo prestamo = (prestamoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", id)));
+                .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", String.valueOf(id))));
         modelMapper.map(prestamoDto, prestamo);
         Prestamo updatePrestamo = prestamoRepository.save(prestamo);
         return modelMapper.map(updatePrestamo, PrestamoDto.class);
@@ -50,7 +56,7 @@ public class PrestamoService {
     //implementacion del servicio para eliminar un prestamo.
     public void eliminarPrestamo(long id) {
         Prestamo prestamo = prestamoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", String.valueOf(id)));
         prestamoRepository.delete(prestamo);
     }
 }

@@ -48,7 +48,8 @@
         align-items: center;
 
         .input-login {
-          width: calc(100% - 30px);
+          width: calc(100% - 5px);
+          margin-left: 3px;
           height: 30px;
           padding: 10px;
           border: 1px solid #ccc;
