@@ -4,11 +4,16 @@
   margin: 0;
   padding: 0;
 }
-.banner{
-  margin-top: -225px;
-  width: 100vh;
-  
-}
+
+
+  .banner{
+    
+    .banner-img{
+      margin-top: -225px;
+      width: 1349px;
+    }
+  }
+
 
 .container-Landing {
   background-image: url("../../../public/images/fondo-banner.smHlBUbJ.jpg");
@@ -30,7 +35,7 @@
       flex-direction: column;
       gap: 20px;
       width: 60%;
-      margin-left: 40px;
+      margin-left: 30px;
       .boby-title-barra{
         display:flex;
         flex-direction: row;
@@ -160,6 +165,7 @@
         margin-right: 20px;
       }
     }
+    
   }
   
 }

@@ -23,7 +23,7 @@ function Landing() {
   return (
     <div>
       <div className="container-Landing">
-        <Nav />
+      <Nav />
         <div className="container-body">
           <div className="container-left">
             <div className="boby-title-barra">
@@ -56,7 +56,7 @@ function Landing() {
         </div>
       </div>
       <div className="banner">
-        <img src="../../../public/images/banner-2.DOO8rQBY.png" alt="" />
+        <img className="banner-img" src="../../../public/images/banner-2.DOO8rQBY.png" alt="" />
       </div>
       <div ref={planCardRef}>
         <PlanCard />

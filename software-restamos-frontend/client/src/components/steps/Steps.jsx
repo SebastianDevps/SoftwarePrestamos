@@ -14,7 +14,7 @@ const steps = [
     id: 2,
     image: "../../../public/images/steps.png",
     title: "Realiza el pago",
-    description: "Activate en el mejor software para manejar tu inventario",
+    description: "Activate en el mejor software para manejar tus prestamos",
   },
   {
     id: 3,

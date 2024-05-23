@@ -2,7 +2,7 @@
 
 .container-card {
   .plan-section {
-    max-width: 6xl;
+    max-width: 4xl;
     margin: auto;
     padding: 2rem;
     background-color: white;
@@ -31,7 +31,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 3rem;
-      padding: 2rem 0;
+      padding: 3rem 0;
       width: 1090px;
       .plan-card {
         padding: 1.5rem 2.5rem;
