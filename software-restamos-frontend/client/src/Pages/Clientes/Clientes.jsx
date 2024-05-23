@@ -1,25 +1,24 @@
-import React from 'react'
-import "./Clientes.scss"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import "./Clientes.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import Sidebar from '../../layout/Sidebar/Sidebar';
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { IoIosSearch, IoMdPersonAdd } from "react-icons/io";
 import Navbar from '../../components/navApp/Navbar';
-import { IoIosSearch } from "react-icons/io";
-import { IoMdPersonAdd } from "react-icons/io";
-import { FaEye } from "react-icons/fa";
-import { useState, useEffect } from 'react';
 import Details from '../../components/Details/Details';
-import axios from 'axios'
-import Swal from 'sweetalert2';
 
 const Clientes = () => {
-
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentCliente, setCurrentCliente] = useState(null);
+    const navigate = useNavigate();
 
-    //GET
+    // GET
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -38,12 +37,12 @@ const Clientes = () => {
         fetchData();
     }, []);
 
-    //DELETE
+    // DELETE
     const handleDelete = async (cedula) => {
         Swal.fire({
             title: "¿Estás seguro de eliminar a este cliente?",
             showCancelButton: true,
-            confirmButtonText: "Si, Confirmar.",
+            confirmButtonText: "Sí, Confirmar.",
             cancelButtonText: "No, Cancelar",
             icon: 'warning'
         }).then(async (result) => {
@@ -68,9 +67,6 @@ const Clientes = () => {
             }
         });
     };
-    
-    const [currentCliente, setCurrentCliente] = useState(null);
-
 
     const handleOpenModal = (cliente) => {
         setCurrentCliente(cliente);
@@ -85,9 +81,9 @@ const Clientes = () => {
         { field: "id", headerName: "ID", width: 90 },
         { field: "nombre", headerName: "Nombre", width: 150 },
         { field: "apellido", headerName: "Apellido", width: 150 },
-        { field: "cedula", headerName: "Cedula", width: 140 },
-        { field: "telefono", headerName: "Telefono", width: 130 },
-        { field: "fechaCreacion", headerName: "Fecha Creacion", width: 160 },
+        { field: "cedula", headerName: "Cédula", width: 140 },
+        { field: "telefono", headerName: "Teléfono", width: 130 },
+        { field: "fechaCreacion", headerName: "Fecha Creación", width: 160 },
         {
             field: "estado", headerName: "Estado", width: 100,
             renderCell: (params) => {
@@ -105,9 +101,9 @@ const Clientes = () => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <button className="viewButton" onClick={() => handleOpenModal(params.row) } ><FaEye /></button>
+                        <button className="viewButton" onClick={() => handleOpenModal(params.row)}><FaEye /></button>
                         <button className="editButton"><FaEdit /></button>
-                        <button className="deleteButton" onClick={() => handleDelete(params.row.cedula) } ><MdDelete /></button>
+                        <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
                     </div>
                 );
             },
@@ -132,7 +128,7 @@ const Clientes = () => {
                 <div className="cont-search">
                     <input type="text" className='search' placeholder='Buscar Cliente...' />
                     <button className='link'><IoIosSearch className='icon' /></button>
-                    <button className='link1'>
+                    <button className='link1' onClick={() => navigate('/app/clientes/agregarCliente')}>
                         <IoMdPersonAdd className='icon' />
                         Agregar cliente
                     </button>
@@ -152,4 +148,4 @@ const Clientes = () => {
     )
 }
 
-export default Clientes
+export default Clientes;
