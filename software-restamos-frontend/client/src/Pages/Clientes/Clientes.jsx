@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import { IoIosSearch, IoMdPersonAdd } from "react-icons/io";
 import Navbar from '../../components/navApp/Navbar';
 import Details from '../../components/Details/Details';
+import FormularioCliente from '../../components/form_cliente/FormularioCliente';
 
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
@@ -68,7 +69,12 @@ const Clientes = () => {
         });
     };
 
-    const handleOpenModal = (cliente) => {
+    const handleOpenModalDetail = (cliente) => {
+        setCurrentCliente(cliente);
+        setIsModalOpen(true);
+    };
+
+    const handleOpenModalFormCliente = (cliente) => {
         setCurrentCliente(cliente);
         setIsModalOpen(true);
     };
@@ -102,7 +108,7 @@ const Clientes = () => {
                 return (
                     <div className="cellAction">
                         <button className="viewButton" onClick={() => handleOpenModal(params.row)}><FaEye /></button>
-                        <button className="editButton"><FaEdit /></button>
+                        <button className="editButton" ><FaEdit /></button>
                         <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
                     </div>
                 );
@@ -128,7 +134,7 @@ const Clientes = () => {
                 <div className="cont-search">
                     <input type="text" className='search' placeholder='Buscar Cliente...' />
                     <button className='link'><IoIosSearch className='icon' /></button>
-                    <button className='link1' onClick={() => navigate('/app/clientes/agregarCliente')}>
+                    <button className='link1' onClick={() => handleOpenModalFormCliente()}>
                         <IoMdPersonAdd className='icon' />
                         Agregar cliente
                     </button>
@@ -143,6 +149,7 @@ const Clientes = () => {
                     disableSelectionOnClick
                 />
                 {isModalOpen && <Details onClick={handleCloseModal} cliente={currentCliente} />}
+                {isModalOpen && <FormularioCliente onClick={handleCloseModal} cliente={currentCliente} />}
             </div>
         </div>
     )

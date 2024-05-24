@@ -101,7 +101,7 @@
     height: 46px;
     border-radius: 8px;
     margin-top: 5px;
-    font-size: 16px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: flex;
@@ -111,10 +111,13 @@
     border: 1px solid transparent;
     color: red;
     font-weight: 600;
+    width: 100%;
+    text-transform: capitalize;
     transition: var(--transition-default);
   }
   .nav-link-exit:hover {
     background-color: #e70b0be7;
+    width: 100%;
     color: white;
   }
   .nav-link-exit.active {
@@ -123,11 +126,9 @@
       rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
   }
   .nav-icon-exit {
-    font-size: 20px;
+    font-size: 25px;
   }
-  .nav-link-exit-text {
-    text-transform: capitalize;
-  }
+  
 
 
   @media screen and (max-width: 1400px) {

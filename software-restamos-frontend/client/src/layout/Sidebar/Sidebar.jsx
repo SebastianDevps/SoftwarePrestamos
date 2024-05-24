@@ -9,11 +9,26 @@ import { MdCalculate } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { BiSolidReport } from "react-icons/bi";
 import { IoMdExit } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Sidebar = () => {
     const [sidebarClass, setSidebarClass] = useState("");
+    const navigate = useNavigate();
 
+    const handleExit = () => {
+        Swal.fire({
+            title: "¿Estás seguro de salir?",
+            showCancelButton: true,
+            confirmButtonText: "Sí, Confirmar.",
+            cancelButtonText: "No, Cancelar",
+            icon: 'warning'
+        }).then((result) => {
+            if (result.isConfirmed) { 
+                navigate("/");
+            }
+        });
+    }
 
     return (
         <div className={`sidebar ${sidebarClass}`}>
@@ -51,9 +66,7 @@ const Sidebar = () => {
                             <Link to="/app" style={{ textDecoration: "none" }} className='nav-link'>
                                 <span className='nav-icon'><IoMdSettings /></span> <span className="nav-link-text">Configuracion</span>
                             </Link>
-                            <Link to="/" style={{ textDecoration: "none" }} className="nav-link-exit">
-                                <span className='nav-icon-exit'><IoMdExit /></span> <span className="nav-link-exit-text">Salir</span>
-                            </Link>
+                                <button  className="nav-link-exit" onClick={handleExit}><span className='nav-icon-exit'><IoMdExit /></span>Salir</button>
                         </li>
                     }
                 </ul>

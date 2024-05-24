@@ -5,8 +5,7 @@ import Landing from "../src/Pages/landing/Landing";
 import Login from "../src/Pages/Login/Login";
 import Home from "../src/Pages/Home/Home";
 import Prestamos from "../src/Pages/Prestamos/Prestamos";
-import Clientes from "../src/Pages/Clientes/Clientes";
-import Formulario from "../src/Pages/Clientes/FormularioCliente";
+import Clientes from "../src/Pages/Clientes/Clientes"
 
 function AppRouter() {
   return (
@@ -15,7 +14,6 @@ function AppRouter() {
       <Route path="app" element={<Home />}/>
       <Route path="app/prestamos" element={<Prestamos />} />
       <Route path="app/clientes" element={<Clientes />} />
-      <Route path="app/clientes/agregarCliente" element={<Formulario />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
     </Routes>
