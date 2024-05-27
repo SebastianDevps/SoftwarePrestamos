@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import "./Landing.scss";
 
+import Footer from "../../components/footer/Footer";
 import Nav from "../../components/nav/Nav";
 import PlanCard from "../../components/planCard/PlanCard";
 import Steps from "../../components/steps/Steps";
@@ -63,6 +64,9 @@ function Landing() {
       </div>
       <div>
         <Steps />
+      </div>
+      <div>
+        <Footer/>
       </div>
     </div>
   );

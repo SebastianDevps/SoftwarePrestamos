@@ -10,25 +10,25 @@ const datos = [
         id: "1",
         title: "Capital Circulando",
         count: "$ 99,999.999",
-        icon: <GiPayMoney/>
+        icon: <GiPayMoney />
     },
     {
         id: "2",
         title: "Capital Disponible",
         count: "$ 99,999.999",
-        icon: <GiMoneyStack/>,
+        icon: <GiMoneyStack />,
     },
     {
         id: "3",
         title: "Prestamos Activos",
         count: "99,999.999",
-        icon: <FaRegMoneyBillAlt/>,
+        icon: <FaRegMoneyBillAlt />,
     },
     {
         id: "4",
         title: "Clientes",
         count: "99,999.999",
-        icon: <FaUser/>,
+        icon: <FaUser />,
     }
 ];
 
@@ -38,14 +38,17 @@ const Cards = () => {
             {datos.map(data => (
                 <div className="card-cont">
                     <div key={data.id} className="card-widget">
-                    <div className="card-left">
-                        <span className="card-title">{data.title}</span>
-                        <span  className="card-counter">{data.count}</span>
+                        <div className="card-left">
+                            <span className="card-title">{data.title}</span>
+                            <div className="desc">
+                                <div className="card-right">
+                                    {data.icon}
+                                </div>
+                                <span className="card-counter">{data.count}</span>
+                            </div>
+                        </div>
+
                     </div>
-                    <div className="card-right">
-                        {data.icon}
-                    </div>
-                </div>
                 </div>
             ))}
         </div>

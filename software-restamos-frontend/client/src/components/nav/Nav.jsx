@@ -18,9 +18,10 @@ function Nav() {
             <Link to="/" className="items">
             <li>Planes</li>
             </Link>
-            <Link to="/" className="items">
+            {/*<Link to="/" className="items">
             <li>Sobre Nosotros</li>
             </Link>
+            */}
             <Link to="/" className="items">
             <li>Contacto</li>
             </Link>

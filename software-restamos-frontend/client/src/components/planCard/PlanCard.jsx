@@ -4,16 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
-const plans = [
-  {
-    id: "0",
-    title: "Prueba Gratuita",
-    price: "Free",
-    documents: "Prueba gratis, por 3 dias",
-  },
-  {},
-  {},
-];
 
 function PlanCard() {
   return (
@@ -39,7 +29,7 @@ function PlanCard() {
             <PlanDetails
               title="Premium"
               price="$200.000"
-              documents="Descripcion"
+              documents="Ideal para tu negocio"
               isPopular={true}
               isCurrency={true}
             />

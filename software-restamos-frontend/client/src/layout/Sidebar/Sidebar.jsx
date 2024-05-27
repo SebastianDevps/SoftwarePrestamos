@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import "./Sidebar.css";
+import "./Sidebar.scss";
 import { useContext } from 'react';
 import { MdDashboardCustomize } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";

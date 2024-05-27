@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./FormularioPrestamo.scss";
 import { MdAddchart } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCalendar } from "react-icons/ai";
 
 const FormularioPrestamo = ({ onClick, Prestamo }) => {
