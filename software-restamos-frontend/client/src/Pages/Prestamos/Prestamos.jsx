@@ -11,18 +11,25 @@ import { MdAddchart } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import Details from '../../components/Details/Details';
 import { useState } from 'react';
+import FormularioPrestamo from '../../form_prestamo/FormularioPrestamo';
 
 const Prestamos = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [currentPrestamo, setCurrentPrestamo] = useState(null);
     const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOpenModalFormPrestamo = (prestamo) => {
+        setCurrentPrestamo(prestamo);
         setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
 
   const rows = [
     { id: 1, name: "John Doe", mount: 999.999, iva: 0.5, acMount:"50.000" ,acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "active" },
@@ -83,7 +90,7 @@ return (
             <div className="prest_cont-search">
                 <input type="text" className='search' placeholder='Buscar Prestamo...' />
                 <button className='link'><IoIosSearch className='icon'/></button>
-                <button className='link1'>
+                <button className='link1' onClick={() => handleOpenModalFormPrestamo()}>
                     <MdAddchart className='icon'/>
                     Agregar prestamo
                 </button>
@@ -98,6 +105,7 @@ return (
                 disableSelectionOnClick
             />
             {isModalOpen && <Details onClick={handleCloseModal} />}
+            {isModalOpen && <FormularioPrestamo onClick={handleCloseModal} cliente={currentPrestamo} />}
         </div>
     </div>
 )

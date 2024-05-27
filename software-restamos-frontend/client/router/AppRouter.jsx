@@ -9,6 +9,7 @@ import Clientes from "../src/Pages/Clientes/Clientes"
 
 function AppRouter() {
   return (
+    
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="app" element={<Home />}/>
@@ -17,6 +18,7 @@ function AppRouter() {
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
     </Routes>
+   
   );
 }
 
