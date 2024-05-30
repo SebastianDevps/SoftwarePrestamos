@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/prestamos")
 public class PrestamoController {
+
     @Autowired
     private PrestamoService prestamoService;
 

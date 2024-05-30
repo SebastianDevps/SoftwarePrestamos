@@ -25,6 +25,14 @@
     --transition-default: all 300ms ease-in-out;
 }
 
+.app {
+    .side {
+        width: 272px;
+        height: 100vh;
+        background-color: #1F2937;
+    }
+}
+
 body {
     font-family: var(--font-family-bai);
 }
@@ -77,7 +85,7 @@ button {
 
 .app {
     display: flex;
-    min-height: 100vh;
+    min-height: 98vh;
 }
 
 /* commons */

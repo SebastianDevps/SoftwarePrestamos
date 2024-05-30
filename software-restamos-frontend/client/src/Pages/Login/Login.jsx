@@ -41,6 +41,8 @@ const Login = () => {
         icon: "success",
         title: "¡Yupi!",
         text: "Has iniciado sesión correctamente.",
+        showConfirmButton: false,
+        timer: 1200,
       });
       reset();
       navigate("/app");

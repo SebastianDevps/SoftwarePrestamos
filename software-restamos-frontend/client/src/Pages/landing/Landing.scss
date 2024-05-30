@@ -7,7 +7,7 @@
 
   .banner{
     .banner-img{
-      margin-top: -230px;
+      margin-top: -200px;
       width: 1249px;
       margin-left: -23px;
     }
@@ -19,7 +19,7 @@
   background-size: cover;
   background-position: center;
   margin-top: -10px;
-  height: 110vh;
+  height: 114vh;
 
 
   .container-body {
@@ -76,12 +76,12 @@
         font-family: "Poppins", sans-serif;
         font-weight: 800;
         width: 100%;
-        margin-top: -20px;
+        margin-top: -25px;
       }
       .title-Landing-blue2{
         font-size: 50px;
         color: #d9d9d9;
-        margin-top: -50px;
+        margin-top: -45px;
         font-family: "Poppins", sans-serif;
           font-weight: 800;
         width: 100%;
@@ -171,77 +171,113 @@
   
 }
 
-@media only screen and (max-width: 700px) {
-  .container-Landing {
-    margin: 0px;
-    padding: 0px;
+@media only screen and (max-width: 1200px) {
+  .banner .banner-img {
+    width: 100%;
+    margin-top: -150px;
+    margin-left: 0;
+  }
 
+  .container-Landing {
     .container-body {
-      display: flex;
       flex-direction: column;
-      padding: 20px;
+      align-items: center;
 
       .container-left {
         width: 100%;
         padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      }
 
-        .title-Landing {
-          font-size: 45px;
-        }
-        .title-Landing-blue {
-          font-size: 45px;
-        }
-        .container-descipcion {
-          padding: 10px;
+      .container-right {
+        width: 100%;
+        margin-right: 0;
 
-          .descipcion-Landing {
-            font-size: 30px;
-            color: #ffffff;
+        .container-image {
+          height: 400px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container-Landing {
+    .container-body {
+      margin-left: 0;
+      margin-top: 0;
+      padding: 10px;
+
+      .container-left {
+        padding: 10px;
+
+        .boby-title-barra {
+          width: 100%;
+          justify-content: flex-start;
+
+          .title {
+            font-size: 14px;
+          }
+        }
+
+        .title-Landing-blue,
+        .title-Landing-blue2 {
+          font-size: 35px;
+        }
+
+        .container-descipcion .descripcion-Landing {
+          font-size: 25px;
+        }
+
+        .container-button {
+          .input-Landing {
+            width: 100%;
+          }
+
+          .button-contact,
+          .button-planes {
+            width: 100%;
+            font-size: 16px;
+            height: 45px;
           }
         }
       }
 
-      .container-button {
-        padding: 10px;
-
-        margin-top: 20px;
-
-        .input-Landing {
-          width: 150px;
-          height: 40px;
-          background: none;
-          border: solid #ffffff;
-          border-radius: 10px;
-          color: #ffffff;
-        }
-  
-        .button -contac{
-          background: #f39708;
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          width: 150px;
-          height: 40px;
-          color: #ffffff;
-        }.button-contact{
-          background: #f39708;
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          width: 150px;
-          height: 40px;
-          color: #ffffff;
+      .container-right {
+        .container-image {
+          height: 300px;
+          background-size: contain;
         }
       }
     }
-    .container-right {
-      width: 100%;
+  }
+}
 
-      .container-image {
-        background: none;
+@media only screen and (max-width: 480px) {
+  .container-Landing {
+    .container-body {
+      .container-left {
+        .title-Landing-blue,
+        .title-Landing-blue2 {
+          font-size: 30px;
+        }
+
+        .container-descipcion .descripcion-Landing {
+          font-size: 20px;
+        }
+
+        .container-button {
+          .button-contact,
+          .button-planes {
+            font-size: 14px;
+            height: 40px;
+          }
+        }
+      }
+
+      .container-right {
+        .container-image {
+          height: 200px;
+        }
       }
     }
   }

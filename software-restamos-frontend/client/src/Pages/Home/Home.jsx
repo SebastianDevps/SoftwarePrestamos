@@ -6,8 +6,11 @@ import Content from '../../layout/Content/Content';
 const Home = () => {
     return (
         <div className='app'>
-            <Sidebar/>
-            <Content/>
+            <div className="side">
+                <Sidebar />
+            </div>
+
+            <Content />
         </div>
     );
 }

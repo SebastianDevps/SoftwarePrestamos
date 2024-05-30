@@ -1,21 +1,74 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
+import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
 import './FormularioCliente.scss';
+import axios from "axios";
+
 
 const FormularioCliente = ({ onClick, cliente }) => {
+
+  const [loading, setLoading] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields },
+    reset,
+  } = useForm();
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "Cargando...",
+        html: "Por favor, espera mientras validamos tus datos.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+  }, [loading]);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    setLoading(true);
+    try {
+      axios.post("http://8080/api/clientes");
+      // Simula una solicitud de inicio de sesión
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+      await Swal.fire({
+        icon: "success",
+        title: "¡Yupi!",
+        text: "Cliente registrado correctamente.",
+        showConfirmButton: true
+      });
+    } catch (error) {
+      //console.error("Error al registrar cliente:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error al registrar cliente. Por favor, intenta nuevamente.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="modal-overlay">
       <div className="container">
         <div className="container-body">
           <div className="form-title">TITTULO DEPENDIENTE</div>
-          <form className="form">
+          <form className="form" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-row">
               {/* Forms inputs1*/}
               <div className="form-inputs1">
                 <div className="form-input">
                   <label className="lbl-title">Tipo documento</label>
-                  <select className="form-input">
+                  <select className="form-input" typeof='text'>
                     <option value="" selected>Seleccione Uno</option>
-                    <option value="documento">Documento</option>
+                    <option value="documento">Cedula</option>
                     <option value="pasaporte">Pasaporte</option>
                   </select>
                 </div>

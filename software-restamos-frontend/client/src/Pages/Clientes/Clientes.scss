@@ -4,50 +4,97 @@
     display: flex;
     font-family: "Poppins";
     //background-color: var(--clr-secondary);
-    background-color: #F3F4F6;
+    background-color: white;
+
+    .side {
+        width: 272px;
+        height: 100vh;
+        background-color: #1F2937;
+    }
 
     .datatable {
-        height: 510px;
+        height: 450px;
         padding: 8px;
-        margin-top: 20px;
         text-transform: capitalize;
 
         .datatableTitle {
             width: 100%;
             font-size: 24px;
             color: gray;
-            margin-bottom: 22px;
             display: flex;
+            margin-top: 14px;
             align-items: center;
             justify-content: space-between;
 
         }
-        
-        .cont-search{
-            display: flex;
-            margin-bottom: 8px;
 
-            .search{
+        .cont-search {
+            display: flex;
+            margin-bottom: 5px;
+            margin-top: 30px;
+            justify-content: space-between;
+
+            .search {
                 margin-bottom: 10px;
                 border-radius: 10px;
-                width: 350px;
-                padding: 8px;
+                width: 300px;
                 border: 1px solid gray;
-                font-size: 15px;
+                padding: 8px;
+                font-size: 12px;
             }
 
             .link {
                 text-decoration: none;
                 color: rgb(0, 0, 0);
                 text-align: center;
-                margin-bottom: 5px;
-                margin-left: -45px;
+                margin-bottom: 9px;
+                margin-left: -460px;
                 width: 50px;
                 cursor: pointer;
 
-                .icon{
+                .icon {
                     font-size: 30px;
                     font-weight: 400;
+                }
+
+                .toltip {
+                    color: #000000;
+                    font-weight: 300;
+                    border: none;
+                    margin-left: -35px;
+                    margin-top: 20px;
+                    background: none;
+                }
+            }
+
+            .refresh {
+                text-decoration: none;
+                color: #1F2937;
+                text-align: center;
+                margin-bottom: 9px;
+                margin-left: -420px;
+                width: 40px;
+                border: none;
+                cursor: pointer;
+                font-weight: 900;
+                transition: transform 0.8s ease;
+
+                &:active {
+                    transform: rotate(360deg);
+                }
+
+                .icon {
+                    font-size: 25px;
+                    font-weight: 400;
+                }
+
+                .toltip {
+                    color: #000000;
+                    font-weight: 300;
+                    border: none;
+                    margin-left: -35px;
+                    margin-top: 20px;
+                    background: none;
                 }
             }
 
@@ -55,24 +102,26 @@
                 display: flex;
                 text-decoration: none;
                 color: rgb(255, 140, 0);
-                font-size: 17px;
+                font-size: 15px;
+                justify-content: space-between;
+                margin-left: 20px;
                 text-align: center;
                 font-weight: 500;
                 margin-bottom: 10px;
-                height: 40px;
+                height: 32px;
                 border: 1px solid rgb(255, 140, 0);
-                margin-left: 535px;
-                width: 185px;
+                width: 170px;
                 padding: 5px;
                 border-radius: 5px;
                 cursor: pointer;
-                &:hover{
+
+                &:hover {
                     background: rgb(255, 140, 0);
                     color: white;
                 }
 
-                .icon{
-                    font-size: 35px;
+                .icon {
+                    font-size: 25px;
                     font-weight: 400;
                     margin-right: 5px;
                     padding: 2px;
@@ -82,7 +131,8 @@
         }
 
         .datagrid {
-            width: 1080px;
+            width: 935px;
+            font-size: 13px;
             background: #f9f9f9;
 
             .status-cell {
@@ -92,6 +142,7 @@
                 &.active {
                     color: green;
                 }
+
                 &.inactive {
                     color: rgb(251, 3, 53);
                 }
@@ -100,49 +151,34 @@
 
         .cellAction {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 8px;
 
             .viewButton {
                 padding: 2px 5px;
                 border-radius: 5px;
-                margin-top: 8px;
+                height: 50px;
                 font-size: 20px;
                 color: rgb(0, 139, 67);
                 cursor: pointer;
 
-                &:hover {
-                    color: white;
-                    background: rgba(0, 139, 67, 0.603);
-                }
             }
 
             .editButton {
                 padding: 2px 5px;
                 border-radius: 5px;
-                margin-top: 5px;
                 font-size: 20px;
                 color: darkblue;
                 cursor: pointer;
 
-                &:hover {
-                    color: white;
-                    background: rgba(4, 4, 197, 0.609);
-                }
             }
 
             .deleteButton {
                 padding: 2px 5px;
                 border-radius: 5px;
-                margin-top: 5px;
                 color: crimson;
                 font-size: 20px;
                 cursor: pointer;
 
-                &:hover {
-                    color: white;
-                    background: rgba(197, 4, 4, 0.609);
-                }
             }
         }
     }

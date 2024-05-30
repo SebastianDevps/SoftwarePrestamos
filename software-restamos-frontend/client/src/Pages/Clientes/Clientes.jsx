@@ -11,6 +11,9 @@ import { IoIosSearch, IoMdPersonAdd } from "react-icons/io";
 import Navbar from '../../components/navApp/Navbar';
 import Details from '../../components/Details/Details';
 import FormularioCliente from '../../components/form_cliente/FormularioCliente';
+import { IoRefreshOutline } from "react-icons/io5";
+import { Tooltip } from 'react-tooltip'//mostrar msg encima del btn
+
 
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
@@ -83,12 +86,16 @@ const Clientes = () => {
         setIsModalOpen(false);
     };
 
+    const handleRefresh = () => {
+        window.location.reload();
+    }
+
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
-        { field: "nombre", headerName: "Nombre", width: 150 },
-        { field: "apellido", headerName: "Apellido", width: 150 },
-        { field: "cedula", headerName: "Cédula", width: 140 },
-        { field: "telefono", headerName: "Teléfono", width: 130 },
+        //{ field: "id", headerName: "ID", width: 90 },
+        { field: "nombre", headerName: "Nombre", width: 130 },
+        { field: "apellido", headerName: "Apellido", width: 180 },
+        { field: "cedula", headerName: "Cédula", width: 120 },
+        { field: "telefono", headerName: "Teléfono", width: 110 },
         { field: "fechaCreacion", headerName: "Fecha Creación", width: 160 },
         {
             field: "estado", headerName: "Estado", width: 100,
@@ -107,7 +114,7 @@ const Clientes = () => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <button className="viewButton" onClick={() => handleOpenModal(params.row)}><FaEye /></button>
+                        <button className="viewButton" onClick={() => handleOpenModalDetail(params.row)}><FaEye /></button>
                         <button className="editButton" ><FaEdit /></button>
                         <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
                     </div>
@@ -126,14 +133,26 @@ const Clientes = () => {
 
     return (
         <div className='app'>
-            <Sidebar />
+            <div className="side">
+                <Sidebar />
+            </div>
+
             <div className='datatable'>
                 <div className="datatableTitle">
                     Clientes
                 </div>
                 <div className="cont-search">
                     <input type="text" className='search' placeholder='Buscar Cliente...' />
-                    <button className='link'><IoIosSearch className='icon' /></button>
+                    <button className='link' id='link'><IoIosSearch className='icon' />
+                        <Tooltip className='toltip' anchorSelect="#link" place="right-start">
+                            Buscar
+                        </Tooltip>
+                    </button>
+                    <button className="refresh" id='refresh' onClick={() => handleRefresh()}><IoRefreshOutline className='icon' />
+                        <Tooltip className='toltip' anchorSelect="#refresh" place="right-start">
+                            Refrescar
+                        </Tooltip>
+                    </button>
                     <button className='link1' onClick={() => handleOpenModalFormCliente()}>
                         <IoMdPersonAdd className='icon' />
                         Agregar cliente

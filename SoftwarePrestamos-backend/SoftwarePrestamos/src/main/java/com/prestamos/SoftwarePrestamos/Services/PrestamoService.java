@@ -7,22 +7,25 @@ import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import com.prestamos.SoftwarePrestamos.Exception.ResourceNotFoundException;
 import com.prestamos.SoftwarePrestamos.Repository.ClienteRepository;
 import com.prestamos.SoftwarePrestamos.Repository.PrestamoRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PrestamoService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
-    private PrestamoRepository prestamoRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+
+    private final ClienteRepository clienteRepository;
+
+    private final  PrestamoRepository prestamoRepository;
+
+    private final ModelMapper modelMapper;
 
     //implementacion del servico listas todos los prestamos.
     public List<PrestamoDto> getPrestamos() {
@@ -48,7 +51,10 @@ public class PrestamoService {
     public PrestamoDto editarPrestamos(PrestamoDto prestamoDto, long id) {
         Prestamo prestamo = (prestamoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", String.valueOf(id))));
+
         modelMapper.map(prestamoDto, prestamo);
+        prestamo.setFechaEdicion(LocalDateTime.now());
+
         Prestamo updatePrestamo = prestamoRepository.save(prestamo);
         return modelMapper.map(updatePrestamo, PrestamoDto.class);
     }

@@ -1,21 +1,20 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.lang.model.element.Name;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "prestamo")
 public class Prestamo {
     @Id
@@ -30,18 +29,28 @@ public class Prestamo {
 
     private String fechaLimite;
 
-    private String Prestamista;
+    private String prestamista;
 
     private Estado estado;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_edicion", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaEdicion;
+
     @PrePersist
     protected void onCreate() {
         fechaCreacion = LocalDateTime.now();
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @PreUpdate
+    protected void onUpdate() {
+        fechaEdicion = LocalDateTime.now();
+    }
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 }

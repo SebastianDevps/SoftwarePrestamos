@@ -1,30 +1,31 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@UniqueConstrain espifica columnas que son unicas.
 @Table(name = "cliente")
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "tipo_documento", nullable = false)
+    private String tipoDocumento;
 
     @Column(name = "cedula", unique = true, nullable = false)
     private String cedula;
@@ -39,23 +40,31 @@ public class Cliente {
     private String telefono;
 
     @Column(name = "direccion", nullable = false)
-    private  String direccion;
+    private String direccion;
 
     @Column(name = "correo", unique = true, nullable = false)
     private String correo;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_edicion", columnDefinition = "TIMESTAMP")
+    private LocalDateTime fechaEdicion;
+
     @PrePersist
     protected void onCreate() {
         fechaCreacion = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        fechaEdicion = LocalDateTime.now();
     }
 
     @Column(name = "estado", nullable = false)
     private Estado estado;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos = new ArrayList<>();
-
 }

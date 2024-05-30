@@ -5,18 +5,16 @@ import Tables from "../Table/Tables";
 const ContentMain = () => {
   return (
     <div className="main-content">
-      <div className="e">
-        <br />
-      </div>
-      <div className="content-grid">
+      <br />
+      <div className="content-card">
         <Cards/>
-        {/*<Tables/> */}
-
       </div>
       <div className="bg">
-
       </div>
-    </div>
+      {/*<div className="table">
+      <Tables/>
+      </div>*/}
+  </div>
   );
 }
 
