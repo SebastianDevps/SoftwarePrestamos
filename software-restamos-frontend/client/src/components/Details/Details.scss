@@ -1,3 +1,14 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+
 .page-content {
     max-width: 1500px;           
     margin: auto;               
@@ -13,12 +24,17 @@
     border-radius: 8px;         
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     overflow: auto;             
-    min-height: 650px;          
-    width: 1050px;
+    min-height: 450px;          
+    width: 900px;
     max-height: 100vh;           
 
+    .title1{
+        font-size: 25px;
+        margin-bottom: -10px;
+    }
+
     .close-button{
-        margin-left: 970px;
+        margin-left: 830px;
         color: white;
         .icon{
             font-size: 30px;
@@ -53,8 +69,8 @@
     }
 
     .title{
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        font-size: 25px;
     }
     .table2{
         height: 20px;
@@ -74,4 +90,6 @@
             background-color: #f9f9f9;
         }
     }
+}
+
 }

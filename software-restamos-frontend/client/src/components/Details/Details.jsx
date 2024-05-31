@@ -8,8 +8,9 @@ const Details = ({ onClick, cliente }) => {
     if (!cliente) return <div>No hay datos disponibles</div>;
 
     return (
+        <div className="modal-overlay">
         <div className="page-content">
-            <center><h2>Datos del cliente</h2></center>
+            <center><h2 className='title1'>Datos del cliente</h2></center>
             <button onClick={onClick} className="close-button"><IoIosCloseCircle className='icon' /></button>
             <table className="table table-hover table-striped">
                 <tbody>
@@ -18,25 +19,26 @@ const Details = ({ onClick, cliente }) => {
                         <td><b>Apellidos:</b> {cliente.apellido} </td>
                     </tr>
                     <tr>
+                        <td><b>Tipo de documento:</b> {cliente.tipoDocumento} </td>
                         <td><b>Cedula:</b> {cliente.cedula} </td>
-                        <td><b>Correo:</b> {cliente.correo} </td>
+                    
 
                     </tr>
                     <tr>
                         <td><b>Celular:</b> {cliente.telefono} </td>
                         <td><b>Dirección:</b> {cliente.direccion} </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                         <td><b>Fecha de nacimiento:</b> 24-02-1987</td>
                         <td><b>Nacionalidad:</b> Colombia</td>
+                    </tr> */}
+                    <tr>
+                        <td><b>Fecha de creacion: </b> {cliente.fechaCreacion} </td>
+                        <td><b>Fecha de edicion: </b> {cliente.fechaEdicion} </td>
                     </tr>
                     <tr>
                         <td><b>Ocupación:</b> Ingeniero</td>
-                        <td><b>Sexo:</b></td>
-                    </tr>
-                    <tr>
                         <td><b>Estado del cliente: </b> {cliente.estado} </td>
-                        <td><b>Fecha de creacion</b> {cliente.fechaCreacion} </td>
                     </tr>
                 </tbody>
             </table>
@@ -77,6 +79,7 @@ const Details = ({ onClick, cliente }) => {
                 </tbody>
 
             </table>
+        </div>
         </div>
     )
 }

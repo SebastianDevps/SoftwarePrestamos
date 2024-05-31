@@ -34,7 +34,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
     console.log(data);
     setLoading(true);
     try {
-      axios.post("http://8080/api/clientes");
+      //axios.post("http://8080/api/clientes");
       // Simula una solicitud de inicio de sesión
     await new Promise((resolve) => setTimeout(resolve, 3000));
       await Swal.fire({

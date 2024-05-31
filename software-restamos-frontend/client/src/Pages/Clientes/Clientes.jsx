@@ -19,6 +19,7 @@ const Clientes = () => {
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenClient, setIsModalOpenClient] = useState(false);
     const [currentCliente, setCurrentCliente] = useState(null);
     const navigate = useNavigate();
 
@@ -72,19 +73,22 @@ const Clientes = () => {
         });
     };
 
-    const handleOpenModalDetail = (cliente) => {
+    const handleOpenModal = (cliente) => {
         setCurrentCliente(cliente);
         setIsModalOpen(true);
     };
 
-    const handleOpenModalFormCliente = (cliente) => {
+    const handleOpenModalClient = (cliente) => {
         setCurrentCliente(cliente);
-        setIsModalOpen(true);
+        setIsModalOpenClient(true);
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setIsModalOpenClient(false);
     };
+
+    
 
     const handleRefresh = () => {
         window.location.reload();
@@ -114,8 +118,8 @@ const Clientes = () => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <button className="viewButton" onClick={() => handleOpenModalDetail(params.row)}><FaEye /></button>
-                        <button className="editButton" ><FaEdit /></button>
+                        <button className="viewButton" onClick={() => handleOpenModal(params.row)} ><FaEye /></button>
+                        <button className="editButton" onClick={() => handleOpenModalClient(params.row)} ><FaEdit /></button>
                         <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
                     </div>
                 );
@@ -124,9 +128,9 @@ const Clientes = () => {
     ];
 
     const getStatusClass = (status) => {
-        if (status === 'ACTIVE') {
+        if (status === 'ACTIVO') {
             return 'active';
-        } else if (status === 'INACTIVE') {
+        } else if (status === 'INACTIVO') {
             return 'inactive';
         }
     };
@@ -153,7 +157,7 @@ const Clientes = () => {
                             Refrescar
                         </Tooltip>
                     </button>
-                    <button className='link1' onClick={() => handleOpenModalFormCliente()}>
+                    <button className='link1' onClick={() => handleOpenModalClient()}>
                         <IoMdPersonAdd className='icon' />
                         Agregar cliente
                     </button>
@@ -167,9 +171,10 @@ const Clientes = () => {
                     getRowId={(row) => row.id}
                     disableSelectionOnClick
                 />
+                
+                {isModalOpenClient && <FormularioCliente onClick={handleCloseModal} cliente={currentCliente} />}
                 {isModalOpen && <Details onClick={handleCloseModal} cliente={currentCliente} />}
-                {isModalOpen && <FormularioCliente onClick={handleCloseModal} cliente={currentCliente} />}
-            </div>
+                </div>
         </div>
     )
 }

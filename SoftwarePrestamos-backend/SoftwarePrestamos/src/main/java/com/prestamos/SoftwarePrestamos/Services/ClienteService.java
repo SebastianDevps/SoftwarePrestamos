@@ -1,5 +1,7 @@
 package com.prestamos.SoftwarePrestamos.Services;
+
 import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
+import com.prestamos.SoftwarePrestamos.Dto.PrestamoDto;
 import com.prestamos.SoftwarePrestamos.Entity.Cliente;
 import com.prestamos.SoftwarePrestamos.Entity.Estado;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
@@ -7,13 +9,11 @@ import com.prestamos.SoftwarePrestamos.Exception.ResourceNotFoundException;
 import com.prestamos.SoftwarePrestamos.Repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +23,7 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final ModelMapper modelMapper;
 
+    @Transactional(readOnly = true)
     public List<ClienteDto> getClientes() {
         List<Cliente> clientes = clienteRepository.findAll();
         return clientes.stream()
@@ -30,6 +31,7 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public ClienteDto crearCliente(ClienteDto clienteDto) {
         Cliente cliente = modelMapper.map(clienteDto, Cliente.class);
         cliente.setEstado(obtenerEstadoCliente(cliente)); // Establecer el estado del cliente
@@ -37,9 +39,15 @@ public class ClienteService {
         return modelMapper.map(newCliente, ClienteDto.class);
     }
 
+    @Transactional
     public ClienteDto editarCliente(ClienteDto clienteDto, String cedula) {
         Cliente clienteExistente = clienteRepository.findByCedula(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
+
+        // Si el DTO del cliente no contiene información sobre los préstamos, cargar los préstamos asociados al cliente
+        if (clienteDto.getPrestamos() == null) {
+            clienteExistente.getPrestamos().size();
+        }
 
         // Actualizar los campos del cliente existente con los datos del clienteDto
         clienteExistente.setNombre(clienteDto.getNombre());
@@ -49,35 +57,29 @@ public class ClienteService {
         clienteExistente.setCorreo(clienteDto.getCorreo());
         clienteExistente.setTipoDocumento(clienteDto.getTipoDocumento());
         clienteExistente.setFechaEdicion(LocalDateTime.now());
-        clienteExistente.setEstado(obtenerEstadoCliente(clienteExistente)); // Actualizar el estado del cliente
 
         // Manejo de la colección de Préstamos
         if (clienteDto.getPrestamos() != null) {
-            // Crear una lista para almacenar los nuevos préstamos
-            List<Prestamo> nuevosPrestamos = new ArrayList<>();
+            clienteExistente.getPrestamos().clear(); // Limpiar la colección actual
+
+            // Agregar los nuevos préstamos desde clienteDto
             clienteDto.getPrestamos().forEach(prestamoDto -> {
                 Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);
                 prestamo.setCliente(clienteExistente); // Establecer la relación bidireccional
-                nuevosPrestamos.add(prestamo);
+                clienteExistente.getPrestamos().add(prestamo);
             });
-            // Obtener los préstamos existentes del cliente
-            List<Prestamo> prestamosExistente = clienteExistente.getPrestamos();
-            // Agregar los nuevos préstamos a la lista de préstamos existentes
-            prestamosExistente.addAll(nuevosPrestamos);
-            // Establecer la lista actualizada de préstamos en el cliente existente
-            clienteExistente.setPrestamos(prestamosExistente);
         }
 
-
+        // Guardar el cliente actualizado
         Cliente clienteActualizado = clienteRepository.save(clienteExistente);
         return modelMapper.map(clienteActualizado, ClienteDto.class);
     }
 
+    @Transactional
     public void eliminarCliente(String cedula) {
         Cliente cliente = clienteRepository.findByCedula(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
 
-        // Verificar si el cliente tiene préstamos asociados
         if (!cliente.getPrestamos().isEmpty()) {
             throw new IllegalStateException("No se puede eliminar un cliente con préstamos asociados");
         }
@@ -85,8 +87,6 @@ public class ClienteService {
         clienteRepository.delete(cliente);
     }
 
-
-    // Método para determinar el estado del cliente
     private Estado obtenerEstadoCliente(Cliente cliente) {
         return cliente.getPrestamos().isEmpty() ? Estado.INACTIVO : Estado.ACTIVO;
     }
