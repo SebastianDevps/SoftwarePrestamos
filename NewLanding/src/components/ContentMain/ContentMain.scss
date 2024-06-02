@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  background: white;
+  height: 508px;
+  margin-top: -20px;
+
+
+
+  .bg {
+    background-image: url("../../../public/images/bg_dash.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 400px;
+    height: 60vh;
+    margin-left: 300px;
+  }
+
+  .conten-card {
+    margin-top: 200px;
+  }
+
+  .table {
+    display: flex;
+    position: relative;
+
+  }
+}
