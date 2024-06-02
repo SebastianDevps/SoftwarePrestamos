@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import "./Landing.scss";
 
 import Footer from "../../components/footer/Footer";
 import Nav from "../../components/nav/Nav";
@@ -23,42 +22,42 @@ function Landing() {
 
   return (
     <div>
-      <div className="container-Landing">
-      <Nav />
-        <div className="container-body">
-          <div className="container-left">
-            <div className="boby-title-barra">
-              <samp className="title-barra"></samp>
-              <samp className="title">SOTFWARE DE PRESTAMOS</samp>
-            </div>
-
-            <h1 className="title-Landing-blue">El Software De</h1>
-            <h1 className="title-Landing-blue2">Prestamos</h1>
-            <div className="container-descipcion">
-              <p className="descripcion-Landing">Mas Fácil y Rápido</p>
-            </div>
-
-            <div className="container-button">
-              <button type="submit" className="button-contact">
-                COMENZAR <FaArrowRight className="icon" />
-              </button>
-              <button
-                type="button"
-                className="button-planes"
-                onClick={scrollToPlanCard}
-              >
-                CONOCER PLANES
-              </button>
-            </div>
+      <Nav/>
+      <section className="relative h-[920px] overflow-hidden">
+        <div className="absolute inset-0">
+          <img className="w-full h-[820px] object-cover object-top" src="images/fondo-banner.smHlBUbJ.jpg" alt="Banner Background" />
+        </div>
+        <div className="hidden md:flex absolute inset-0 flex-col">
+          <img className="w-2/3 md:w-2/4 lg:w-2/4 xl:w-2/5 -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
+        </div>
+        <div className="absolute inset-0 flex flex-col">
+          <img className="w-full mt-auto" src="images/banner-2.DOO8rQBY.png" alt="Banner Overlay" />
+          <div className="bg-white h-32"></div>
+        </div>
+        <div className="relative pt-52 max-w-6xl mx-auto text-white px-4">
+          <div className="flex items-center space-x-4">
+            <span className="w-14 border-b inline-flex"></span>
+            <p>Software Prestamos</p>
           </div>
-          <div className="container-right">
-            <div className="container-image"></div>
+          <div className="pt-2">
+            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold max-w-3xl">
+              El Software de prestamos
+              <br />
+              <span className="text-secondary-600 text-orange-500">más fácil y rápido.</span>
+            </p>
+          </div>
+          <div className="flex mt-14 space-x-10">
+            <button className="btn btn-primary" onClick={() => window.open('https://api.whatsapp.com/send?phone=3161331234','_blank')}>
+              Contactanos
+              <i className="ico icon-arrow-r ml-4 text-sm"></i>
+            </button>
+            <button className="btn btn-secondary" onClick={() => window.open('https://api.whatsapp.com/send?phone=3161331234','_blank')}>
+              Conocer planes
+              <i className=" text-slate-500"></i>
+            </button>
           </div>
         </div>
-      </div>
-      <div className="banner">
-        <img className="banner-img" src="../../../public/images/banner-2.DOO8rQBY.png" alt="" />
-      </div>
+      </section>
       <div ref={planCardRef}>
         <PlanCard />
       </div>
