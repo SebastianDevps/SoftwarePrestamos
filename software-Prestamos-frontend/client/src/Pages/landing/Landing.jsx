@@ -21,52 +21,53 @@ function Landing() {
   };
 
   return (
-    <div>
+    <div className="bg-purple-400 font-poppins">
       <Nav/>
-      <section className="relative h-[920px] overflow-hidden">
+      <section className="relative h-[950px] overflow-hidden">
         <div className="absolute inset-0">
           <img className="w-full h-[820px] object-cover object-top" src="images/fondo-banner.smHlBUbJ.jpg" alt="Banner Background" />
         </div>
         <div className="hidden md:flex absolute inset-0 flex-col">
-          <img className="w-2/3 md:w-2/4 lg:w-2/4 xl:w-2/5 -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
+          <img className="w-2/1 md:w-2/4 lg:w-2/4 xl:w-[45%] -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
         </div>
         <div className="absolute inset-0 flex flex-col">
           <img className="w-full mt-auto" src="images/banner-2.DOO8rQBY.png" alt="Banner Overlay" />
           <div className="bg-white h-32"></div>
         </div>
-        <div className="relative pt-52 max-w-6xl mx-auto text-white px-4">
+        <div className="relative pt-40 max-w-7xl mx-auto text-white px-4">
           <div className="flex items-center space-x-4">
-            <span className="w-14 border-b inline-flex"></span>
-            <p>Software Prestamos</p>
+            <span className="text-lg w-14 border-b inline-flex"></span>
+            <p className="lg:text-lg">Software Prestamos</p>
           </div>
           <div className="pt-2">
-            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold max-w-3xl">
+            <p className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold lg:max-w-6xl">
               El Software de prestamos
-              <br />
-              <span className="text-secondary-600 text-orange-500">más fácil y rápido.</span>
+              <span className="block mt-2 text-secondary-600 text-orange-500">más fácil y rápido.</span>
             </p>
           </div>
-          <div className="flex mt-14 space-x-10">
-            <button className="btn btn-primary" onClick={() => window.open('https://api.whatsapp.com/send?phone=3161331234','_blank')}>
+          <div className="mt-4">
+            <p className="max-w-[38rem] md:z-50 lg:text-[18px]">
+              Gestiona tus préstamos de manera eficiente con nuestra solución intuitiva y en la nube. Optimiza tus procesos, mejora la experiencia de tus clientes y cumple con todos los requisitos legales de manera sencilla.
+            </p>
+          </div>
+          <div className="flex mt-14 w-full lg:w-[60%] space-x-4 lg:space-x-10">
+            <button className="flex h-[40px] lg:h-[50px] lg:w-[30%] gap-4 text-lm bg-blue-800 text-white items-center justify-center p-2 hover:scale-110 duration-200 rounded-full whitespace-nowrap"/*  onClick={() => window.open('https://api.whatsapp.com/send?phone=3001473564','_blank')} */>
               Contactanos
-              <i className="ico icon-arrow-r ml-4 text-sm"></i>
+              <i><FaArrowRight/></i>
             </button>
-            <button className="btn btn-secondary" onClick={() => window.open('https://api.whatsapp.com/send?phone=3161331234','_blank')}>
+            <button onClick={scrollToPlanCard} className="bg-white h-[40px] lg:h-[50px] lg:w-[30%] text-lm text-black p-2 hover:scale-110 duration-200 rounded-full whitespace-nowrap">
               Conocer planes
-              <i className=" text-slate-500"></i>
             </button>
           </div>
         </div>
       </section>
-      <div ref={planCardRef}>
+      {/* <div ref={planCardRef}>
         <PlanCard />
       </div>
       <div>
         <Steps />
       </div>
-      <div>
-        <Footer/>
-      </div>
+      <Footer/> */}
     </div>
   );
 }
