@@ -10,10 +10,10 @@ function Nav() {
   };
 
   return (
-    <nav className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
+    <nav data-aos="zoom-up" data-aos-duration="600"  className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
       <div className="max-w-7xl mx-auto flex justify-between py-6">
         <div className="w-[50%]">
-          <img className="w-20 ml-4" src="vite.svg" alt="Logo" />
+          <img className="w-[30%] ml-4" src="volta-light.svg" alt="Logo" />
         </div>
         <div className="flex lg:w-full justify-end items-center">
           <ul className="hidden lg:flex text-2sm space-x-4 gap-5 text-white mr-10">
