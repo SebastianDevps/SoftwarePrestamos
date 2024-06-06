@@ -12,10 +12,10 @@ function PlanCard() {
       </h2>
 
       <section data-aos="fade-up" data-aos-duration="600" className="text-center w-[85%]  ">
-        <div className="grid grid-cols-1 mt-2 w-full h-full md:grid-cols-2 lg:grid-cols-6 gap-10 pt-10">
+        <div className="grid grid-cols-1 mt-2 -ml-4 w-[110%] h-full md:grid-cols-1 md:ml-14 lg:ml-0 md:w-[80%] lg:w-full lg:grid-cols-6 gap-8 pt-10">
           {/* Emprendedor */}
-          <div className="p-6 lg:p-8 md:p-8 bg-white rounded-xl  h-full flex flex-col lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
-            <div className="font-poppins mb-4">
+          <div className="p-6 lg:p-8 md:p-8 bg-white rounded-xl  h-full flex flex-col   lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
+            <div className="font-poppins mb-12 lg:mb-4">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-3xl font-bold text-blue-800">Gratis</h1>
               </div>
@@ -57,8 +57,8 @@ function PlanCard() {
           {/* <-- Emprendedor /--> */}
 
           {/* Profesional */}
-          <div className="-6 lg:p-8 md:p-8 bg-blue-800 rounded-xl h-full flex flex-col lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
-            <div className="font-poppins mb-4">
+          <div className="p-6 lg:p-8 md:p-8 bg-blue-800 rounded-xl  h-full flex flex-col   lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
+            <div className="font-poppins mb-12 lg:mb-4">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-3xl font-bold text-white">Profesional</h1>
                 <span className="bg-yellow-500 text-white text-2xs px-3 py-1 font-semibold rounded-full">Popular</span>
@@ -103,8 +103,8 @@ function PlanCard() {
           {/* <-- Profesional /--> */}
 
           {/* Premium */}
-          <div className="-6 lg:p-8 md:p-8 bg-white rounded-xl h-full flex flex-col lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
-            <div className="font-poppins mb-4">
+          <div className="p-6 lg:p-8 md:p-8 bg-white rounded-xl  h-full flex flex-col   lg:col-span-2 justify-between shadow-lg transform transition duration-200 hover:scale-105 w-full">
+            <div className="font-poppins mb-12 lg:mb-4">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="text-3xl font-bold text-blue-800">Premium</h1>
                 {/* <span className="bg-yellow-500 text-white text-2xs px-3 py-1 rounded-full">Popular</span> */}

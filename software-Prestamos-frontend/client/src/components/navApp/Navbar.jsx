@@ -1,89 +1,155 @@
-import React, { useState } from 'react';
-import { FaUserAlt, FaUserShield } from 'react-icons/fa';
-import { IoIosSearch } from "react-icons/io";
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import './Navbar.scss';
+import React, { useState } from "react";
+import {
+    RiNotification3Line,
+    RiArrowDownSLine,
+    RiSettings3Line,
+    RiLogoutCircleRLine,
+    RiThumbUpLine,
+    RiChat3Line,
+} from "react-icons/ri";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const handleExit = () => {
-        Swal.fire({
-            title: "¿Estás seguro de salir?",
-            showCancelButton: true,
-            confirmButtonText: "Sí, Confirmar.",
-            cancelButtonText: "No, Cancelar",
-            icon: 'warning'
-        }).then((result) => {
-            if (result.isConfirmed) { 
-                navigate("/");
-            }
-        });
-    }
+const Header = () => {
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
 
     return (
-        <div className="navbar-container">
-            {/* Top Bar */}
-            <div className="top-bar">
-                {/* Search */}
-                <div className="search-container">
-                    <input
-                        type="text"
-                        placeholder="Buscar..."
-                        className="search-input"
-                    />
-                    <i className="search-icon"><IoIosSearch/></i>
-                    {/* Search Result */}
-                    <div className="search-result"></div>
-                    {/* END: Search Result */}
-                </div>
-                {/* END: Search */}
-                {/* Account Menu */}
-                <div className="account-menu-container">
-                    <button className="account-icon" onClick={toggleDropdown}>
-                        <FaUserShield className='icon' />
+        <header className="h-[7vh] md:h-[10vh] border-b border-secondary-100 p-8 flex items-center justify-end">
+            <nav className="flex items-center gap-2">
+                <div className="relative">
+                    <button
+                        onClick={() => setShowNotifications(!showNotifications)}
+                        className="relative hover:bg-secondary-100 p-2 rounded-lg transition-colors"
+                    >
+                        <RiNotification3Line />
+                        <span className="absolute -top-0.5 right-0 bg-primary py-0.5 px-[5px] box-content text-black rounded-full text-[8px] font-bold">
+                            2
+                        </span>
                     </button>
-                    {isOpen && (
-                        <div className="account-dropdown">
-                            <div className="dropdown-content">
-                                <div className="font-medium">Sebastian Guerra</div>
-                                <div className="text">
-                                    Informatic Engineer
-                                </div>
-                                <div className="h-px my-2 -mx-2 bg-slate-200/60 dark:bg-darkmode-400 bg-white/[0.08]"></div>
-                                <a href="#" className="dropdown-item">
-                                    <FaUserAlt className="mr-2" />
-                                    Perfil
-                                </a>
-                                <a href="#" className="dropdown-item">
-                                    <FaUserAlt className="mr-2" />
-                                    Recuperar Contraseña
-                                </a>
-                                <a href="#" className="dropdown-item">
-                                    <FaUserAlt className="mr-2" />
-                                    Ayuda
-                                </a>
-                                <div className="h-px my-2 -mx-2 bg-slate-200/60 dark:bg-darkmode-400 bg-white/[0.08]"></div>
-                                <button href="#" className="dropdown-item" onClick={handleExit}>
-                                    <FaUserAlt className="mr-2" />
-                                    Salir
-                                </button>
+                    {showNotifications && (
+                        <div className="absolute right-0 mt-2 w-72 bg-secondary-100 p-4 rounded-lg shadow-lg z-20">
+                            <h1 className="text-gray-300 text-center font-medium">
+                                Notificaciones (2)
+                            </h1>
+                            <hr className="my-6 border-gray-500" />
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/"
+                                    className="text-gray-300 flex flex-1 items-center gap-4 py-2 px-4 hover:bg-secondary-900 transition-colors rounded-lg"
+                                >
+                                    <img
+                                        src="https://img.freepik.com/foto-gratis/feliz-optimista-guapo-gerente-ventas-latina-apuntando-lado-mirando-camara_1262-12679.jpg"
+                                        className="w-8 h-8 object-cover rounded-full"
+                                    />
+                                    <div className="text-sm flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span>Jorge Luis Trejo</span>{" "}
+                                            <span className="text-[8px]">21/10/2022</span>
+                                        </div>
+                                        <p className="text-gray-500 text-xs">
+                                            Lorem ipsum dolor sit amet...
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/"
+                                    className="text-gray-300 flex flex-1 items-center gap-4 py-2 px-4 hover:bg-secondary-900 transition-colors rounded-lg"
+                                >
+                                    <RiThumbUpLine className="p-2 bg-blue-200 text-blue-700 box-content rounded-full" />
+                                    <div className="text-sm flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span>Nuevo like</span>{" "}
+                                            <span className="text-[8px]">21/10/2022</span>
+                                        </div>
+                                        <p className="text-gray-500 text-xs">
+                                            A Jorge Trejo le gusta tu pub...
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/"
+                                    className="text-gray-300 flex flex-1 items-center gap-4 py-2 px-4 hover:bg-secondary-900 transition-colors rounded-lg"
+                                >
+                                    <RiChat3Line className="p-2 bg-yellow-200 text-yellow-700 box-content rounded-full" />
+                                    <div className="text-sm flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span>Nuevo comentario</span>{" "}
+                                            <span className="text-[8px]">21/10/2022</span>
+                                        </div>
+                                        <p className="text-gray-500 text-xs">
+                                            Jorge Trejo ha comentado tu...
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                            <hr className="my-6 border-gray-500" />
+                            <div className="p-0 hover:bg-transparent flex justify-center cursor-default">
+                                <Link
+                                    to="/"
+                                    className="text-gray-400 text-sm hover:text-white transition-colors"
+                                >
+                                    Todas las notificaciones
+                                </Link>
                             </div>
                         </div>
                     )}
-                    {/* END: Account Dropdown */}
                 </div>
-                {/* END: Account Menu */}
-            </div>
-            {/* END: Top Bar */}
-        </div>
+                <div className="relative">
+                    <button
+                        onClick={() => setShowProfileMenu(!showProfileMenu)}
+                        className="flex items-center gap-x-2 hover:bg-secondary-100 p-2 rounded-lg transition-colors"
+                    >
+                        <img
+                            src="https://img.freepik.com/foto-gratis/feliz-optimista-guapo-gerente-ventas-latina-apuntando-lado-mirando-camara_1262-12679.jpg"
+                            className="w-6 h-6 object-cover rounded-full"
+                        />
+                        <span>SebastianDevps</span>
+                        <RiArrowDownSLine />
+                    </button>
+                    {showProfileMenu && (
+                        <div className="absolute right-0 mt-2 w-48 bg-secondary-100 p-4 rounded-lg shadow-lg z-20">
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/perfil"
+                                    className="rounded-lg transition-colors text-gray-300 hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1"
+                                >
+                                    <img
+                                        src="https://img.freepik.com/foto-gratis/feliz-optimista-guapo-gerente-ventas-latina-apuntando-lado-mirando-camara_1262-12679.jpg"
+                                        className="w-8 h-8 object-cover rounded-full"
+                                    />
+                                    <div className="flex flex-col text-sm">
+                                        <span className="text-sm">Jorge Luis Trejo</span>
+                                        <span className="text-xs text-gray-500">jorge@gmail.com</span>
+                                    </div>
+                                </Link>
+                            </div>
+                            <hr className="my-4 border-gray-500" />
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/configuracion"
+                                    className="rounded-lg transition-colors text-gray-300 hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1"
+                                >
+                                    <RiSettings3Line /> Configuración
+                                </Link>
+                            </div>
+                            <div className="p-0 hover:bg-transparent">
+                                <Link
+                                    to="/cerrar-sesion"
+                                    className="rounded-lg transition-colors text-gray-300 hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1"
+                                >
+                                    <RiLogoutCircleRLine /> Cerrar sesión
+                                </Link>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </nav>
+        </header>
     );
 };
 
-export default Navbar;
+export default Header;

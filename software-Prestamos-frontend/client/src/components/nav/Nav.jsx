@@ -10,7 +10,7 @@ function Nav() {
   };
 
   return (
-    <nav data-aos="zoom-up" data-aos-duration="600"  className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
+    <nav className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
       <div className="max-w-7xl mx-auto flex justify-between py-6">
         <div className="w-[50%]">
           <img className="w-[30%] ml-4" src="volta-light.svg" alt="Logo" />
