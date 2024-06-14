@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import "./Clientes.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import Sidebar from '../../layout/Sidebar/Sidebar';
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { IoIosSearch, IoMdPersonAdd } from "react-icons/io";
 import Navbar from '../../components/navApp/Navbar';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import Details from '../../components/Details/Details';
 import FormularioCliente from '../../components/form_cliente/FormularioCliente';
 import { IoRefreshOutline } from "react-icons/io5";
-import { Tooltip } from 'react-tooltip'//mostrar msg encima del btn
-
+import { BsDatabaseFillAdd } from "react-icons/bs";
+import { Tooltip } from 'react-tooltip'; // Mostrar msg encima del btn
 
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
@@ -88,19 +90,17 @@ const Clientes = () => {
         setIsModalOpenClient(false);
     };
 
-    
-
     const handleRefresh = () => {
         window.location.reload();
     }
 
     const columns = [
-        //{ field: "id", headerName: "ID", width: 90 },
-        { field: "nombre", headerName: "Nombre", width: 130 },
-        { field: "apellido", headerName: "Apellido", width: 180 },
-        { field: "cedula", headerName: "Cédula", width: 120 },
+        { field: "nombre", headerName: "Nombre", width: 150 },
+        { field: "apellido", headerName: "Apellido", width: 200 },
+        { field: "tipoDocumento", headerName: "Tipo Documento", width: 160 },
+        { field: "cedula", headerName: "# Documento", width: 120 },
         { field: "telefono", headerName: "Teléfono", width: 110 },
-        { field: "fechaCreacion", headerName: "Fecha Creación", width: 160 },
+        { field: "fechaCreacion", headerName: "Fecha Creación", width: 180 },
         {
             field: "estado", headerName: "Estado", width: 100,
             renderCell: (params) => {
@@ -117,10 +117,10 @@ const Clientes = () => {
             width: 130,
             renderCell: (params) => {
                 return (
-                    <div className="cellAction">
-                        <button className="viewButton" onClick={() => handleOpenModal(params.row)} ><FaEye /></button>
-                        <button className="editButton" onClick={() => handleOpenModalClient(params.row)} ><FaEdit /></button>
-                        <button className="deleteButton" onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
+                    <div className="mt-3 flex gap-4">
+                        <button className="text-xl text-blue-500 " onClick={() => handleOpenModal(params.row)} ><FaEye /></button>
+                        <button className="text-xl  text-yellow-500 " onClick={() => handleOpenModalClient(params.row)} ><FaEdit /></button>
+                        <button className="text-xl  text-red-500 " onClick={() => handleDelete(params.row.cedula)}><MdDelete /></button>
                     </div>
                 );
             },
@@ -129,54 +129,62 @@ const Clientes = () => {
 
     const getStatusClass = (status) => {
         if (status === 'ACTIVO') {
-            return 'active';
+            return 'text-green-500';
         } else if (status === 'INACTIVO') {
-            return 'inactive';
+            return 'text-red-500';
         }
     };
 
     return (
-        <div className='app'>
-            <div className="side">
+        <div className="flex bg-gray-50 min-h-screen grid grid-col-1 lg:grid-cols-5">
+            <div className="col-span-1">
                 <Sidebar />
             </div>
-
-            <div className='datatable'>
-                <div className="datatableTitle">
-                    Clientes
+            <div className="flex-grow col-span-4">
+                <Navbar />
+                <div className="flex flex-col p-4">
+                    <Breadcrumbs aria-label="breadcrumb" className="mb-4">
+                        <Link color="inherit" href="/app">
+                            Principal
+                        </Link>
+                        <Typography color="textPrimary">Clientes</Typography>
+                    </Breadcrumbs>
+                    <div className="w-full h-full justify-between flex mb-4">
+                        <div className='w-[50%]  flex'>
+                            <input type="text" className="p-2 w-[50%]  rounded border text-2xs border-gray-100" placeholder="Buscar Cliente..." />
+                            <button className="flex items-center  text-gray-600 text-3xl rounded" id="refresh" onClick={handleRefresh}>
+                                <IoRefreshOutline className="icon" />
+                                {/* <Tooltip className="toltip t" anchorSelect="#refresh" place="right-start">
+                                Refrescar
+                            </Tooltip> */}
+                            </button>
+                        </div>
+                        <div className='w-[50%] flex justify-end gap-4'>
+                            <button className="flex items-center gap-2 p-2 bg-green-500 text-white rounded">
+                                <BsDatabaseFillAdd className="text-xl" />
+                                Importar Excel
+                            </button>
+                            <button className="flex items-center gap-2 p-2 bg-blue-500 text-white rounded" onClick={() => handleOpenModalClient()}>
+                                <IoMdPersonAdd className="text-xl" />
+                                Agregar cliente
+                            </button>
+                        </div>
+                    </div>
+                    <div className='w-full bg-white h-[480px]'>
+                        <DataGrid
+                            rows={clientes}
+                            columns={columns}
+                            pageSize={9}
+                            getRowId={(row) => row.id}
+                            disableSelectionOnClick
+                        />
+                    </div>
+                    {isModalOpenClient && <FormularioCliente onClick={handleCloseModal} cliente={currentCliente} />}
+                    {isModalOpen && <Details onClick={handleCloseModal} cliente={currentCliente} />}
                 </div>
-                <div className="cont-search">
-                    <input type="text" className='search' placeholder='Buscar Cliente...' />
-                    <button className='link' id='link'><IoIosSearch className='icon' />
-                        <Tooltip className='toltip' anchorSelect="#link" place="right-start">
-                            Buscar
-                        </Tooltip>
-                    </button>
-                    <button className="refresh" id='refresh' onClick={() => handleRefresh()}><IoRefreshOutline className='icon' />
-                        <Tooltip className='toltip' anchorSelect="#refresh" place="right-start">
-                            Refrescar
-                        </Tooltip>
-                    </button>
-                    <button className='link1' onClick={() => handleOpenModalClient()}>
-                        <IoMdPersonAdd className='icon' />
-                        Agregar cliente
-                    </button>
-                </div>
-
-                <DataGrid
-                    className="datagrid"
-                    rows={clientes}
-                    columns={columns}
-                    pageSize={9}
-                    getRowId={(row) => row.id}
-                    disableSelectionOnClick
-                />
-                
-                {isModalOpenClient && <FormularioCliente onClick={handleCloseModal} cliente={currentCliente} />}
-                {isModalOpen && <Details onClick={handleCloseModal} cliente={currentCliente} />}
-                </div>
+            </div>
         </div>
-    )
+    );
 }
 
 export default Clientes;

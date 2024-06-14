@@ -80,13 +80,13 @@ const Prestamos = () => {
     };
 
     return (
-        <div className="flex min-h-screen grid grid-col-1 lg:grid-cols-5">
+        <div className="flex bg-gray-50 min-h-screen grid grid-col-1 lg:grid-cols-5">
             <div className='col-span-1'>
                 <Sidebar />
             </div>
             <div className='flex-grow col-span-4'>
                 <Navbar />
-                <div className='prest_datatable flex flex-col bg-gray-50 p-4'>
+                <div className='flex flex-col p-4'>
                     <Breadcrumbs aria-label="breadcrumb" className="mb-4">
                         <Link color="inherit" href="/app">
                             Principal

@@ -19,7 +19,7 @@ const Sidebar = () => {
     };
 
     return (
-        <sidebar className="flex flex-col justify-between gap-8 bg-gray-100 min-h-screen max-h-screen w-full p-4 sidebar-scrollbar">
+        <sidebar className="flex flex-col justify-between gap-8 bg-gray-100  min-h-screen max-h-screen w-full p-4 sidebar-scrollbar">
             {/* <!-- Top --> */}
             <section>
                 {/* <!-- Logo --> */}

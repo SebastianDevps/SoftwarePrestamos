@@ -41,7 +41,7 @@ function Landing() {
           <img className="w-full h-[820px] object-cover object-top" src="images/fondo-banner.smHlBUbJ.jpg" alt="Banner Background" />
         </div>
         <div className="hidden md:flex absolute inset-0 flex-col">
-          <img data-aos="zoom-in" data-aos-duration="500"
+          <img data-aos="zoom-in" data-aos-duration="500" data-aos-once="true"
             className="w-2/1 md:w-2/4 lg:w-2/4 xl:w-[44%] -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
         </div>
         <div className="absolute inset-0 flex flex-col">
