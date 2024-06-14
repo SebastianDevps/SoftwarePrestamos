@@ -4,11 +4,9 @@ import Navbar from "../../components/navApp/Navbar";
 
 const Content = () => {
   return (
-    <div className=''>
+    <div >
       <Navbar/> 
-      {/* <div className="main-2">
-        <ContentMain />
-      </div> */}
+      <ContentMain />
     </div>
   )
 }

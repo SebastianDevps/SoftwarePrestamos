@@ -1,52 +1,50 @@
-import React from 'react'
-import "./Prestamos.scss"
+import React, { useState } from 'react';
 import { DataGrid } from "@mui/x-data-grid";
 import Sidebar from '../../layout/Sidebar/Sidebar';
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import Navbar from '../../components/navApp/Navbar';
+import { FaEdit, FaEye } from "react-icons/fa";
+import { MdDelete, MdAddchart } from "react-icons/md";
+import Navbar from "../../components/navApp/Navbar";
 import { IoIosSearch } from "react-icons/io";
-import { IoMdPersonAdd } from "react-icons/io";
-import { MdAddchart } from "react-icons/md";
-import { FaEye } from "react-icons/fa";
 import Details from '../../components/Details/Details';
-import { useState } from 'react';
 import FormularioPrestamo from '../../form_prestamo/FormularioPrestamo';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
 const Prestamos = () => {
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFormOpen, setIsFormOpen] = useState(false);
     const [currentPrestamo, setCurrentPrestamo] = useState(null);
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
 
-    const handleOpenModalFormPrestamo = (prestamo) => {
+    const handleOpenModal = (prestamo) => {
         setCurrentPrestamo(prestamo);
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const handleOpenModalFormPrestamo = () => {
+        setCurrentPrestamo(null);
+        setIsFormOpen(true);
     };
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setIsFormOpen(false);
+    };
 
     const rows = [
-        { id: 1, name: "John Sebastian", mount: 999.999999, iva: 5, acMount: "50.000", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "active" },
-        { id: 2, name: "John Doe", mount: 999.999, iva: 5, acMount: "500.000", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "inactive" },
-        { id: 999, name: "John Doe", mount: 999.999, iva: 15, acMount: "50.000", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "active" },
-
+        { id: 1, name: "John Sebastian Hinestroza Jaramillo", mount: 999.999999, iva: 5, acMount: "5", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "activo" },
+        { id: 2, name: "John Doe Hinestroza Jaramillo", mount: 999.999, iva: 5, acMount: "50", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "inactivo" },
+        { id: 3, name: "John Doe Hinestroza Jaramillo", mount: 999.999, iva: 15, acMount: "20", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "activo" },
     ];
 
     const columns = [
         { field: "id", headerName: "ID", width: 50 },
-        { field: "name", headerName: "Cliente", width: 150 },
-        { field: "mount", headerName: "Monto", width: 110 },
+        { field: "name", headerName: "Cliente", width: 200 },
         { field: "iva", headerName: "Iva %", width: 60 },
-        { field: "acMount", headerName: "Cuota", width: 80 },
+        { field: "acMount", headerName: "Cuotas Pendientes", width: 150 },
         { field: "acPago", headerName: "Acuerdo pago", width: 120 },
-        { field: "F_limt", headerName: "Fecha Limite Pago", width: 140 },
-        // { field: "create", headerName: "Prestamista", width: 120 },
+        { field: "F_limt", headerName: "Fecha Limite Pago", width: 150 },
+        { field: "mount", headerName: "Monto Total", width: 150 },
         {
             field: "status", headerName: "Estado", width: 90,
             renderCell: (params) => {
@@ -61,12 +59,12 @@ const Prestamos = () => {
             field: "action",
             headerName: "Acciones",
             width: 130,
-            renderCell: () => {
+            renderCell: (params) => {
                 return (
-                    <div className="cellAction">
-                        <button className="viewButton" onClick={handleOpenModal} ><FaEye /></button>
-                        <button className="editButton"><FaEdit /></button>
-                        <button className="deleteButton"><MdDelete /></button>
+                    <div className="cellAction flex gap-2">
+                        <button className="viewButton text-blue-500 p-1" onClick={() => handleOpenModal(params.row)}><FaEye /></button>
+                        <button className="editButton text-yellow-500 p-1"><FaEdit /></button>
+                        <button className="deleteButton text-red-500 p-1"><MdDelete /></button>
                     </div>
                 );
             },
@@ -74,49 +72,56 @@ const Prestamos = () => {
     ];
 
     const getStatusClass = (status) => {
-        if (status === 'active') {
-            return 'active'; // Clase para estado activo
-        } else if (status === 'inactive') {
-            return 'inactive'; // Clase para estado inactivo
+        if (status === 'activo') {
+            return 'text-green-500'; // Clase para estado activo
+        } else if (status === 'inactivo') {
+            return 'text-red-500'; // Clase para estado inactivo
         }
     };
 
     return (
-        <div className="main">
-            <div className='prest_app'>
-                <div className="side">
-                    <Sidebar />
-                </div>
-
-                <div className='prest_datatable'>
-                    <div className="prest_datatableTitle">
-                        Prestamos
+        <div className="flex min-h-screen grid grid-col-1 lg:grid-cols-5">
+            <div className='col-span-1'>
+                <Sidebar />
+            </div>
+            <div className='flex-grow col-span-4'>
+                <Navbar />
+                <div className='prest_datatable flex flex-col bg-gray-50 p-4'>
+                    <Breadcrumbs aria-label="breadcrumb" className="mb-4">
+                        <Link color="inherit" href="/app">
+                            Principal
+                        </Link>
+                        <Typography color="textPrimary">Prestamos</Typography>
+                    </Breadcrumbs>
+                    <div className="w-full h-full justify-between flex mb-4">
+                        <div className='w-[50%] flex'>
+                            <input type="text" className='w-[60%] p-2 rounded border border-gray-300' placeholder='Buscar Prestamo...' />
+                            <button className='flex items-center text-3xl -ml-10 text-gray-600 rounded'>
+                                <IoIosSearch className='icon' />
+                            </button>
+                        </div>
+                        <div>
+                            <button className='link1 flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded' onClick={handleOpenModalFormPrestamo}>
+                                <MdAddchart className='icon' />
+                                Agregar prestamo
+                            </button>
+                        </div>
                     </div>
-                    <div className="prest_cont-search">
-                        <input type="text" className='search' placeholder='Buscar Prestamo...' />
-                        <button className='link'><IoIosSearch className='icon' /></button>
-                        <button className='link1' onClick={() => handleOpenModalFormPrestamo()}>
-                            <MdAddchart className='icon' />
-                            Agregar prestamo
-                        </button>
+                    <div className='w-full h-[480px]'>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            pageSize={9}
+                            getRowId={(row) => row.id}
+                            disableSelectionOnClick
+                        />
                     </div>
-
-
-
-                    <DataGrid
-                        className="prest_datagrid"
-                        rows={rows}
-                        columns={columns}
-                        pageSize={9}
-                        getRowId={(row) => row.id}
-                        disableSelectionOnClick
-                    />
                     {isModalOpen && <Details onClick={handleCloseModal} />}
-                    {isModalOpen && <FormularioPrestamo onClick={handleCloseModal} cliente={currentPrestamo} />}
+                    {isFormOpen && <FormularioPrestamo onClick={handleCloseModal} cliente={currentPrestamo} />}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Prestamos
+export default Prestamos;

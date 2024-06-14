@@ -5,13 +5,21 @@ import { HiMiniUsers } from "react-icons/hi2";
 import { FaUserShield } from "react-icons/fa";
 import { MdCalculate } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
-    const [sidebarClass, setSidebarClass] = useState("");
+
+    /* Saber que link, esta presionado */
+    const location = useLocation();
+    const getLinkClasses = (path) => {
+        const baseClasses = "flex items-center gap-4 p-2 hover:no-underline transition-colors rounded-lg";
+        return location.pathname === path
+            ? `${baseClasses} bg-blue-500 text-white`
+            : `${baseClasses} hover:bg-gray-200 text-gray-600`;
+    };
 
     return (
-        <sidebar className="flex flex-col justify-between gap-8 bg-gray-100 min-h-screen max-h-screen w-full p-4 overflow-y-scroll">
+        <sidebar className="flex flex-col justify-between gap-8 bg-gray-100 min-h-screen max-h-screen w-full p-4 sidebar-scrollbar">
             {/* <!-- Top --> */}
             <section>
                 {/* <!-- Logo --> */}
@@ -31,42 +39,46 @@ const Sidebar = () => {
                 <h5 className="uppercase font-semibold text-xs text-indigo-600 tracking-[2px] mb-4">
                     Menu
                 </h5>
-                <ul>
+                <ul className='text-gray-600'>
                     <li>
-                        <a
+                        <Link
                             href="#"
-                            className="flex items-center gap-4 p-2 hover:no-underline hover:bg-gray-200 transition-colors rounded-lg"
+                            className={getLinkClasses("/app")}
+                            to="/app"
                         >
                             <MdDashboardCustomize className="w-5 h-5" />
                             <span>Principal</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
-                            className="flex items-center gap-4 p-2 hover:no-underline hover:bg-gray-200 transition-colors rounded-lg"
+                            className={getLinkClasses("/app/prestamos")}
+                            to="/app/prestamos"
                         >
-                            <FaMoneyBillTransfer  className="w-5 h-5" />
+                            <FaMoneyBillTransfer className="w-5 h-5" />
                             <span>Prestamos</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
-                            className="flex items-center gap-4 p-2 hover:no-underline hover:bg-gray-200 transition-colors rounded-lg"
+                            className={getLinkClasses("/app/clientes")}
+                            to="/app/clientes"
                         >
-                            <HiMiniUsers  className="w-5 h-5" />
+                            <HiMiniUsers className="w-5 h-5" />
                             <span>Clientes</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
+                        <Link
                             href="#"
-                            className="flex items-center gap-4 p-2 hover:no-underline hover:bg-gray-200 transition-colors rounded-lg"
+                            className={getLinkClasses("/app/administradores")}
+                            to="/app/administradores"
                         >
                             <FaUserShield className="w-5 h-5" />
                             <span>Administradores</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a
@@ -81,7 +93,7 @@ const Sidebar = () => {
                 <h5 className="uppercase font-semibold text-xs text-indigo-600 tracking-[2px] my-4">
                     Herramientas
                 </h5>
-                <ul>
+                <ul className='text-gray-600'>
                     <li>
                         <a
                             href="#"
@@ -96,7 +108,7 @@ const Sidebar = () => {
             {/* <!-- Bottom --> */}
             <section>
                 {/* <!-- Settings --> */}
-                <ul className="my-4">
+                <ul className="">
                     <li>
                         <a
                             href="#"
@@ -147,19 +159,6 @@ const Sidebar = () => {
                         </a>
                     </li>
                 </ul>
-                {/* <!-- Info user --> */}
-                <div className="flex items-center gap-4 pt-4 border-t">
-                    <img
-                        src="https://res.cloudinary.com/juandevps/image/upload/v1714952083/upload/ujpasc23kv04q2poouju.png"
-                        className="w-10 h-10 object-cover rounded-xl ring-4 ring-gray-200"
-                    />
-                    <div>
-                        <h3 className="font-bold text-gray-900">
-                            Sebastian Guerra
-                        </h3>
-                        <p className="text-gray-800 text-xs">Desarrollador fullstack</p>
-                    </div>
-                </div>
             </section>
         </sidebar>
     );
