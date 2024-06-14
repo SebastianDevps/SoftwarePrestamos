@@ -22,7 +22,7 @@ function PlanCard() {
               <div className="flex items-end mb-3">
                 <h1 className="text-3xl font-[400]">$0</h1>
               </div>
-              <p className="text-gray-500 mb-2 text-start text-2sm">Prueba gratis, por 3 días</p>
+              <p className="text-gray-500 mb-2 text-start text-2sm">Prueba gratis, por 24 horas</p>
               <span className="font-semibold bg-gray-300 h-[1px] w-full inline-flex"></span>
             </div>
             <ul className="-mt-8 mb-4 w-full space-y-2 text-lg font-poppins">
@@ -67,7 +67,7 @@ function PlanCard() {
                 <h1 className="text-3xl text-white font-[400]">$100.000</h1>
                 <span className="ml-2 text-2sm text-white opacity-80">COP anual</span>
               </div>
-              <p className="text-white mb-2 text-start text-2sm">Ideal para empezaar</p>
+              <p className="text-white mb-2 text-start text-2sm">Ideal para empezar</p>
               <span className="font-semibold bg-gray-300 h-[1px] w-full inline-flex"></span>
             </div>
             <ul className="-mt-8 mb-4 w-full space-y-2 text-lg font-poppins">

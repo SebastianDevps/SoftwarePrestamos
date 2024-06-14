@@ -63,17 +63,22 @@ public class PrestamoService {
         Prestamo prestamo = (prestamoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prestamo", "id", String.valueOf(id))));
 
-        modelMapper.map(prestamoDto, prestamo);
+        // Solo se permite actualizar los campos permitidos
+        prestamo.setMonto(prestamoDto.getMonto());
+        prestamo.setPorcentaje(prestamoDto.getPorcentaje());
+        prestamo.setFechaLimite(prestamoDto.getFechaLimite());
+        prestamo.setPrestamista(prestamoDto.getPrestamista());
+        prestamo.setEstado(prestamoDto.getEstado());
         prestamo.setFechaEdicion(LocalDateTime.now());
 
-        Prestamo updatePrestamo = prestamoRepository.save(prestamo);
+        Prestamo updatedPrestamo = prestamoRepository.save(prestamo);
 
         // Actualizar el estado del cliente después de editar el préstamo
         Cliente cliente = prestamo.getCliente();
         cliente.setEstado(obtenerEstadoCliente(cliente));
         clienteRepository.save(cliente);
 
-        return modelMapper.map(updatePrestamo, PrestamoDto.class);
+        return modelMapper.map(updatedPrestamo, PrestamoDto.class);
     }
 
     @Transactional
@@ -85,13 +90,15 @@ public class PrestamoService {
         // Obtener el cliente asociado al préstamo
         Cliente cliente = prestamo.getCliente();
 
-        // Eliminar el préstamo después de actualizar el estado del cliente
+        // Eliminar el préstamo
         prestamoRepository.delete(prestamo);
 
-        // Actualizar el estado del cliente
-        cliente.setEstado(Estado.INACTIVO);
-        clienteRepository.save(cliente);
+        // Verificar si el cliente tiene más préstamos
+        boolean tieneMasPrestamos = prestamoRepository.existsByCliente(cliente);
 
+        // Actualizar el estado del cliente basado en si tiene más préstamos
+        cliente.setEstado(tieneMasPrestamos ? Estado.ACTIVO : Estado.INACTIVO);
+        clienteRepository.save(cliente);
     }
 
     // Método para determinar el estado del cliente
