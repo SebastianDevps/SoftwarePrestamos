@@ -29,7 +29,7 @@ public class Prestamo {
 
     private String prestamista;
 
-    private Estado estado;
+    private EstadoCliente estado;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;

@@ -3,7 +3,7 @@ package com.prestamos.SoftwarePrestamos.Services;
 import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
 import com.prestamos.SoftwarePrestamos.Dto.PrestamoDto;
 import com.prestamos.SoftwarePrestamos.Entity.Cliente;
-import com.prestamos.SoftwarePrestamos.Entity.Estado;
+import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import com.prestamos.SoftwarePrestamos.Exception.ResourceNotFoundException;
 import com.prestamos.SoftwarePrestamos.Repository.ClienteRepository;
@@ -42,7 +42,7 @@ public class PrestamoService {
     //implementación del servicio de creacion del prestamo.
     @Transactional
     public PrestamoDto crearPrestamo(String cedula, PrestamoDto prestamoDto) {
-        Cliente cliente = clienteRepository.findByCedula(cedula)
+        Cliente cliente = clienteRepository.findByNumDocumento(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
 
         Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);
@@ -51,7 +51,7 @@ public class PrestamoService {
         Prestamo newPrestamo = prestamoRepository.save(prestamo);
 
         // Actualizar el estado del cliente después de crear el préstamo
-        cliente.setEstado(obtenerEstadoCliente(cliente));
+        cliente.setEstadoCliente(obtenerEstadoCliente(cliente));
         clienteRepository.save(cliente);
 
         return modelMapper.map(newPrestamo, PrestamoDto.class);
@@ -75,7 +75,7 @@ public class PrestamoService {
 
         // Actualizar el estado del cliente después de editar el préstamo
         Cliente cliente = prestamo.getCliente();
-        cliente.setEstado(obtenerEstadoCliente(cliente));
+        cliente.setEstadoCliente(obtenerEstadoCliente(cliente));
         clienteRepository.save(cliente);
 
         return modelMapper.map(updatedPrestamo, PrestamoDto.class);
@@ -97,12 +97,12 @@ public class PrestamoService {
         boolean tieneMasPrestamos = prestamoRepository.existsByCliente(cliente);
 
         // Actualizar el estado del cliente basado en si tiene más préstamos
-        cliente.setEstado(tieneMasPrestamos ? Estado.ACTIVO : Estado.INACTIVO);
+        cliente.setEstadoCliente(tieneMasPrestamos ? EstadoCliente.ACTIVO : EstadoCliente.INACTIVO);
         clienteRepository.save(cliente);
     }
 
     // Método para determinar el estado del cliente
-    private Estado obtenerEstadoCliente(Cliente cliente) {
-        return cliente.getPrestamos().isEmpty() ? Estado.INACTIVO : Estado.ACTIVO;
+    private EstadoCliente obtenerEstadoCliente(Cliente cliente) {
+        return cliente.getPrestamos().isEmpty() ? EstadoCliente.INACTIVO : EstadoCliente.ACTIVO;
     }
 }

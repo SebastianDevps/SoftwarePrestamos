@@ -1,7 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,14 +20,11 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "num_documento", unique = true, nullable = false)
+    private String numDocumento;
 
     @Column(name = "tipo_documento", nullable = false)
     private String tipoDocumento;
-
-    @Column(name = "cedula", unique = true, nullable = false)
-    private String cedula;
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
@@ -63,7 +59,7 @@ public class Cliente {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
-    private Estado estado;
+    private EstadoCliente estadoCliente;
 
     @JsonBackReference
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -2,7 +2,7 @@ package com.prestamos.SoftwarePrestamos.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.prestamos.SoftwarePrestamos.Entity.Cliente;
-import com.prestamos.SoftwarePrestamos.Entity.Estado;
+import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class PrestamoDto {
 
     private String prestamista;
 
-    private Estado estado;
+    private EstadoCliente estado;
 
     private List<Cliente> clientes;
 

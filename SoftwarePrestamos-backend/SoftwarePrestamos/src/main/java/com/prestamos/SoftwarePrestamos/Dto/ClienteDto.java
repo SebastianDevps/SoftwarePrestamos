@@ -1,7 +1,7 @@
 package com.prestamos.SoftwarePrestamos.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.prestamos.SoftwarePrestamos.Entity.Estado;
+import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import lombok.Data;
 
@@ -11,11 +11,10 @@ import java.util.List;
 @Data
 public class ClienteDto {
 
-    private Long id;
 
     private String tipoDocumento;
 
-    private String cedula;
+    private String numDocumento;
 
     private String nombre;
 
@@ -34,7 +33,7 @@ public class ClienteDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaEdicion;
 
-    private Estado estado;
+    private EstadoCliente estadoCliente;
 
     private List<Prestamo> prestamos;
 }
