@@ -24,9 +24,7 @@ public class PrestamoDto {
 
     private String prestamista;
 
-    private EstadoCliente estado;
-
-    private List<Cliente> clientes;
+    private String tipoPago;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaCreacion;

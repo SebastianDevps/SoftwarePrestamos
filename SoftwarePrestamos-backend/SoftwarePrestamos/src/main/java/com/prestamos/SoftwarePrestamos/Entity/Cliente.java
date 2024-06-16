@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class Cliente {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
+    @ColumnDefault("'INACTIVO'")
     private EstadoCliente estadoCliente;
 
     @JsonBackReference

@@ -28,6 +28,9 @@ public class PrestamoService {
 
     private final PrestamoRepository prestamoRepository;
 
+    @Autowired
+    private CuotaService cuotaService;
+
     private final ModelMapper modelMapper;
 
     //implementacion del servico listas todos los prestamos.
@@ -50,6 +53,9 @@ public class PrestamoService {
         prestamo.setCliente(cliente);
         Prestamo newPrestamo = prestamoRepository.save(prestamo);
 
+        // Calcular y guardar cuotas
+        cuotaService.calcularYGuardarCuotas(prestamo);
+
         // Actualizar el estado del cliente después de crear el préstamo
         cliente.setEstadoCliente(obtenerEstadoCliente(cliente));
         clienteRepository.save(cliente);
@@ -68,7 +74,6 @@ public class PrestamoService {
         prestamo.setPorcentaje(prestamoDto.getPorcentaje());
         prestamo.setFechaLimite(prestamoDto.getFechaLimite());
         prestamo.setPrestamista(prestamoDto.getPrestamista());
-        prestamo.setEstado(prestamoDto.getEstado());
         prestamo.setFechaEdicion(LocalDateTime.now());
 
         Prestamo updatedPrestamo = prestamoRepository.save(prestamo);
