@@ -27,7 +27,7 @@ public class Cliente {
     @Column(name = "tipo_documento", nullable = false)
     private String tipoDocumento;
 
-    @Column(name = "num_cedula", unique = true, nullable = false)
+    @Column(name = "cedula", unique = true, nullable = false)
     private String cedula;
 
     @Column(name = "nombre", nullable = false)
