@@ -61,10 +61,21 @@ public class Cliente {
         fechaEdicion = LocalDateTime.now();
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
     private Estado estado;
 
     @JsonBackReference
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos = new ArrayList<>();
+
+    public void addPrestamo(Prestamo prestamo) {
+        prestamos.add(prestamo);
+        prestamo.setCliente(this);
+    }
+
+    public void removePrestamo(Prestamo prestamo) {
+        prestamos.remove(prestamo);
+        prestamo.setCliente(null);
+    }
 }

@@ -2,9 +2,7 @@ package com.prestamos.SoftwarePrestamos.Controller;
 
 import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
 import com.prestamos.SoftwarePrestamos.Services.ClienteService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,14 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
-@CrossOrigin("http://localhost:5173") //permitir peticiones desde el front
+@CrossOrigin("http://localhost:5173") // Permitir peticiones desde el frontend
+@RequiredArgsConstructor
 public class ClienteController {
 
-    @Autowired
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDto>> getClient() {
+    public ResponseEntity<List<ClienteDto>> getClientes() {
         List<ClienteDto> clientes = clienteService.getClientes();
         return ResponseEntity.ok(clientes);
     }
@@ -32,16 +30,14 @@ public class ClienteController {
     }
 
     @PutMapping("/{cedula}")
-    public ResponseEntity<ClienteDto> editarCliente(@Validated @RequestBody ClienteDto clienteDto, @PathVariable(name = "cedula") String cedula) {
-        ClienteDto updatedclienteDto = clienteService.editarCliente(clienteDto, cedula);
-        return new ResponseEntity<>(updatedclienteDto, HttpStatus.OK);
-
+    public ResponseEntity<ClienteDto> editarCliente(@Validated @RequestBody ClienteDto clienteDto, @PathVariable String cedula) {
+        ClienteDto clienteActualizado = clienteService.editarCliente(clienteDto, cedula);
+        return ResponseEntity.ok(clienteActualizado);
     }
 
     @DeleteMapping("/{cedula}")
-    public ResponseEntity<String> eliminarCliente(@PathVariable(name = "cedula") String cedula){
+    public ResponseEntity<String> eliminarCliente(@PathVariable String cedula) {
         clienteService.eliminarCliente(cedula);
-        return new ResponseEntity<>("Cliente eliminado con exito", HttpStatus.OK);
+        return ResponseEntity.ok("Cliente eliminado correctamente");
     }
 }
-

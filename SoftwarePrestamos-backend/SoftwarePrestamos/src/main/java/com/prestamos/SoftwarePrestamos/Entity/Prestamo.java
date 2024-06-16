@@ -1,7 +1,5 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,13 +40,18 @@ public class Prestamo {
     @PrePersist
     protected void onCreate() {
         fechaCreacion = LocalDateTime.now();
+        calcularMontoAPagar();
     }
 
     @PreUpdate
     protected void onUpdate() {
         fechaEdicion = LocalDateTime.now();
+        calcularMontoAPagar();
     }
 
+    private void calcularMontoAPagar() {
+        montoAPagar = monto + (monto * porcentaje / 100);
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)

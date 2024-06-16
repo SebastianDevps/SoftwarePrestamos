@@ -44,11 +44,6 @@ public class ClienteService {
         Cliente clienteExistente = clienteRepository.findByCedula(cedula)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
 
-        // Si el DTO del cliente no contiene información sobre los préstamos, cargar los préstamos asociados al cliente
-        if (clienteDto.getPrestamos() == null) {
-            clienteExistente.getPrestamos().size();
-        }
-
         // Actualizar los campos del cliente existente con los datos del clienteDto
         clienteExistente.setNombre(clienteDto.getNombre());
         clienteExistente.setApellido(clienteDto.getApellido());
@@ -58,17 +53,13 @@ public class ClienteService {
         clienteExistente.setTipoDocumento(clienteDto.getTipoDocumento());
         clienteExistente.setFechaEdicion(LocalDateTime.now());
 
-        // Manejo de la colección de Préstamos
-        if (clienteDto.getPrestamos() != null) {
-            clienteExistente.getPrestamos().clear(); // Limpiar la colección actual
+        // Actualizar la lista de préstamos (borrando y añadiendo de nuevo)
+        clienteExistente.getPrestamos().clear(); // Limpiar la lista actual
 
-            // Agregar los nuevos préstamos desde clienteDto
-            clienteDto.getPrestamos().forEach(prestamoDto -> {
-                Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);
-                prestamo.setCliente(clienteExistente); // Establecer la relación bidireccional
-                clienteExistente.getPrestamos().add(prestamo);
-            });
-        }
+        clienteDto.getPrestamos().forEach(prestamoDto -> {
+            Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);
+            clienteExistente.addPrestamo(prestamo); // Añadir nuevo préstamo
+        });
 
         // Guardar el cliente actualizado
         Cliente clienteActualizado = clienteRepository.save(clienteExistente);
