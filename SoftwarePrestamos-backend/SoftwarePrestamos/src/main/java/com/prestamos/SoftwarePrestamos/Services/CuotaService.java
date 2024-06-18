@@ -72,7 +72,7 @@ public class CuotaService {
         int numCuota = 1;
         while (fechaActual.isBefore(fechaLimite) || fechaActual.isEqual(fechaLimite)) {
             Cuota cuota = new Cuota();
-            cuota.setNumCuota(numCuota++);
+            cuota.setNumeroCuota(numCuota++);
             cuota.setFechaPago(fechaActual);
             cuota.setMontoPago(calcularMontoCuota(prestamo, totalCuotas)); // Calcular monto con totalCuotas
             cuota.setEstadoCuota(EstadoCuota.PENDIENTE);
@@ -82,8 +82,8 @@ public class CuotaService {
         }
     }
 
-    private String calcularMontoCuota(Prestamo prestamo, int totalCuotas) {
+    private float calcularMontoCuota(Prestamo prestamo, int totalCuotas) {
         float montoAPagar = prestamo.getMontoAPagar();
-        return String.valueOf(montoAPagar / totalCuotas);
+        return (montoAPagar / totalCuotas);
     }
 }

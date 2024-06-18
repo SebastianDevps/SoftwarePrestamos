@@ -21,9 +21,11 @@ public class Cuota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int numCuota;
+    @Column(name = "numero_cuota")
+    private int numeroCuota;
 
-    private String montoPago;
+    @Column(name = "monto_pagado")
+    private float montoPago;
 
     @Column(name = "fecha_pago")
     private LocalDate fechaPago;

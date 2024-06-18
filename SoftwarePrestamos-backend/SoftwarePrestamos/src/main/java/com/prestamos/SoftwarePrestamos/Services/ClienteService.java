@@ -41,7 +41,7 @@ public class ClienteService {
     @Transactional
     public ClienteDto editarCliente(ClienteDto clienteDto, String cedula) {
         Cliente clienteExistente = clienteRepository.findByNumDocumento(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "con numero de documento", cedula));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
 
         // Actualizar los campos del cliente existente con los datos del clienteDto
         clienteExistente.setNombre(clienteDto.getNombre());
@@ -68,7 +68,7 @@ public class ClienteService {
     @Transactional
     public void eliminarCliente(String cedula) {
         Cliente cliente = clienteRepository.findByNumDocumento(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "con numero de documento", cedula));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
 
         if (!cliente.getPrestamos().isEmpty()) {
             throw new IllegalStateException("No se puede eliminar un cliente con prestamos asociados");

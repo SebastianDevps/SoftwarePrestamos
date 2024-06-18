@@ -28,12 +28,15 @@ public class Prestamo {
 
     private int porcentaje;
 
+    @Column(name = "monto_Final")
     private float montoAPagar;
 
+    @Column(name = "fecha_limite")
     private String fechaLimite;
 
     private String prestamista;
 
+    @Column(name = "tipo_pago")
     private String tipoPago; //D,Q,M
 
 
@@ -64,7 +67,7 @@ public class Prestamo {
     private Cliente cliente;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "prestamo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cuota> cuotas = new ArrayList<>();
 
 }

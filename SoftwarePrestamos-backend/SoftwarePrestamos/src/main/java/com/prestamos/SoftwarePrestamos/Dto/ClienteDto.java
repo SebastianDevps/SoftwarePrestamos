@@ -2,13 +2,18 @@ package com.prestamos.SoftwarePrestamos.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
-import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClienteDto {
 
 
@@ -35,5 +40,5 @@ public class ClienteDto {
 
     private EstadoCliente estadoCliente;
 
-    private List<Prestamo> prestamos;
+    private List<PrestamoDto> prestamos;
 }

@@ -21,25 +21,20 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @Column(name = "num_documento", unique = true, nullable = false)
+    @Column(name = "numero_documento", unique = true, nullable = false)
     private String numDocumento;
 
     @Column(name = "tipo_documento", nullable = false)
     private String tipoDocumento;
 
-    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @Column(name = "telefono", nullable = false)
     private String telefono;
 
-    @Column(name = "direccion", nullable = false)
     private String direccion;
 
-    @Column(name = "correo", unique = true, nullable = false)
     private String correo;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
@@ -47,6 +42,15 @@ public class Cliente {
 
     @Column(name = "fecha_edicion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaEdicion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    @ColumnDefault("'INACTIVO'")
+    private EstadoCliente estadoCliente;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prestamo> prestamos = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -58,14 +62,7 @@ public class Cliente {
         fechaEdicion = LocalDateTime.now();
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable = false)
-    @ColumnDefault("'INACTIVO'")
-    private EstadoCliente estadoCliente;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Prestamo> prestamos = new ArrayList<>();
 
     public void addPrestamo(Prestamo prestamo) {
         prestamos.add(prestamo);

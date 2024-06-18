@@ -4,12 +4,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.prestamos.SoftwarePrestamos.Entity.Cliente;
 import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PrestamoDto {
 
     private long id;
@@ -31,5 +37,9 @@ public class PrestamoDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaEdicion;
+
+    private String clienteId;
+
+    private List<CuotaDto> cuotas;
 
 }
