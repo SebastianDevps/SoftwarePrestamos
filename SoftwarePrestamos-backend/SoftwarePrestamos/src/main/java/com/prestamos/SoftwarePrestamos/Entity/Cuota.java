@@ -24,7 +24,7 @@ public class Cuota {
     @Column(name = "numero_cuota")
     private int numeroCuota;
 
-    @Column(name = "monto_pagado")
+    @Column(name = "monto_final")
     private float montoPago;
 
     @Column(name = "fecha_pago")
