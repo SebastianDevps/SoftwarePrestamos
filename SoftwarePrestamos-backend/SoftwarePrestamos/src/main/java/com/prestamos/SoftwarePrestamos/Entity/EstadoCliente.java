@@ -1,6 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Entity;
 
-public enum Estado {
+public enum EstadoCliente {
     INACTIVO,
     ACTIVO
 }

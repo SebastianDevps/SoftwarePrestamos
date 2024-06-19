@@ -1,9 +1,8 @@
 package com.prestamos.SoftwarePrestamos.Services;
 
 import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
-import com.prestamos.SoftwarePrestamos.Dto.PrestamoDto;
 import com.prestamos.SoftwarePrestamos.Entity.Cliente;
-import com.prestamos.SoftwarePrestamos.Entity.Estado;
+import com.prestamos.SoftwarePrestamos.Entity.EstadoCliente;
 import com.prestamos.SoftwarePrestamos.Entity.Prestamo;
 import com.prestamos.SoftwarePrestamos.Exception.ResourceNotFoundException;
 import com.prestamos.SoftwarePrestamos.Repository.ClienteRepository;
@@ -34,15 +33,15 @@ public class ClienteService {
     @Transactional
     public ClienteDto crearCliente(ClienteDto clienteDto) {
         Cliente cliente = modelMapper.map(clienteDto, Cliente.class);
-        cliente.setEstado(obtenerEstadoCliente(cliente)); // Establecer el estado del cliente
+        cliente.setEstadoCliente(obtenerEstadoCliente(cliente)); // Establecer el estado del cliente
         Cliente newCliente = clienteRepository.save(cliente);
         return modelMapper.map(newCliente, ClienteDto.class);
     }
 
     @Transactional
     public ClienteDto editarCliente(ClienteDto clienteDto, String cedula) {
-        Cliente clienteExistente = clienteRepository.findByCedula(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
+        Cliente clienteExistente = clienteRepository.findByNumDocumento(cedula)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
 
         // Actualizar los campos del cliente existente con los datos del clienteDto
         clienteExistente.setNombre(clienteDto.getNombre());
@@ -68,17 +67,17 @@ public class ClienteService {
 
     @Transactional
     public void eliminarCliente(String cedula) {
-        Cliente cliente = clienteRepository.findByCedula(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "cedula", cedula));
+        Cliente cliente = clienteRepository.findByNumDocumento(cedula)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
 
         if (!cliente.getPrestamos().isEmpty()) {
-            throw new IllegalStateException("No se puede eliminar un cliente con préstamos asociados");
+            throw new IllegalStateException("No se puede eliminar un cliente con prestamos asociados");
         }
 
         clienteRepository.delete(cliente);
     }
 
-    private Estado obtenerEstadoCliente(Cliente cliente) {
-        return cliente.getPrestamos().isEmpty() ? Estado.INACTIVO : Estado.ACTIVO;
+    private EstadoCliente obtenerEstadoCliente(Cliente cliente) {
+        return cliente.getPrestamos().isEmpty() ? EstadoCliente.INACTIVO : EstadoCliente.ACTIVO;
     }
 }
