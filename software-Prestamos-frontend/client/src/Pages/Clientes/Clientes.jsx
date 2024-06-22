@@ -30,7 +30,8 @@ const Clientes = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/clientes');
-                setClientes(response.data);
+                const data = response.data.map((cliente, index) => ({ ...cliente, id: index })); // Asigna un id único basado en el índice
+                setClientes(data);
             } catch (error) {
                 setError(error.message);
                 await Swal.fire({
@@ -98,11 +99,11 @@ const Clientes = () => {
         { field: "nombre", headerName: "Nombre", width: 150 },
         { field: "apellido", headerName: "Apellido", width: 200 },
         { field: "tipoDocumento", headerName: "Tipo Documento", width: 160 },
-        { field: "cedula", headerName: "# Documento", width: 120 },
+        { field: "numDocumento", headerName: "# Documento", width: 120 },
         { field: "telefono", headerName: "Teléfono", width: 110 },
         { field: "fechaCreacion", headerName: "Fecha Creación", width: 180 },
         {
-            field: "estado", headerName: "Estado", width: 100,
+            field: "estadoCliente", headerName: "Estado", width: 100,
             renderCell: (params) => {
                 return (
                     <span className={`status-cell ${getStatusClass(params.value)}`}>

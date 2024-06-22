@@ -1,167 +1,163 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { ChevronLast, ChevronFirst, MoreVertical, ChevronDown, ChevronUp } from "lucide-react";
 import { MdDashboardCustomize } from "react-icons/md";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaUserShield, FaPuzzlePiece } from "react-icons/fa";
 import { HiMiniUsers } from "react-icons/hi2";
-import { FaUserShield } from "react-icons/fa";
 import { MdCalculate } from "react-icons/md";
+import { RiSettings4Fill } from "react-icons/ri";
 import { BiSolidReport } from "react-icons/bi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { Link, useLocation } from 'react-router-dom';
+import { useSidebar, SidebarProvider } from './SidebarContext';
 
-const Sidebar = () => {
-
-    /* Saber que link, esta presionado */
+const SidebarItem = ({ icon, text, to, dropdownItems }) => {
+    const { expanded } = useSidebar();
     const location = useLocation();
-    const getLinkClasses = (path) => {
-        const baseClasses = "flex items-center gap-4 p-2 hover:no-underline transition-colors rounded-lg";
-        return location.pathname === path
-            ? `${baseClasses} bg-blue-500 text-white`
-            : `${baseClasses} hover:bg-gray-200 text-gray-600`;
+    const isActive = location.pathname === to;
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const handleDropdownToggle = () => {
+        setDropdownOpen(!dropdownOpen);
     };
 
     return (
-        <sidebar className="flex flex-col justify-between gap-8 bg-gray-100  min-h-screen max-h-screen w-full p-4 sidebar-scrollbar">
-            {/* <!-- Top --> */}
-            <section>
-                {/* <!-- Logo --> */}
-                <div className="flex items-center gap-4 mb-8">
-                    <img
-                        src="vite.svg"
-                        className="w-10 h-10 p-2 rounded-xl"
-                    />
-                    <div>
-                        <h3 className="font-bold text-indigo-600">Prestacol</h3>
-                        <p className="text-gray-800 text-xs">
-                            Desarrollo de aplicaciones
-                        </p>
-                    </div>
+        <li className="relative group">
+            {dropdownItems ? (
+                <div>
+                    <button
+                        onClick={handleDropdownToggle}
+                        className={`
+                            flex items-center py-2 px-3 my-1
+                            font-medium rounded-md cursor-pointer
+                            transition-colors group
+                            ${isActive ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}
+                        `}
+                    >
+                        <div className="flex items-center gap-3">
+                            {icon}
+                            <span className={`overflow-hidden transition-all ${expanded ? "block ml-3" : "hidden"}`}>{text}</span>
+                        </div>
+                        <div className="ml-auto">
+                            {dropdownOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                        </div>
+                    </button>
+                    {dropdownOpen && (
+                        <ul className="ml-6 mt-1 max-h-48 overflow-y-auto">
+                            {dropdownItems.map((item, index) => (
+                                <li key={index} className="py-2 px-4">
+                                    <Link to={item.to} className="flex items-center  gap-3">
+                                        {item.icon}
+                                        <span>{item.text}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
-
-                <h5 className="uppercase font-semibold text-xs text-indigo-600 tracking-[2px] mb-4">
-                    Menu
-                </h5>
-                <ul className='text-gray-600'>
-                    <li>
-                        <Link
-                            href="#"
-                            className={getLinkClasses("/app")}
-                            to="/app"
-                        >
-                            <MdDashboardCustomize className="w-5 h-5" />
-                            <span>Principal</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="#"
-                            className={getLinkClasses("/app/prestamos")}
-                            to="/app/prestamos"
-                        >
-                            <FaMoneyBillTransfer className="w-5 h-5" />
-                            <span>Prestamos</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="#"
-                            className={getLinkClasses("/app/clientes")}
-                            to="/app/clientes"
-                        >
-                            <HiMiniUsers className="w-5 h-5" />
-                            <span>Clientes</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="#"
-                            className={getLinkClasses("/app/administradores")}
-                            to="/app/administradores"
-                        >
-                            <FaUserShield className="w-5 h-5" />
-                            <span>Administradores</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center gap-4 p-2 hover:no-underline hover:bg-gray-200 transition-colors rounded-lg"
-                        >
-                            <BiSolidReport className="w-5 h-5" />
-                            <span>Reportes</span>
-                        </a>
-                    </li>
-                </ul>
-                <h5 className="uppercase font-semibold text-xs text-indigo-600 tracking-[2px] my-4">
-                    Herramientas
-                </h5>
-                <ul className='text-gray-600'>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center hover:no-underline gap-4 p-2 hover:bg-gray-200 transition-colors rounded-lg"
-                        >
-                            <MdCalculate className="w-5 h-5" />
-                            <span>Simular Prestamo</span>
-                        </a>
-                    </li>
-                </ul>
-            </section>
-            {/* <!-- Bottom --> */}
-            <section>
-                {/* <!-- Settings --> */}
-                <ul className="">
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center gap-4 p-2 text-gray-500 hover:bg-gray-200 transition-colors rounded-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-                                />
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
-                            <span>Ajustes</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center gap-4 p-2 text-gray-500 hover:bg-gray-200 transition-colors rounded-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                                />
-                            </svg>
-                            <span>Ayuda</span>
-                        </a>
-                    </li>
-                </ul>
-            </section>
-        </sidebar>
+            ) : (
+                <Link to={to} className={`
+                    relative flex items-center py-2 px-3 my-1
+                    font-medium rounded-md cursor-pointer
+                    transition-colors group
+                    ${isActive ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}
+                `}>
+                    {icon}
+                    <span className={`overflow-hidden transition-all ${expanded ? "block ml-3" : "hidden"}`}>{text}</span>
+                </Link>
+            )}
+        </li>
     );
 };
 
-export default Sidebar;
+const Sidebar = () => {
+    const { expanded, setExpanded } = useSidebar();
+    const location = useLocation();
+
+    return (
+        <aside className={`h-full bg-gray-100 overflow-y-auto ${expanded ?"" : "w-40"}`}>
+            {/* Logo que se muestra siempre */}
+            <div className="p-4 pb-2 flex justify-between items-center">
+                <img
+                    src="/vite.svg"  // Asegúrate de que la ruta al logo sea correcta
+                    className='overflow-hidden w-12 transition-all'
+                    alt="Logo"
+                />
+                <button
+                    onClick={() => setExpanded((curr) => !curr)}
+                    className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+                >
+                    {expanded ? <ChevronFirst /> : <ChevronLast />}
+                </button>
+            </div>
+            <nav className="h-[85%] flex mt-2 flex-col bg-gray-100 border-r shadow-sm">
+                <ul className="flex-1 px-3">
+                    <SidebarItem 
+                        to="/app"
+                        icon={<MdDashboardCustomize className="w-5 h-5" />}
+                        text="Principal"
+                    />
+                    <SidebarItem
+                        to="/app/prestamos"
+                        icon={<GiReceiveMoney className="w-5 h-5" />}
+                        text="Prestamos"
+                    />
+                    <SidebarItem
+                        to="/app/clientes"
+                        icon={<HiMiniUsers className="w-5 h-5" />}
+                        text="Clientes"
+                    />
+                    <SidebarItem
+                        to="/app/administradores"
+                        icon={<FaUserShield className="w-5 h-5" />}
+                        text="Administradores"
+                    />
+                    <SidebarItem
+                        to="/app/reportes"
+                        icon={<BiSolidReport className="w-5 h-5" />}
+                        text="Reportes"
+                    />
+                    <SidebarItem
+                        icon={<FaPuzzlePiece className="w-5 h-5" />}
+                        text="Herramientas"
+                        dropdownItems={[
+                            {
+                                to: "/app/simular",
+                                icon: <MdCalculate className="w-5 h-5" />,
+                                text: "Simular Préstamo"
+                            }
+                            // Puedes añadir más items al dropdown si es necesario
+                        ]}
+                    />
+                    <SidebarItem
+                        to="/app/configuracion"
+                        icon={<RiSettings4Fill className="w-5 h-5" />}
+                        text="Configuracion"
+                    />
+                </ul>
+                <div className="border-t flex p-3"> 
+                    <img
+                        src="/vite.svg"
+                        alt="User"
+                        className="w-10 h-10 rounded-md"
+                    />
+                    <div className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}>
+                        <div className="leading-4">
+                            <h4 className="font-semibold">Administrador</h4>
+                            <span className="text-xs text-gray-600">Administrador@gmail.com</span>
+                        </div>
+                        {/* <MoreVertical size={20} />  */}
+                    </div>
+                </div>  
+                
+            </nav>
+        </aside>
+    );
+};
+
+const AppSidebar = () => (
+    <SidebarProvider>
+        <Sidebar />
+    </SidebarProvider>
+);
+
+export default AppSidebar;

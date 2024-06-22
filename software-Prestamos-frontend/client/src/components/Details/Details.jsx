@@ -4,8 +4,8 @@ import { IoIosCloseCircle } from "react-icons/io";
 const Details = ({ onClick, cliente }) => {
     if (!cliente) return <div className="text-center text-red-500 font-bold">No hay datos disponibles</div>;
 
-    const getClienteEstadoClass = (estado) => {
-        return estado.toLowerCase() === 'activo' ? 'font-bold text-green-700' : 'font-bold text-red-500';
+    const getClienteEstadoClass = (estadoCliente) => {
+        return estadoCliente.toLowerCase() === 'activo' ? 'font-bold text-green-700' : 'font-bold text-red-500';
     };
 
     return (
@@ -26,7 +26,7 @@ const Details = ({ onClick, cliente }) => {
                         </div>
                         <div className="flex-1">
                             <div className="text-lg font-semibold">{cliente.nombre} {cliente.apellido}</div>
-                            <div className="text-gray-600">{cliente.tipoDocumento}: {cliente.cedula}</div>
+                            <div className="text-gray-600">{cliente.tipoDocumento}: {cliente.numDocumento}</div>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -50,9 +50,9 @@ const Details = ({ onClick, cliente }) => {
                             <div className="text-sm font-semibold text-gray-500">Correo Electronico</div>
                             <div className="text-sm">{cliente.correo}</div>
                         </div>
-                        <div className={`rounded ${getClienteEstadoClass(cliente.estado)}`}>
+                        <div className={`rounded ${getClienteEstadoClass(cliente.estadoCliente)}`}>
                             <div className="text-sm font-semibold text-gray-500">Estado</div>
-                            <div className="text-sm">{cliente.estado}</div>
+                            <div className="text-sm">{cliente.estadoCliente}</div>
                         </div>
                     </div>
                 </div>
