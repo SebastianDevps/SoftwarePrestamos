@@ -24,6 +24,12 @@ public class ClienteController {
         return ResponseEntity.ok(clientes);
     }
 
+    @GetMapping("/{cedula}")
+    public ResponseEntity<ClienteDto> getClienteById(@PathVariable String cedula) {
+        ClienteDto cliente = clienteService.getClienteByCedula(cedula);
+        return ResponseEntity.ok(cliente);
+    }
+
     @PostMapping
     public ResponseEntity<ClienteDto> crearCliente(@Validated @RequestBody ClienteDto clienteDto) {
         return new ResponseEntity<>(clienteService.crearCliente(clienteDto), HttpStatus.CREATED);
