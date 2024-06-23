@@ -23,6 +23,14 @@ public class ClienteService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
+    public ClienteDto getClienteByCedula(String cedula) {
+        Cliente clienteExistente = clienteRepository.findByNumDocumento(cedula)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
+
+        return modelMapper.map(clienteExistente, ClienteDto.class);
+    }
+
+    @Transactional(readOnly = true)
     public List<ClienteDto> getClientes() {
         List<Cliente> clientes = clienteRepository.findAll();
         return clientes.stream()
