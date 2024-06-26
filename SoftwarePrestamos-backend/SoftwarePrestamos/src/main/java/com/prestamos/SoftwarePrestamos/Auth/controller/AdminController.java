@@ -15,7 +15,7 @@ public class AdminController {
     @Autowired
     private AdminServices adminServices;
 
-    @PostMapping("/auth/register")
+    @PostMapping("/super-admin/register")
     public ResponseEntity<ReqRes> register (@RequestBody ReqRes data) {
         return ResponseEntity.ok(adminServices.register(data));
     }

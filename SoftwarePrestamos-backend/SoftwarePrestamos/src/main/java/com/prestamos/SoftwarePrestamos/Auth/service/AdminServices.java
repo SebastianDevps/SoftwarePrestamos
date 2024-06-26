@@ -69,7 +69,7 @@ public class AdminServices {
 
         }catch (Exception e){
             response.setStatusCode(500);
-            response.setMessage(e.getMessage());
+            response.setMessage("Usuario y/o Contraseña Incorrect@");
         }
         return response;
     }
