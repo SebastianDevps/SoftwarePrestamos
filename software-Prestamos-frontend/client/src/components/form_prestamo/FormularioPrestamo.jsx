@@ -66,7 +66,7 @@ const FormularioPrestamo = ({ onClick }) => {
                 <span className="text-red-500 text-sm">{errors.tipoPrestamo.message}</span>
               )}
             </div>
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Documento <span className="text-red-500">*</span>
               </label>
@@ -79,7 +79,7 @@ const FormularioPrestamo = ({ onClick }) => {
               />
               {errors.documento && <span className="text-red-500 text-sm">{errors.documento.message}</span>}
             </div>
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Cliente
               </label>
@@ -92,7 +92,7 @@ const FormularioPrestamo = ({ onClick }) => {
               />
               {errors.cliente && <span className="text-red-500 text-sm">{errors.cliente.message}</span>}
             </div>
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Monto a Prestar <span className="text-red-500">*</span>
               </label>
@@ -107,7 +107,7 @@ const FormularioPrestamo = ({ onClick }) => {
               {errors.monto && <span className="text-red-500 text-sm">{errors.monto.message}</span>}
             </div>
           
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Tasa de interés (%) <span className="text-red-500">*</span>
               </label>
@@ -122,7 +122,7 @@ const FormularioPrestamo = ({ onClick }) => {
               {errors.interes && <span className="text-red-500 text-sm">{errors.interes.message}</span>}
             </div>
             
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Tipo de Pago <span className="text-red-500">*</span>
               </label>
@@ -142,7 +142,7 @@ const FormularioPrestamo = ({ onClick }) => {
                    )}
             </div>
 
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Fecha de solicitud <span className="text-red-500">*</span>
               </label>
@@ -155,7 +155,7 @@ const FormularioPrestamo = ({ onClick }) => {
               />
               {errors.fecha && <span className="text-red-500 text-sm">{errors.fecha.message}</span>}
             </div>
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Valor por Cuota 
               </label>
@@ -172,7 +172,7 @@ const FormularioPrestamo = ({ onClick }) => {
               {errors.interes && <span className="text-red-500 text-sm">{errors.cuota.message}</span>}
               
             </div>
-            <div className="form-group -mt-3">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Monto Total 
               </label>
