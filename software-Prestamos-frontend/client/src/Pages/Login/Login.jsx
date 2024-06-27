@@ -38,7 +38,7 @@ const Login = () => {
                     title: "¡Éxito!",
                     text: "Ingreso exitoso.",
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 3000,
                 });
                 // Redirige a /app y recarga la página
                 window.location.href = "/app";
