@@ -1,8 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Controller;
 
-import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
 import com.prestamos.SoftwarePrestamos.Dto.PrestamoDto;
-import com.prestamos.SoftwarePrestamos.Services.ClienteService;
 import com.prestamos.SoftwarePrestamos.Services.PrestamoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prestamos")
+@RequestMapping("/prestamos")
 public class PrestamoController {
 
     @Autowired
