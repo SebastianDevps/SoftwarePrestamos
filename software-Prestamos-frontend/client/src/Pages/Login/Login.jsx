@@ -5,117 +5,114 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
-import axios from "axios";
+import AuthServices from "../../services/AuthServices";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [hasErrors, setHasErrors] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors, touchedFields }, reset } = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, touchedFields },
-    reset,
-  } = useForm();
+    useEffect(() => {
+        if (loading) {
+            Swal.fire({
+                title: "Cargando...",
+                html: "Por favor, espera mientras validamos tus datos.",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+        }
+    }, [loading]);
 
-  useEffect(() => {
-    if (loading) {
-      Swal.fire({
-        title: "Cargando...",
-        html: "Por favor, espera mientras validamos tus datos.",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-    }
-  }, [loading]);
+    const onSubmit = async (data) => {
+        setLoading(true);
+        try {
+            const userData = await AuthServices.login(data.username, data.password);
+            if (userData.token) {
+                localStorage.setItem('token', userData.token);
+                localStorage.setItem('role', userData.role);
+                navigate("/app");
+                await Swal.fire({
+                    icon: "success",
+                    title: "¡Éxito!",
+                    text: "Ingreso exitoso.",
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+                // Redirige a /app y recarga la página
+                window.location.href = "/app";
+            } else {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Credenciales incorrectas. Por favor, intenta nuevamente.",
+                });
+            }
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            await Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Ocurrió un error al iniciar sesión. Por favor, intenta nuevamente.",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      // Simula una solicitud de inicio de sesión
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      await Swal.fire({
-        icon: "success",
-        title: "¡Yupi!",
-        text: "Has iniciado sesión correctamente.",
-        showConfirmButton: false,
-        timer: 1200,
-      });
-      reset();
-      navigate("/app");
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Ocurrió un error al iniciar sesión. Por favor, intenta nuevamente.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    return (
+        <div className="container-login">
+            <div className="login-left">
+                <form className={`form-login ${errors ? "form-login--error" : ""}`} onSubmit={handleSubmit(onSubmit)}>
+                    <div className="container-title-login">
+                        <h2 className="register-title-login">Iniciar sesión</h2>
+                    </div>
 
-  return (
-    <div className="container-login">
-      <div className="login-left">
-        <form className={`form-login ${hasErrors ? "form-login--error" : ""}`} onSubmit={handleSubmit(onSubmit)}>
-          <div className="container-title-login">
-            <h2 className="register-title-login">Iniciar sesión</h2>
-          </div>
+                    <h1 className="text">Username</h1>
+                    {errors.username && touchedFields.username && (
+                        <span className="span">{errors.username.message}</span>
+                    )}
+                    <div className="input-container-login">
+                        <input
+                            type="text"
+                            className="input-login"
+                            placeholder="Ingresa tu Usuario"
+                            {...register("username", { required: "El nombre de usuario es requerido*" })}
+                        />
+                        <FaUser className="icon-login" />
+                    </div>
 
-          <h1 className="text">Username</h1>
-          {errors.username &&
-            (touchedFields.username || errors.username.type === "required") && (
-              <span className="span">{errors.username.message}</span>
-            )}
-          <div className="input-container-login">
+                    <h1 className="text">Password</h1>
+                    {errors.password && touchedFields.password && (
+                        <span className="span">{errors.password.message}</span>
+                    )}
+                    <div className="input-container-login">
+                        <input
+                            type="password"
+                            className="input-login"
+                            placeholder="Ingresa tu contraseña"
+                            {...register("password", {
+                                required: "La contraseña es requerida*",
+                                minLength: {
+                                    value: 3,
+                                    message: "La contraseña debe ser mayor a 3 caracteres",
+                                },
+                            })}
+                        />
+                        <RiLockPasswordFill className="icon-login" />
+                    </div>
 
-            <input
-              type="text"
-              className="input-login"
-              placeholder="Ingresa tu Usuario"
-              {...register("username", {
-                required: "El nombre de usuario es requerido*",
-              })}
-            />
-            <FaUser className="icon-login" />
-          </div>
-          <h1 className="text">Password</h1>
-          {errors.password &&
-            (touchedFields.password || errors.password.type === "required") && (
-              <span className="span">{errors.password.message}</span>
-            )}
-          <div className="input-container-login">
-            <input
-              type="password"
-              className="input-login"
-              placeholder="Ingresa tu contraseña"
-              {...register("password", {
-                required: "La contraseña es requerida*",
-                minLength: {
-                  value: 3,
-                  message: "La contraseña debe ser mayor a 3 caracteres",
-                }
-              })}
-            />
-            <RiLockPasswordFill className="icon-login" />
-          </div>
-
-          <button type="submit" className="button-login">
-            Iniciar sesión
-          </button>
-        </form>
-      </div>
-      <div className="login-right">
-        <div className="img">
-
+                    <button type="submit" className="button-login">
+                        Iniciar sesión
+                    </button>
+                </form>
+            </div>
+            <div className="login-right">
+                <div className="img"></div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Login;
