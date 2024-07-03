@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clientes")
-@CrossOrigin("http://localhost:5173") // Permitir peticiones desde el frontend
+@RequestMapping("/adminsuper-admin/clientes")
 @RequiredArgsConstructor
 public class ClienteController {
 
