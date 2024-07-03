@@ -38,7 +38,7 @@ const Login = () => {
                     title: "¡Éxito!",
                     text: "Ingreso exitoso.",
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 1500,
                 });
                 // Redirige a /app y recarga la página
                 window.location.href = "/app";
@@ -46,7 +46,7 @@ const Login = () => {
                 await Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Credenciales incorrectas. Por favor, intenta nuevamente.",
+                    text: "Usuario o Contraseña incorrecto. Por favor, intenta nuevamente.",
                 });
             }
         } catch (error) {

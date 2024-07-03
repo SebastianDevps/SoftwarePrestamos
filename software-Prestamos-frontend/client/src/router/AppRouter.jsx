@@ -8,6 +8,7 @@ import AuthServices from "../services/AuthServices";
 import Prestamos from "../Pages/Prestamos/Prestamos";
 import Clientes from "../Pages/Clientes/Clientes";
 import NotFound from "./404";
+import Administrador from "../Pages/Administrador/Administrador";
 
 
 const AppRouter = () => {
@@ -27,6 +28,7 @@ const AppRouter = () => {
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/prestamos" element={<Prestamos />} />
                 <Route path="/app/clientes" element={<Clientes />} />
+                <Route path="/app/administradores" element={<Administrador />} />
               </>
             ) : (
               // Redirección a login si el usuario no es admin
