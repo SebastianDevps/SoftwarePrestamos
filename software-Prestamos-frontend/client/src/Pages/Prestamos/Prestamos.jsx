@@ -6,7 +6,7 @@ import { MdDelete, MdAddchart } from "react-icons/md";
 import Navbar from "../../components/navApp/Navbar";
 import { IoIosSearch } from "react-icons/io";
 import Details from '../../components/Details/Details';
-import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
+import FormularioPrestamo from '../../form_prestamo/FormularioPrestamo';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';

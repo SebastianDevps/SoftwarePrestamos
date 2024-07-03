@@ -58,7 +58,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
         <h2 className="text-2xl font-bold text-center mb-4">Registrar Cliente</h2>
         <form className="" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Tipo de documento <span className="text-red-500">*</span>
               </label>
@@ -76,7 +76,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
                 <span className="text-red-500 text-sm">{errors.tipoDocumento.message}</span>
               )}
             </div>
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Cédula <span className="text-red-500">*</span>
               </label>
@@ -90,7 +90,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
               />
               {errors.cedula && <span className="text-red-500 text-sm">{errors.cedula.message}</span>}
             </div>
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Nombres <span className="text-red-500">*</span>
               </label>
@@ -104,7 +104,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
               />
               {errors.nombre && <span className="text-red-500 text-sm">{errors.nombre.message}</span>}
             </div>
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Apellidos <span className="text-red-500">*</span>
               </label>
@@ -118,7 +118,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
               />
               {errors.apellido && <span className="text-red-500 text-sm">{errors.apellido.message}</span>}
             </div>
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Número Celular <span className="text-red-500">*</span>
               </label>
@@ -132,7 +132,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
               />
               {errors.telefono && <span className="text-red-500 text-sm">{errors.telefono.message}</span>}
             </div>
-            <div className="form-group">
+            <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Dirección <span className="text-red-500">*</span>
               </label>
@@ -147,7 +147,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
               {errors.direccion && <span className="text-red-500 text-sm">{errors.direccion.message}</span>}
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group -mt-4">
             <label className="block text-sm font-medium text-gray-700">Correo</label>
             <input
               type="email"
@@ -159,7 +159,7 @@ const FormularioCliente = ({ onClick, cliente }) => {
             />
             {errors.correo && <span className="text-red-500 text-sm">{errors.correo.message}</span>}
           </div>
-          <div className="form-group">
+          <div className="form-group -mt-4">
             <label className="block text-sm font-medium text-gray-700">Estado</label>
             <input
               type="text"
