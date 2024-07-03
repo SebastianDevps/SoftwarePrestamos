@@ -4,7 +4,7 @@ import Content from '../../layout/Content/Content';
 
 const Home = () => {
     return (
-        <div className='min-h-screen grid grid-cols-1 lg:grid-cols-5'>
+        <div className='min-h-screen bg-customMain grid grid-cols-1 lg:grid-cols-5'>
             <div className='col-span-1 lg:col-span-1'>
                 <Sidebar />  
             </div>

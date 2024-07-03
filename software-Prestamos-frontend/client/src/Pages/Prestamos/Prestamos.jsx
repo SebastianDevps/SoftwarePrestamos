@@ -3,10 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import Sidebar from '../../layout/Sidebar/Sidebar';
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete, MdAddchart } from "react-icons/md";
-import Navbar from "../../components/navApp/Navbar";
 import { IoIosSearch } from "react-icons/io";
 import Details from '../../components/Details/Details';
-import FormularioPrestamo from '../../form_prestamo/FormularioPrestamo';
+import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -85,7 +84,6 @@ const Prestamos = () => {
                 <Sidebar />
             </div>
             <div className='flex-grow col-span-4'>
-                <Navbar />
                 <div className='flex flex-col p-4'>
                     <Breadcrumbs aria-label="breadcrumb" className="mb-4">
                         <Link color="inherit" href="/app">

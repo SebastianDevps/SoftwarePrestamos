@@ -7,7 +7,6 @@ import Sidebar from '../../layout/Sidebar/Sidebar';
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { IoIosSearch, IoMdPersonAdd } from "react-icons/io";
-import Navbar from '../../components/navApp/Navbar';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -142,7 +141,6 @@ const Clientes = () => {
                 <Sidebar />
             </div>
             <div className="flex-grow col-span-4">
-                <Navbar />
                 <div className="flex flex-col p-4">
                     <Breadcrumbs aria-label="breadcrumb" className="mb-4">
                         <Link color="inherit" href="/app">

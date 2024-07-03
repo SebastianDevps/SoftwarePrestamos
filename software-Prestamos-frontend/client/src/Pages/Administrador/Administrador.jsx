@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../../components/navApp/Navbar";
 import Sidebar from '../../layout/Sidebar/Sidebar';
 
 const Administrador = () => {
@@ -9,8 +8,36 @@ const Administrador = () => {
         <Sidebar />
       </div>
       <div className="flex-grow col-span-4">
-        <Navbar />
-        <div className="flex flex-col bg-gray-400 p-4"></div>
+        <div className="flex flex-col bg-gray-400  w-full">
+         <div className="display-block"> 
+           <div className="form-group -mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Nombre <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Ingrese número"
+              />
+            </div>
+            <div className="form-group -mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Apellidos <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+              />
+            </div>
+            <div className="form-group -mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Telefono <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+              />
+            </div>
+
+         </div>
+        </div>
       </div>
     </div>
   );
