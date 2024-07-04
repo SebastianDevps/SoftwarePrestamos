@@ -7,38 +7,14 @@ const Administrador = () => {
       <div className="col-span-1">
         <Sidebar />
       </div>
-      <div className="flex-grow col-span-4">
-        <div className="flex flex-col bg-gray-400  w-full">
-         <div className="display-block"> 
-           <div className="form-group -mt-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Nombre <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Ingrese número"
-              />
-            </div>
-            <div className="form-group -mt-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Apellidos <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-              />
-            </div>
-            <div className="form-group -mt-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Telefono <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-              />
-            </div>
 
-         </div>
+      <div className="col-span-4 bg-customMain">
+          <div className="bg-white rounded-3xl shadow-md py-64 mx-4 my-12  w-[95%]">
+              <div className="flex justify-center mx-auto">
+                <h2>Informacion Adminsitrador</h2>
+              </div>
+          </div>
         </div>
-      </div>
     </div>
   );
 };

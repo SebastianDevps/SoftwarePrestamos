@@ -5,7 +5,6 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { FaUserFriends } from "react-icons/fa";
 
 const Content = () => {
-
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
@@ -39,10 +38,8 @@ const Content = () => {
       value: "$0.00",
       icon: <GiMoneyStack className="fill-current text-green-400 text-4xl text-accent-green" />,
     }
-    
   ];
 
-  // Simulated data for loan payments
   const loanPayments = [
     {
       id: 1,
@@ -98,13 +95,57 @@ const Content = () => {
       amount: "$125,000.00",
       status: "pendiente",
     },
-    
+    {
+      id: 7,
+      dateTime: "2024-06-22 10:30 AM",
+      customerName: "Eren Jaegar",
+      customerId: "123456789",
+      phoneNumber: "+57 234567890",
+      amount: "$125,000.00",
+      status: "pendiente",
+    },
+    {
+      id: 8,
+      dateTime: "2024-06-22 10:30 AM",
+      customerName: "Eren Jaegar",
+      customerId: "123456789",
+      phoneNumber: "+57 234567890",
+      amount: "$125,000.00",
+      status: "pendiente",
+    },
+    {
+      id: 9,
+      dateTime: "2024-06-22 10:30 AM",
+      customerName: "Eren Jaegar",
+      customerId: "123456789",
+      phoneNumber: "+57 234567890",
+      amount: "$125,000.00",
+      status: "pendiente",
+    },
+    {
+      id: 10,
+      dateTime: "2024-06-22 10:30 AM",
+      customerName: "Eren Jaegar",
+      customerId: "123456789",
+      phoneNumber: "+57 234567890",
+      amount: "$125,000.00",
+      status: "pendiente",
+    },
+    {
+      id: 11,
+      dateTime: "2024-06-22 10:30 AM",
+      customerName: "Eren Jaegar",
+      customerId: "123456789",
+      phoneNumber: "+57 234567890",
+      amount: "$125,000.00",
+      status: "pendiente",
+    },
   ];
 
   return (
-    <div className='bg-customMain'>
+    <div className='bg-customMain mt-10'>
       <div className="p-4 space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-10 gap-5">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col p-4 bg-white rounded-3xl shadow-md">
               <div className="flex items-center">
@@ -132,28 +173,28 @@ const Content = () => {
               </span>
             </div>
           </div>
-          <div className="overflow-x-auto max-w-full mt-4">
-            <div className="overflow-y-auto max-h-[220px]">
-              <table className="min-w-full bg-white border-collapse">
-                <thead className="bg-gray-200">
-                  <tr className="text-sm font-semibold text-gray-700">
-                    <th className="py-2 px-4 border-b border-gray-300">Cliente</th>
-                    <th className="py-2 px-4 border-b border-gray-300"># Documento</th>
-                    <th className="py-2 px-4 border-b border-gray-300">Número</th>
-                    <th className="py-2 px-4 border-b border-gray-300 text-right">Valor</th>
-                    <th className="py-2 px-4 border-b border-gray-300 text-center">Estado</th>
-                    <th className="py-2 px-4 border-b border-gray-300 text-center">Acciones</th>
+          <div className="overflow-x-auto max-w-full mt-4 ">
+            <div className="overflow-y-auto max-h-[300px]">
+              <table className="min-w-full bg-white border-collapse table-auto w-full">
+                <thead className="sticky top-0 bg-white border-gray-300">
+                  <tr className="text-sm font-semibold text-gray-700 text-center ">
+                    <th className="border-gray-300 py-2">Cliente</th>
+                    <th className="border-gray-300 py-2"># Documento</th>
+                    <th className="border-gray-300 py-2">Número</th>
+                    <th className="border-gray-300 py-2">Valor</th>
+                    <th className="border-gray-300 py-2">Estado</th>
+                    <th className="border-gray-300 py-2">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm text-gray-700">
                   {loanPayments.map((payment) => (
-                    <tr key={payment.id} className="border-b border-gray-300">
-                      <td className="py-2 px-4">{payment.customerName}</td>
-                      <td className="py-2 px-4">{payment.customerId}</td>
-                      <td className="py-2 px-4">{payment.phoneNumber}</td>
-                      <td className="py-2 px-4 text-right">{payment.amount}</td>
-                      <td className="py-2 px-4 text-center">
-                        <span className={`py-1 px-3 rounded-full text-xs font-medium 
+                    <tr key={payment.id} className="border-b border-gray-300 text-center">
+                      <td className="">{payment.customerName}</td>
+                      <td className="">{payment.customerId}</td>
+                      <td className="">{payment.phoneNumber}</td>
+                      <td className="">{payment.amount}</td>
+                      <td className="">
+                        <span className={`py-1 px-1 rounded-full text-xs font-medium 
                                   ${payment.status === 'pagado' ? 'bg-green-200 text-green-800' : 'bg-orange-200 text-orange-800'}`}>
                           {payment.status}
                         </span>
@@ -168,7 +209,6 @@ const Content = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
-import { DataGrid } from "@mui/x-data-grid";
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar/Sidebar';
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit, FaEye, FaFilter } from "react-icons/fa";
 import { MdDelete, MdAddchart } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 import Details from '../../components/Details/Details';
 import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { RiErrorWarningLine } from "react-icons/ri";
+import axios from 'axios';
 
 const Prestamos = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [currentPrestamo, setCurrentPrestamo] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filtersOpen, setFiltersOpen] = useState(false);
+    const [filterEstado, setFilterEstado] = useState(''); // Estado activo/inactivo
+    const [filterAcuerdoPago, setFilterAcuerdoPago] = useState(''); // Mensual, Diario, Quincenal
+    const [prestamos, setPrestamos] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get();
+            setPrestamos(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const handleOpenModal = (prestamo) => {
         setCurrentPrestamo(prestamo);
@@ -30,45 +46,28 @@ const Prestamos = () => {
         setIsFormOpen(false);
     };
 
-    const rows = [
-        { id: 1, name: "John Sebastian Hinestroza Jaramillo", mount: 999.999999, iva: 5, acMount: "5", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "activo" },
-        { id: 2, name: "John Doe Hinestroza Jaramillo", mount: 999.999, iva: 5, acMount: "50", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "inactivo" },
-        { id: 3, name: "John Doe Hinestroza Jaramillo", mount: 999.999, iva: 15, acMount: "20", acPago: "Mensual", F_limt: "06-02-2024", create: "Administrador", status: "activo" },
-    ];
+    const handleToggleFilters = () => {
+        setFiltersOpen(!filtersOpen);
+    };
 
-    const columns = [
-        { field: "id", headerName: "ID", width: 50 },
-        { field: "name", headerName: "Cliente", width: 200 },
-        { field: "iva", headerName: "Iva %", width: 60 },
-        { field: "acMount", headerName: "Cuotas Pendientes", width: 150 },
-        { field: "acPago", headerName: "Acuerdo pago", width: 120 },
-        { field: "F_limt", headerName: "Fecha Limite Pago", width: 150 },
-        { field: "mount", headerName: "Monto Total", width: 150 },
-        {
-            field: "status", headerName: "Estado", width: 90,
-            renderCell: (params) => {
-                return (
-                    <span className={`status-cell ${getStatusClass(params.value)}`}>
-                        {params.value}
-                    </span>
-                );
-            }
-        },
-        {
-            field: "action",
-            headerName: "Acciones",
-            width: 130,
-            renderCell: (params) => {
-                return (
-                    <div className="cellAction flex gap-2">
-                        <button className="viewButton text-blue-500 p-1" onClick={() => handleOpenModal(params.row)}><FaEye /></button>
-                        <button className="editButton text-yellow-500 p-1"><FaEdit /></button>
-                        <button className="deleteButton text-red-500 p-1"><MdDelete /></button>
-                    </div>
-                );
-            },
-        },
-    ];
+    const clearFilters = () => {
+        setFilterEstado('');
+        setFilterAcuerdoPago('');
+    };
+
+    const handleFilterEstado = (estado) => {
+        setFilterEstado(estado === filterEstado ? '' : estado);
+    };
+
+    const handleFilterAcuerdoPago = (acuerdoPago) => {
+        setFilterAcuerdoPago(acuerdoPago === filterAcuerdoPago ? '' : acuerdoPago);
+    };
+
+    const filteredRows = prestamos.filter(row =>
+        row.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (filterEstado ? row.status === filterEstado : true) &&
+        (filterAcuerdoPago ? row.acuerdoPago === filterAcuerdoPago : true)
+    );
 
     const getStatusClass = (status) => {
         if (status === 'activo') {
@@ -79,41 +78,151 @@ const Prestamos = () => {
     };
 
     return (
-        <div className="flex bg-gray-50 min-h-screen grid grid-col-1 lg:grid-cols-5">
+        <div className="flex bg-gray-50 min-h-screen grid grid-cols-1 lg:grid-cols-5">
             <div className='col-span-1'>
                 <Sidebar />
             </div>
             <div className='flex-grow col-span-4'>
                 <div className='flex flex-col p-4'>
-                    <Breadcrumbs aria-label="breadcrumb" className="mb-4">
-                        <Link color="inherit" href="/app">
-                            Principal
-                        </Link>
-                        <Typography color="textPrimary">Prestamos</Typography>
-                    </Breadcrumbs>
-                    <div className="w-full h-full justify-between flex mb-4">
-                        <div className='w-[50%] flex'>
-                            <input type="text" className='w-[60%] p-2 rounded border border-gray-300' placeholder='Buscar Prestamo...' />
-                            <button className='flex items-center text-3xl -ml-10 text-gray-600 rounded'>
-                                <IoIosSearch className='icon' />
+                    <div className="mb-4 flex justify-between items-center">
+                        <div className='text-2xl font-medium'>Prestamos</div>
+                        <button
+                            className='flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition'
+                            onClick={handleOpenModalFormPrestamo}
+                        >
+                            <MdAddchart className='text-xl' />
+                            Agregar préstamo
+                        </button>
+                    </div>
+
+                    <div className="w-full flex justify-between items-center mb-4">
+                        <div className='w-[70%] md:w-[50%] flex items-center'>
+                            <input
+                                type="text"
+                                className='w-full p-2 rounded-l border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                placeholder='Buscar préstamo...'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <button className='flex items-center p-2 rounded-r bg-blue-500 text-white hover:bg-blue-600 transition'>
+                                <IoIosSearch className='text-xl' />
                             </button>
                         </div>
-                        <div>
-                            <button className='link1 flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded' onClick={handleOpenModalFormPrestamo}>
-                                <MdAddchart className='icon' />
-                                Agregar prestamo
+                        <div className="flex items-center">
+                            <button
+                                className="flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none"
+                                onClick={handleToggleFilters}
+                            >
+                                <FaFilter className="text-lg" />
+                                <span>Filtrar</span>
                             </button>
                         </div>
                     </div>
-                    <div className='w-full h-[480px]'>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={9}
-                            getRowId={(row) => row.id}
-                            disableSelectionOnClick
-                        />
-                    </div>
+
+                    {filtersOpen && (
+                        <div className="mb-3 flex gap-4">
+                            <div className="flex items-center gap-2">
+                                <button
+                                    className={`flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none ${filterEstado === 'activo' ? 'bg-blue-600' : ''}`}
+                                    onClick={() => handleFilterEstado('activo')}
+                                >
+                                    <FaFilter className="text-lg" />
+                                    <span>Activo</span>
+                                </button>
+                                <button
+                                    className={`flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none ${filterEstado === 'inactivo' ? 'bg-blue-600' : ''}`}
+                                    onClick={() => handleFilterEstado('inactivo')}
+                                >
+                                    <FaFilter className="text-lg" />
+                                    <span>Inactivo</span>
+                                </button>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    className={`flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none ${filterAcuerdoPago === 'Diario' ? 'bg-blue-600' : ''}`}
+                                    onClick={() => handleFilterAcuerdoPago('Diario')}
+                                >
+                                    <FaFilter className="text-lg" />
+                                    <span>Diario</span>
+                                </button>
+                                <button
+                                    className={`flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none ${filterAcuerdoPago === 'Quincenal' ? 'bg-blue-600' : ''}`}
+                                    onClick={() => handleFilterAcuerdoPago('Quincenal')}
+                                >
+                                    <FaFilter className="text-lg" />
+                                    <span>Quincenal</span>
+                                </button>
+                                <button
+                                    className={`flex items-center gap-1 px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition focus:outline-none ${filterAcuerdoPago === 'Mensual' ? 'bg-blue-600' : ''}`}
+                                    onClick={() => handleFilterAcuerdoPago('Mensual')}
+                                >
+                                    <FaFilter className="text-lg" />
+                                    <span>Mensual</span>
+                                </button>
+                            </div>
+                            <div>
+                                <button
+                                    className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-500 transition"
+                                    onClick={clearFilters}
+                                >
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {filteredRows.length === 0 ? (
+                        <div className="flex items-center justify-center h-[490px] bg-white rounded-3xl shadow-md p-4">
+                            <div className='bg-customMain flex items-center justify-center rounded-full p-2'>
+                                <RiErrorWarningLine className="text-red-500 text-4xl" />
+                                <p className="ml-2 text-gray-600 font-semibold">No hay datos de préstamos</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='w-full bg-white h-[490px] rounded-3xl shadow-md p-4 overflow-x-auto'>
+                            <table className="min-w-full bg-white border-collapse">
+                                <thead className="sticky top-0 bg-white border-b border-gray-300">
+                                    <tr className="text-sm font-semibold text-gray-700">
+                                        <th className="py-2 px-4 border-gray-300">ID</th>
+                                        <th className="py-2 px-4 border-gray-300">Cliente</th>
+                                        <th className="py-2 px-4 border-gray-300">Iva %</th>
+                                        <th className="py-2 px-4 border-gray-300">Cuotas Pendientes</th>
+                                        <th className="py-2 px-4 border-gray-300">Acuerdo pago</th>
+                                        <th className="py-2 px-4 border-gray-300">Fecha Limite Pago</th>
+                                        <th className="py-2 px-4 border-gray-300">Monto Total</th>
+                                        <th className="py-2 px-4 border-gray-300">Estado</th>
+                                        <th className="py-2 px-4 border-gray-300">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm text-gray-700">
+                                    {filteredRows.map((row) => (
+                                        <tr key={row.id} className="border-b border-gray-300">
+                                            <td className="py-2 px-4">{row.id}</td>
+                                            <td className="py-2 px-4">{row.title}</td>
+                                            <td className="py-2 px-4">{row.userId}</td>
+                                            <td className="py-2 px-4">-</td>
+                                            <td className="py-2 px-4">-</td>
+                                            <td className="py-2 px-4">-</td>
+                                            <td className="py-2 px-4">-</td>
+                                            <td className="py-2 px-4">
+                                                <span className={`py-1 px-3 rounded-full text-xs font-medium ${getStatusClass(row.status)}`}>
+                                                    {row.status}
+                                                </span>
+                                            </td>
+                                            <td className="py-2 px-4">
+                                                <div className="flex gap-2">
+                                                    <button className="text-blue-500 p-1" onClick={() => handleOpenModal(row)}><FaEye /></button>
+                                                    <button className="text-yellow-500 p-1"><FaEdit /></button>
+                                                    <button className="text-red-500 p-1"><MdDelete /></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
                     {isModalOpen && <Details onClick={handleCloseModal} />}
                     {isFormOpen && <FormularioPrestamo onClick={handleCloseModal} cliente={currentPrestamo} />}
                 </div>
