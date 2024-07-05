@@ -143,7 +143,7 @@ const Content = () => {
   ];
 
   return (
-    <div className='bg-customMain mt-10'>
+    <div className='bg-customMain'>
       <div className="p-4 space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-10 gap-5">
           {stats.map((stat, index) => (

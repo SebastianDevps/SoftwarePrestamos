@@ -4,6 +4,7 @@ import { FaUserShield } from "react-icons/fa";
 import { HiMiniUsers } from "react-icons/hi2";
 import { RiSettings4Fill } from "react-icons/ri";
 import { BiSolidReport } from "react-icons/bi";
+import { FaUserCircle } from "react-icons/fa";
 import { GiReceiveMoney, GiExitDoor } from "react-icons/gi";
 import { Link, useLocation } from 'react-router-dom';
 import { SidebarProvider } from './SidebarContext';
@@ -18,7 +19,7 @@ const SidebarItem = ({ icon, text, to, onClick }) => {
         <li className="relative group">
             {to ? (
                 <Link to={to} className={`
-                    flex items-center p-2 text-2sm font-semibold hover:no-underline rounded-lg cursor-pointer transition-colors group
+                    flex items-center p-2 ml-1 text-2sm font-semibold hover:no-underline rounded-lg cursor-pointer transition-colors group
                     ${isActive ? "bg-blue-500 text-white" : "hover:bg-indigo-50 text-customText"}
                 `}>
                     {icon}
@@ -27,7 +28,7 @@ const SidebarItem = ({ icon, text, to, onClick }) => {
             ) : (
                 <button onClick={onClick} className={`
                     flex items-center p-2 text-2sm font-semibold hover:no-underline rounded-lg cursor-pointer transition-colors group
-                    hover:bg-indigo-50 text-customText w-full text-left
+                    hover:bg-red-600 hover:text-white text-customText ml-1 w-full text-left
                 `}>
                     {icon}
                     <span className="ml-2">{text}</span>
@@ -62,69 +63,81 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="h-full bg-white flex flex-col">
+        <aside className="h-full bg-white border-r flex flex-col">
             {/* Logo */}
-            <div className="p-6 flex items-center">
-                <img
-                    src="/vite.svg"
-                    className='w-12'
-                    alt="Logo"
-                />
-                <span className="ml-3 text-xl font-semibold">PRESTACOL</span>
+
+            <div className="p-2 mt-2 flex items-center justify-between">
+                <div className='flex flex-row gap-2'>
+                    <span ><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
+                    <div>
+                        <h4 className="font-semibold">Administrador</h4>
+                        <span className="text-xs text-gray-600">Administrador@prestamos.com</span>
+                    </div>
+                </div>
             </div>
-            <nav className="flex-1 overflow-y-auto">
-                <ul className="px-2 space-y-1">
-                    <li className="text-gray-500 font-bold px-2 py-2">General</li>
+            <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
+                <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan Gratuito</h1>
+            </div>
+            <nav className="flex-1 p-1 overflow-y-auto">
+                <ul >
+                    <li className="text-gray-500 font-bold px-2">General</li>
                     <SidebarItem
                         to="/app"
-                        icon={<MdDashboardCustomize className="w-5 h-7" />}
+                        icon={<MdDashboardCustomize className="w-5 h-6" />}
                         text="Principal"
                     />
                     <SidebarItem
                         to="/app/prestamos"
-                        icon={<GiReceiveMoney className="w-5 h-7" />}
+                        icon={<GiReceiveMoney className="w-5 h-6" />}
                         text="Prestamos"
                     />
                     <SidebarItem
                         to="/app/clientes"
-                        icon={<HiMiniUsers className="w-5 h-7" />}
+                        icon={<HiMiniUsers className="w-5 h-6" />}
                         text="Clientes"
                     />
                     <SidebarItem
                         to="/app/reportes"
-                        icon={<BiSolidReport className="w-5 h-7" />}
+                        icon={<BiSolidReport className="w-5 h-6" />}
                         text="Reportes"
                     />
                     <SidebarItem
                         to="/app/administradores"
-                        icon={<FaUserShield className="w-5 h-7" />}
+                        icon={<FaUserShield className="w-5 h-6" />}
                         text="Administradores"
                     />
                     <li className="text-gray-500 font-bold px-2 mt-2">Herramientas</li>
                     <SidebarItem
                         to="/app/simular"
-                        icon={<MdCalculate className="w-5 h-7" />}
+                        icon={<MdCalculate className="w-5 h-6" />}
                         text="Calculadora de Préstamos"
                     />
                     <li className="text-gray-500 font-bold px-2 mt-2">Opcional</li>
                     <SidebarItem
                         to="/app/configuracion"
-                        icon={<RiSettings4Fill className="w-5 h-7" />}
+                        icon={<RiSettings4Fill className="w-5 h-6" />}
                         text="Configuracion"
                     />
                     <SidebarItem
-                        icon={<GiExitDoor className="w-5 h-7" />}
+                        icon={<GiExitDoor className="w-5 h-6" />}
                         text="Salir"
                         onClick={handleLogoutClick}
                     />
                 </ul>
             </nav>
-            <div className="border-t p-3 flex items-center justify-between">
-                <div>
-                    <h4 className="font-semibold">Administrador</h4>
-                    <span className="text-xs text-gray-600">Administrador@gmail.com</span>
+            {/* <div className="p-2 border-t flex items-center justify-center">
+                <div className="flex items-center">
+                    <img
+                        src="/vite.svg"
+                        className='w-10'
+                        alt="Logo"
+                    />
+                    <div className="flex items-center">
+                        <span className="text-2xl font-medium block">PRESTACOL</span>
+                    </div>
                 </div>
-            </div>
+            </div> */}
+
         </aside>
     );
 };

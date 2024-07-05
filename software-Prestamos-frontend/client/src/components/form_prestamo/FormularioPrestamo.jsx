@@ -57,7 +57,7 @@ const FormularioPrestamo = ({ onClick }) => {
               <label className="block text-sm font-medium text-gray-700 flex-">
                 Buscar Cliente 
               </label>
-              <div className=' from-group inline-flex w-full'>
+              <div className=' form-group inline-flex w-full'>
               <input type='text' className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `} placeholder='Buscar cliente' />
               <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 ... text-white font-bold pt-2 pr-2 mx-1 mt-1"
               type='button'><AiOutlineSearch /></button>

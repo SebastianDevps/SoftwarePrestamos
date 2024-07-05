@@ -17,7 +17,7 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div>
         <div className="content">
           <Routes>
             <Route path="/" element={<Landing />} />
