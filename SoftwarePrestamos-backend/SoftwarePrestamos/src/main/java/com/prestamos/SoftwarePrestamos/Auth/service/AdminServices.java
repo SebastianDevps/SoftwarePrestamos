@@ -34,6 +34,7 @@ public class AdminServices {
             admin.setEmail(registrationRequest.getEmail());
             admin.setCity(registrationRequest.getCity());
             admin.setRole(registrationRequest.getRole());
+            admin.setTypePlan(registrationRequest.getTypePlan());
             admin.setName(registrationRequest.getName());
             admin.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             Administradores adminResult = adminRepository.save(admin);
@@ -63,6 +64,7 @@ public class AdminServices {
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
+            response.setTypePlan(user.getTypePlan());
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hrs");
             response.setMessage("Sesion Iniciada Exitosamente");
@@ -149,6 +151,7 @@ public class AdminServices {
                 existingAdmin.setName(updatedAdmin.getName());
                 existingAdmin.setCity(updatedAdmin.getCity());
                 existingAdmin.setRole(updatedAdmin.getRole());
+                existingAdmin.setTypePlan(updatedAdmin.getTypePlan());
 
                 // Check if password is present in the request
                 if (updatedAdmin.getPassword() != null && !updatedAdmin.getPassword().isEmpty()) {

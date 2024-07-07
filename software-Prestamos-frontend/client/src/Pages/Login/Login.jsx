@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import AuthServices from "../../services/AuthServices";
+import Utils from '../../services/Utils'
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -30,9 +31,13 @@ const Login = () => {
         try {
             const userData = await AuthServices.login(data.username, data.password);
             if (userData.token) {
+                // Almacenar el token en localStorage
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                navigate("/app");
+    
+                // Almacenar el perfil del usuario en IndexedDB
+                await Utils.fetchUserProfileFromServer();
+    
                 await Swal.fire({
                     icon: "success",
                     title: "¡Éxito!",
@@ -44,9 +49,9 @@ const Login = () => {
                 window.location.href = "/app";
             } else {
                 await Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Usuario o Contraseña incorrecto. Por favor, intenta nuevamente.",
+                    icon: "warning",
+                    title: "Por favor, intenta nuevamente.",
+                    text: "Usuario y/o Contraseña incorrecto.",
                 });
             }
         } catch (error) {
@@ -54,12 +59,13 @@ const Login = () => {
             await Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Ocurrió un error al iniciar sesión. Por favor, intenta nuevamente.",
+                text: "Ocurrió un error al iniciar sesión. Por favor, intenta mas tarde.",
             });
         } finally {
             setLoading(false);
         }
     };
+    
 
     return (
         <div className="container-login">

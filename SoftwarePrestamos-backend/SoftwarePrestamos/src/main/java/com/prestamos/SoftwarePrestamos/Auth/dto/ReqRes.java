@@ -30,9 +30,12 @@ public class ReqRes {
 
     private String role;
 
+    private String typePlan;
+
     private String email;
 
     private String password;
+
 
     private Administradores administradores;
 

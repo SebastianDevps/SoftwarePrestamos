@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdDashboardCustomize, MdCalculate } from "react-icons/md";
 import { FaUserShield } from "react-icons/fa";
 import { HiMiniUsers } from "react-icons/hi2";
@@ -10,6 +10,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { SidebarProvider } from './SidebarContext';
 import Swal from 'sweetalert2';
 import AuthServices from '../../services/AuthServices';
+import Utils from '../../services/Utils'
 
 const SidebarItem = ({ icon, text, to, onClick }) => {
     const location = useLocation();
@@ -39,6 +40,26 @@ const SidebarItem = ({ icon, text, to, onClick }) => {
 };
 
 const Sidebar = () => {
+    //get mi profile
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                let profile = await Utils.getUserProfile();
+                if (!profile) {
+                    profile = await Utils.fetchUserProfileFromServer();
+                }
+                setUserProfile(profile);
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
+    
+
     const handleLogoutClick = () => {
         Swal.fire({
             title: "Salir",
@@ -62,6 +83,11 @@ const Sidebar = () => {
         });
     };
 
+    if (!userProfile) {
+        return console.log("");
+    }
+
+
     return (
         <aside className="h-full bg-white border-r flex flex-col">
             {/* Logo */}
@@ -70,13 +96,13 @@ const Sidebar = () => {
                 <div className='flex flex-row gap-2'>
                     <span ><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
                     <div>
-                        <h4 className="font-semibold">Administrador</h4>
-                        <span className="text-xs text-gray-600">Administrador@prestamos.com</span>
+                        <h4 className="font-semibold capitalize">{userProfile.administradores.name}</h4>
+                        <span className="text-xs text-gray-600">{userProfile.administradores.email}</span>
                     </div>
                 </div>
             </div>
             <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
-                <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan Gratuito</h1>
+                <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1>
             </div>
             <nav className="flex-1 p-1 overflow-y-auto">
                 <ul >

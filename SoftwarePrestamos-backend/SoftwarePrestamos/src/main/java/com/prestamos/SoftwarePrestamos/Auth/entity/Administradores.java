@@ -28,6 +28,9 @@ public class Administradores implements UserDetails{
 
     private String role;
 
+    @Column(name = "type_plan")
+    private String typePlan;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
