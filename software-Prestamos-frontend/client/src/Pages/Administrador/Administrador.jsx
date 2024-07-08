@@ -14,7 +14,7 @@ const Administrador = () => {
           <h1 className="text-center align-middle py-4 text-2xl font-medium text-gray-700">Datos de Aministrador</h1>
           </div>
         </div>
-          <div className="bg-white rounded-3xl shadow-md  mx-4 my-6 h-[68%]  w-[95%]">
+          <div className="bg-white rounded-3xl shadow-md  mx-4 my-6 h-[75%]  w-[95%]">
               <div className="py-2 " >
                <form onSubmit="">
                 <div className="grid grid-cols-3 gap-4  m-3">
@@ -25,7 +25,7 @@ const Administrador = () => {
                     <input
                       type="text"
                       className="input-admin"
-                      placeholder="Nombre"
+                      placeholder="Ingresa el Nombre"
                     />
                  </div>
                   <div className="">
@@ -35,7 +35,7 @@ const Administrador = () => {
                     <input
                       type="text"
                       className="input-admin"
-                      placeholder="Nombre"
+                      placeholder="Ingresa el Apellido"
                     />
                  </div>
                  <div className="">
@@ -59,9 +59,65 @@ const Administrador = () => {
                     />
                  </div>
                  <div className="">
+                    <label className=" text-sm font-medium text-gray-700 flex-">
+                      Ciudad   
+                    </label>
+                    <input
+                      type="text"
+                      className="input-admin"
+                      placeholder="Apartado"
+                    />
+                 </div>
+                 <div className="my-4">
                  <button
               type="submit"
-              className=" btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className=" btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-2 rounded"
+            >
+             Agregar Cambios
+            </button>
+                 </div>
+                </div>
+               </form>
+               <div>
+                <h1 className="text-center align-middle  text-xl font-medium text-gray-500">Cambiar Contraseña</h1>
+               </div>
+               <form action="">
+               <div className="grid grid-cols-3 gap-4  m-3">
+                  <div className="">
+                    <label className=" text-sm font-medium text-gray-700 flex-">
+                      Contraseña Actual <p className="text-danger inline-flex">*</p>  
+                    </label>
+                    <input
+                      type="password"
+                      className="input-admin"
+                      placeholder="Ingresar Contraseña Actual"
+                    />
+                 </div>
+                  <div className="">
+                    <label className=" text-sm font-medium text-gray-700 flex-">
+                      Nueva Contraseña <p className="text-danger inline-flex">*</p> 
+                    </label>
+                    <input
+                      type="password"
+                      className="input-admin"
+                      placeholder="ingresar Nueva Contraseña"
+                    />
+                 </div>
+                 <div className="">
+                    <label className=" text-sm font-medium text-gray-700 flex-">
+                     Confirmar Contraseña <p className="text-danger inline-flex">*</p>
+                    </label>
+                    <input
+                      type="password"
+                      className="input-admin"
+                      placeholder="Confirmar Contraseña"
+                    />
+                 </div>
+                 
+                 <div className="my-4">
+                 <button
+              type="submit"
+              className=" btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-2 rounded"
             >
              Agregar Cambios
             </button>
