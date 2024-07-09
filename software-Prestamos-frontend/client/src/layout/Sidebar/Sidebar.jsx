@@ -82,11 +82,6 @@ const Sidebar = () => {
         });
     };
 
-    if (!userProfile) {
-        return console.log("");
-    }
-
-
     return (
         <aside className="h-full bg-white border-r flex flex-col">
             {/* Logo */}

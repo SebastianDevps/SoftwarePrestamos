@@ -14,60 +14,60 @@ import TokenExpiredPopup from "../components/TokenExpiredPopup/TokenExpiredPopup
 
 const AppRouter = () => {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(true);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-         return
-        }
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+  //       if (!token) {
+  //        return
+  //       }
         
-        //onst profile = await AuthServices.getYourProfile(token);
+  //       //onst profile = await AuthServices.getYourProfile(token);
         
-        if (!profile.administradores.typePlan || profile.administradores.typePlan === null) {
-          Swal.fire({
-            title: 'Plan Requerido',
-            text: 'Cuenta No Valida, no tienes un plan asociado a tu cuenta, comunicate con nosotros.',
-            icon: 'warning',
-            confirmButtonText: 'Entendido',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              AuthServices.logout();
-              //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
-            }
-          });
-        }
+  //       if (!profile.administradores.typePlan || profile.administradores.typePlan === null) {
+  //         Swal.fire({
+  //           title: 'Plan Requerido',
+  //           text: 'Cuenta No Valida, no tienes un plan asociado a tu cuenta, comunicate con nosotros.',
+  //           icon: 'warning',
+  //           confirmButtonText: 'Entendido',
+  //         }).then((result) => {
+  //           if (result.isConfirmed) {
+  //             AuthServices.logout();
+  //             //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+  //           }
+  //         });
+  //       }
 
-        setIsAdmin(AuthServices.adminOnly());
-        setIsSuperAdmin(AuthServices.superAdminOnly());
+  //       setIsAdmin(AuthServices.adminOnly());
+  //       setIsSuperAdmin(AuthServices.superAdminOnly());
         
-      } catch (error) {
-        // console.error('Error al obtener el perfil del usuario desde el servidor:', error);
-        // AuthServices.logout();
-        // window.location.href = '/login'; // Redirigir a la página de inicio de sesión
-      }
-    };
+  //     } catch (error) {
+  //       // console.error('Error al obtener el perfil del usuario desde el servidor:', error);
+  //       // AuthServices.logout();
+  //       // window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+  //     }
+  //   };
 
-    const checkAuthAndToken = () => {
-      if (AuthServices.isAuthenticated() && AuthServices.isTokenExpired()) {
-        setIsTokenExpired(true);
-      }
-    };
+  //   const checkAuthAndToken = () => {
+  //     if (AuthServices.isAuthenticated() && AuthServices.isTokenExpired()) {
+  //       setIsTokenExpired(true);
+  //     }
+  //   };
 
-    fetchUserProfile();
-    checkAuthAndToken();
-  }, []);
+  //   fetchUserProfile();
+  //   checkAuthAndToken();
+  // }, []);
 
-  const handlePopupClose = () => {
-    AuthServices.logout();
-    setIsTokenExpired(false);
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 100);
-  };
+  // const handlePopupClose = () => {
+  //   AuthServices.logout();
+  //   setIsTokenExpired(false);
+  //   setTimeout(() => {
+  //     window.location.href = "/login";
+  //   }, 100);
+  // };
 
   return (
     <BrowserRouter>
