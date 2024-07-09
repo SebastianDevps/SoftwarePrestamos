@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import AuthServices from "../../services/AuthServices";
-import Utils from '../../services/Utils'
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -35,8 +34,6 @@ const Login = () => {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
     
-                // Almacenar el perfil del usuario en IndexedDB
-                await Utils.fetchUserProfileFromServer();
     
                 await Swal.fire({
                     icon: "success",

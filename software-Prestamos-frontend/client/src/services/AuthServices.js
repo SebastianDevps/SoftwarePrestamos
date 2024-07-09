@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import Utils from './Utils';
 
 class AuthServices {
     static BASE_URL = "http://localhost:8080/soft-prestamos/api";
@@ -85,8 +84,7 @@ class AuthServices {
         // Eliminar el token y el rol del usuario de localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        // Eliminar el perfil del usuario de IndexedDB
-        Utils.deleteUserProfile();
+
     }
     
 

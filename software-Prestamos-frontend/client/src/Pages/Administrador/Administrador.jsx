@@ -28,18 +28,8 @@ const Administrador = () => {
                       placeholder="Ingresa el Nombre"
                     />
                  </div>
-                  <div className="">
-                    <label className=" text-sm font-medium text-gray-700 flex-">
-                      Apellidos  
-                    </label>
-                    <input
-                      type="text"
-                      className="input-admin"
-                      placeholder="Ingresa el Apellido"
-                    />
-                 </div>
                  <div className="">
-                    <label className=" text-sm font-medium text-gray-700 flex-">
+                    <label className=" text-sm font-medium text-gray-700">
                       Contacto 
                     </label>
                     <input
@@ -71,7 +61,7 @@ const Administrador = () => {
                  <div className="my-4">
                  <button
               type="submit"
-              className=" btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-2 rounded"
+              className="btn-admin"
             >
              Agregar Cambios
             </button>
@@ -117,7 +107,7 @@ const Administrador = () => {
                  <div className="my-4">
                  <button
               type="submit"
-              className=" btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-2 rounded"
+              className="btn-admin"
             >
              Agregar Cambios
             </button>

@@ -7,10 +7,8 @@ import { BiSolidReport } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { GiReceiveMoney, GiExitDoor } from "react-icons/gi";
 import { Link, useLocation } from 'react-router-dom';
-import { SidebarProvider } from './SidebarContext';
 import Swal from 'sweetalert2';
 import AuthServices from '../../services/AuthServices';
-import Utils from '../../services/Utils'
 
 const SidebarItem = ({ icon, text, to, onClick }) => {
     const location = useLocation();
@@ -46,13 +44,14 @@ const Sidebar = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                let profile = await Utils.getUserProfile();
-                if (!profile) {
-                    profile = await Utils.fetchUserProfileFromServer();
-                }
-                setUserProfile(profile);
+                // const token = localStorage.getItem('token');
+                // const profile = await AuthServices.getYourProfile(token);
+                
+                // setUserProfile(profile)
+                
             } catch (error) {
-                console.error("Error fetching user profile:", error);
+                console.error('Error al obtener el perfil del usuario desde el servidor:', error);
+                throw error;
             }
         };
 
@@ -96,13 +95,13 @@ const Sidebar = () => {
                 <div className='flex flex-row gap-2'>
                     <span ><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
                     <div>
-                        <h4 className="font-semibold capitalize">{userProfile.administradores.name}</h4>
-                        <span className="text-xs text-gray-600">{userProfile.administradores.email}</span>
+                        {/* <h4 className="font-semibold capitalize">{userProfile.administradores.name}</h4> */}
+                        {/* <span className="text-xs text-gray-600">{userProfile.administradores.email}</span> */}
                     </div>
                 </div>
             </div>
             <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
-                <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1>
+                {/* <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1> */}
             </div>
             <nav className="flex-1 p-1 overflow-y-auto">
                 <ul >
@@ -151,27 +150,10 @@ const Sidebar = () => {
                     />
                 </ul>
             </nav>
-            {/* <div className="p-2 border-t flex items-center justify-center">
-                <div className="flex items-center">
-                    <img
-                        src="/vite.svg"
-                        className='w-10'
-                        alt="Logo"
-                    />
-                    <div className="flex items-center">
-                        <span className="text-2xl font-medium block">PRESTACOL</span>
-                    </div>
-                </div>
-            </div> */}
 
         </aside>
     );
 };
 
-const AppSidebar = () => (
-    <SidebarProvider>
-        <Sidebar />
-    </SidebarProvider>
-);
 
-export default AppSidebar;
+export default Sidebar;

@@ -11,38 +11,43 @@ import Clientes from "../Pages/Clientes/Clientes";
 import NotFound from "./404";
 import Administrador from "../Pages/Administrador/Administrador";
 import TokenExpiredPopup from "../components/TokenExpiredPopup/TokenExpiredPopup";
-import Utils from "../services/Utils";
 
 const AppRouter = () => {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
-  const isAdmin = AuthServices.adminOnly();
-  const isSuperAdmin = AuthServices.superAdminOnly();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        let profile = await Utils.getUserProfile();
-        if (!profile) {
-          profile = await Utils.fetchUserProfileFromServer();
+        const token = localStorage.getItem('token');
+        if (!token) {
+         return
         }
-        // Verificar si no tiene un plan asociado
+        
+        //onst profile = await AuthServices.getYourProfile(token);
+        
         if (!profile.administradores.typePlan || profile.administradores.typePlan === null) {
           Swal.fire({
             title: 'Plan Requerido',
-            text: 'Cuenta No Valida, no tienes un plan asociado a tu cuenta, crea una nueva o comunicate con nosotros.',
+            text: 'Cuenta No Valida, no tienes un plan asociado a tu cuenta, comunicate con nosotros.',
             icon: 'warning',
             confirmButtonText: 'Entendido',
           }).then((result) => {
             if (result.isConfirmed) {
-              AuthServices.logout()
-              window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+              AuthServices.logout();
+              //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
             }
           });
         }
 
-
+        setIsAdmin(AuthServices.adminOnly());
+        setIsSuperAdmin(AuthServices.superAdminOnly());
+        
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        // console.error('Error al obtener el perfil del usuario desde el servidor:', error);
+        // AuthServices.logout();
+        // window.location.href = '/login'; // Redirigir a la página de inicio de sesión
       }
     };
 
@@ -79,7 +84,6 @@ const AppRouter = () => {
               <Route path="/app/administradores" element={<Administrador />} />
             </>
           ) : (
-            // Redirección si no cumple con los permisos
             <Route path="*" element={<Navigate to="/login" />} />
           )}
           <Route path="*" element={<NotFound />} />

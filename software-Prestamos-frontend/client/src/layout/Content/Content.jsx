@@ -20,7 +20,7 @@ const Content = () => {
   const stats = [
     {
       title: "Préstamos Activos",
-      value: "$0.00",
+      value: "0",
       icon: <GiTakeMyMoney className="fill-current text-blue-400 text-4xl text-accent-green" />,
     },
     {
@@ -30,7 +30,7 @@ const Content = () => {
     },
     {
       title: "Capital Disponible",
-      value: "0",
+      value: "$0.00",
       icon: <MdMoney className="fill-current text-blue-400 text-4xl text-accent-red" />,
     },
     {
@@ -161,8 +161,8 @@ const Content = () => {
           ))}
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-md">
-          <div className="flex justify-between items-center pb-4 border-b border-gray-200">
+        <div className="bg-white p-6 rounded-3xl drop-shadow-xl ">
+          <div className="flex justify-between items-center pb-4 border-b border-gray-200 ">
             <h2 className="text-xl font-semibold">Pagos Del Dia</h2>
             <div className="flex items-center">
               <span className="mr-4 text-sm text-gray-800">

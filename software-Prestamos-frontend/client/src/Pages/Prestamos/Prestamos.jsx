@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar/Sidebar';
 import { FaFilter, FaTimes } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
-import Details from '../../components/Details/Details';
 import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
 import { VscError } from "react-icons/vsc";
-import axios from 'axios';
 
 const Prestamos = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [currentPrestamo, setCurrentPrestamo] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterEstado, setFilterEstado] = useState(''); // Estado activo/inactivo
     const [filterAcuerdoPago, setFilterAcuerdoPago] = useState(''); // Mensual, Diario, Quincenal
     const [prestamos, setPrestamos] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Número de elementos por página
 
     useEffect(() => {
         fetchData();
@@ -27,25 +21,90 @@ const Prestamos = () => {
 
     const fetchData = async () => {
         try {
-            
+            // Simulación de datos
+            const simulatedData = [
+                {
+                    id: 1,
+                    title: "Préstamo 1",
+                    userId: "Juan Alberto Peresasc Hinestroza",
+                    iva: 20,
+                    cuotasPendientes: 25,
+                    acuerdoPago: "Mensual",
+                    fechaLimitePago: "2024-08-15",
+                    montoTotal: 999999999,
+                    status: "activo"
+                },
+                {
+                    id: 2,
+                    title: "Préstamo 2",
+                    userId: "Pedro Gomez",
+                    iva: 15,
+                    cuotasPendientes: 10,
+                    acuerdoPago: "Diario",
+                    fechaLimitePago: "2024-07-20",
+                    montoTotal: 500000,
+                    status: "inactivo"
+                },
+                {
+                    id: 2,
+                    title: "Préstamo 2",
+                    userId: "Pedro Gomez",
+                    iva: 15,
+                    cuotasPendientes: 10,
+                    acuerdoPago: "Diario",
+                    fechaLimitePago: "2024-07-20",
+                    montoTotal: 500000,
+                    status: "inactivo"
+                },
+                {
+                    id: 2,
+                    title: "Préstamo 2",
+                    userId: "Pedro Gomez",
+                    iva: 15,
+                    cuotasPendientes: 10,
+                    acuerdoPago: "Diario",
+                    fechaLimitePago: "2024-07-20",
+                    montoTotal: 500000,
+                    status: "inactivo"
+                },
+                {
+                    id: 2,
+                    title: "Préstamo 2",
+                    userId: "Pedro Gomez",
+                    iva: 15,
+                    cuotasPendientes: 10,
+                    acuerdoPago: "Diario",
+                    fechaLimitePago: "2024-07-20",
+                    montoTotal: 500000,
+                    status: "inactivo"
+                },
+                {
+                    id: 2,
+                    title: "Préstamo 2",
+                    userId: "Pedro Gomez",
+                    iva: 15,
+                    cuotasPendientes: 10,
+                    acuerdoPago: "Diario",
+                    fechaLimitePago: "2024-07-20",
+                    montoTotal: 500000,
+                    status: "inactivo"
+                }
+                
+            ];
+
+            setPrestamos(simulatedData);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    const handleOpenModal = (prestamo) => {
-        setCurrentPrestamo(prestamo);
-        setIsModalOpen(true);
-    };
 
     const handleOpenModalFormPrestamo = () => {
-        setCurrentPrestamo(null);
         setIsFormOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setIsFormOpen(false);
+        setIsFormOpen(false)
     };
 
     const handleFilterEstado = (estado) => {
@@ -70,8 +129,6 @@ const Prestamos = () => {
         (filterAcuerdoPago ? row.acuerdoPago === filterAcuerdoPago : true)
     );
 
-    const paginatedRows = filteredRows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
     const getStatusClass = (status) => {
         if (status === 'activo') {
             return 'bg-green-100 text-green-500'; // Clase para estado activo
@@ -80,17 +137,6 @@ const Prestamos = () => {
         }
     };
 
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(filteredRows.length / itemsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
 
     return (
         <div className="flex bg-white min-h-screen grid grid-cols-1 lg:grid-cols-5">
@@ -177,7 +223,7 @@ const Prestamos = () => {
                                 <div className='mt-1 -ml-8'>Estado</div>
                                 <div className='mt-1'>Acciones</div>
                             </div>
-                            {paginatedRows.length === 0 ? (
+                            {prestamos.length === 0 ? (
                                 <div className="flex flex-col items-center py-30">
                                     <p className="flex items-center capitalize py-40 gap-2 text-gray-600 font-semibold">
                                         <VscError className="text-red-500 text-4xl" />
@@ -186,7 +232,7 @@ const Prestamos = () => {
                                 </div>
                             ) : (
                                 <div>
-                                    {paginatedRows.map((row) => (
+                                    {prestamos.map((row) => (
                                         <div key={row.id} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300">
                                             <div className='col-span-3'>{row.userId || '-'}</div>
                                             <div className='-ml-1'>{row.iva || '-'}</div>
@@ -200,7 +246,7 @@ const Prestamos = () => {
                                                 </span>
                                             </div>
                                             <div className="flex gap-2 text-gray-500 -ml-6 text-xl">
-                                                <button className="hover:bg-gray-200 rounded-3xl p-1" onClick={() => handleOpenModal(row)}><IoEyeOutline /></button>
+                                                <button className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
                                                 <button className="hover:bg-gray-200 rounded-3xl p-1"><MdOutlineEdit /></button>
                                                 <button className="hover:bg-gray-200 rounded-3xl p-1"><AiOutlineDelete /></button>
                                             </div>
@@ -209,42 +255,10 @@ const Prestamos = () => {
                                 </div>
                             )}
                         </div>
-                        {/* Pagination */}
-                        <div className="flex items-center justify-between px-6 py-3 bg-white border-t">
-                            <div className="text-sm text-gray-700">
-                                Mostrando {filteredRows.length > 0 ? ((currentPage - 1) * itemsPerPage) + 1 : 0} a {Math.min(currentPage * itemsPerPage, filteredRows.length)} de {filteredRows.length} registros
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <button 
-                                    onClick={handlePreviousPage}
-                                    disabled={currentPage === 1}
-                                    className="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-200"
-                                >
-                                    Anterior
-                                </button>
-                                {[...Array(Math.ceil(filteredRows.length / itemsPerPage)).keys()].map(pageNumber => (
-                                    <button
-                                        key={pageNumber}
-                                        onClick={() => setCurrentPage(pageNumber + 1)}
-                                        className={`px-3 py-2 text-sm font-medium ${currentPage === pageNumber + 1 ? 'text-white bg-blue-500 hover:bg-blue-600' : 'text-gray-500 bg-white hover:bg-gray-200'} border border-gray-300 rounded-md`}
-                                    >
-                                        {pageNumber + 1}
-                                    </button>
-                                ))}
-                                <button
-                                    onClick={handleNextPage}
-                                    disabled={currentPage === Math.ceil(filteredRows.length / itemsPerPage)}
-                                    className="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-200"
-                                >
-                                    Siguiente
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
+                    {isFormOpen && <FormularioPrestamo onClick={handleCloseModal} />}
 
-                    {isModalOpen && <Details prestamo={currentPrestamo} onClose={handleCloseModal} />}
-                    {isFormOpen && <FormularioPrestamo onClose={handleCloseModal} />}
                 </div>
             </div>
         </div>
