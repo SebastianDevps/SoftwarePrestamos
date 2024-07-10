@@ -1,77 +1,55 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { FaEye, FaEdit } from "react-icons/fa";
 import Sidebar from "../../layout/Sidebar/Sidebar";
-import { FaEdit, FaEye } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { IoMdPersonAdd } from "react-icons/io";
-import Link from "@mui/material/Link";
-import { IoIosSearch } from "react-icons/io";
-import { MdNavigateNext } from "react-icons/md";
-import Details from "../../components/Details/Details";
-import FormularioCliente from "../../components/form_cliente/FormularioCliente";
+import { IoMdPersonAdd, IoIosSearch } from "react-icons/io";
 import { IoRefreshOutline } from "react-icons/io5";
-import { BsDatabaseFillAdd } from "react-icons/bs";
-import { MdOutlineEdit, MdAddchart } from "react-icons/md";
-// import { Tooltip } from 'react-tooltip'; // Mostrar msg encima del btn
+import { MdDelete } from "react-icons/md";
+
+import FormularioCliente from "../../components/form_cliente/FormularioCliente";
+import Details from "../../components/Details/Details";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenClient, setIsModalOpenClient] = useState(false);
   const [currentCliente, setCurrentCliente] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // GET
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         try {
-  //         const response = await axios.get('http://localhost:8080/api/clientes');
-  //             const data = response.data.map((cliente, index) => ({ ...cliente, id: index })); // Asigna un id único basado en el índice
-  //             setClientes(data);
-  //         } catch (error) {
-  //             setError(error.message);
-  //             await Swal.fire({
-  //                 icon: "error",
-  //                 title: "Error al obtener los clientes",
-  //                 text: error,
-  //             });
-  //         }
-  //     };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const response = await axios.get('http://localhost:8080/api/clientes');
+        // const data = response.data.map((cliente, index) => ({ ...cliente, id: index })); // Asigna un id único basado en el índice
+        const data = [
+          {
+            id: 1,
+            nombre: 'Juan Perez',
+            numDocumento: 1241412412,
+            telefono: 57124124124124,
+            estado: 'activo'
+          },
+          {
+            id: 2,
+            nombre: 'Maria Garcia',
+            numDocumento: 3241412412,
+            telefono: 57124124124125,
+            estado: 'inactivo'
+          }
+        ];
+        setClientes(data);
+      } catch (error) {
+        await Swal.fire({
+          icon: "error",
+          title: "Error al obtener los clientes",
+          text: error,
+        });
+      }
+    };
 
-  //     fetchData();
-  // }, []);
-
-  // DELETE
-  // const handleDelete = async (cedula) => {
-  //     Swal.fire({
-  //         title: "¿Estás seguro de eliminar a este cliente?",
-  //         showCancelButton: true,
-  //         confirmButtonText: "Sí, Confirmar.",
-  //         cancelButtonText: "No, Cancelar",
-  //         icon: 'warning'
-  //     }).then(async (result) => {
-  //         if (result.isConfirmed) {
-  //             try {
-  //                 const response = await axios.delete(`http://localhost:8080/api/clientes/${cedula}`);
-  //                 if (response.status === 200) {
-  //                     Swal.fire({
-  //                         icon: "success",
-  //                         title: "Cliente eliminado",
-  //                         text: "El cliente ha sido eliminado correctamente.",
-  //                     });
-  //                     setClientes(clientes.filter((cliente) => cliente.cedula !== cedula));
-  //                 }
-  //             } catch (error) {
-  //                 Swal.fire({
-  //                     icon: "error",
-  //                     title: "Error al eliminar el cliente",
-  //                     text: error.response ? error.response.data.message : "No se pudo eliminar el cliente.",
-  //                 });
-  //             }
-  //         }
-  //     });
-  // };
+    fetchData();
+  }, []);
 
   const handleOpenModal = (cliente) => {
     setCurrentCliente(cliente);
@@ -92,62 +70,12 @@ const Clientes = () => {
     window.location.reload();
   };
 
-  const columns = [
-    { field: "nombre", headerName: "Nombre", width: 150 },
-    { field: "apellido", headerName: "Apellido", width: 200 },
-    { field: "tipoDocumento", headerName: "Tipo Documento", width: 160 },
-    { field: "numDocumento", headerName: "# Documento", width: 120 },
-    { field: "telefono", headerName: "Teléfono", width: 110 },
-    { field: "fechaCreacion", headerName: "Fecha Creación", width: 180 },
-    {
-      field: "estadoCliente",
-      headerName: "Estado",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <span className={`status-cell ${getStatusClass(params.value)}`}>
-            {params.value}
-          </span>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Acciones",
-      width: 130,
-      renderCell: (params) => {
-        return (
-          <div className="mt-3 flex gap-4">
-            <button
-              className="text-xl text-blue-500 "
-              onClick={() => handleOpenModal(params.row)}
-            >
-              <FaEye />
-            </button>
-            <button
-              className="text-xl  text-yellow-500 "
-              onClick={() => handleOpenModalClient(params.row)}
-            >
-              <FaEdit />
-            </button>
-            <button
-              className="text-xl  text-red-500 "
-              onClick={() => handleDelete(params.row.cedula)}
-            >
-              <MdDelete />
-            </button>
-          </div>
-        );
-      },
-    },
-  ];
-
+  const filteredClientes = clientes.filter(cliente =>
+    cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
   const getStatusClass = (status) => {
-    if (status === "ACTIVO") {
-      return "text-green-500";
-    } else if (status === "INACTIVO") {
-      return "text-red-500";
-    }
+    return status === 'activo' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800';
   };
 
   return (
@@ -161,38 +89,9 @@ const Clientes = () => {
             Registro De Clientes
           </div>
 
-          <div className="p-4 bg-white border-b rounded-t-3xl drop-shadow-xl shadow-md -mx-1 h-[15%] w-[100%]">
-            <div className="mb-4 text-lg font-medium">Filtros</div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <select className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 drop-shadow">
-                  <option>Seleccionar Estado</option>
-                  <option>Maintainer</option>
-                  <option>Subscriber</option>
-                  <option>Editor</option>
-                  <option>Author</option>
-                </select>
-              </div>
-              <div>
-                <select className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 drop-shadow">
-                  <option>Select Plan</option>
-                  <option>Enterprise</option>
-                  <option>Basic</option>
-                  <option>Team</option>
-                </select>
-              </div>
-              <div>
-                <select className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 drop-shadow">
-                  <option>Select Status</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 drop-shadow-xl rounded-b-3xl shadow-md  -mx-1  h-[75%]  w-[100%]">
-            <div className="flex justify-between items-center pb-4 border-gray-200 ">
+        
+          <div className="bg-white p-6 drop-shadow-3xl rounded-3xl shadow-xl -mx-1 h-[75%] w-[100%]">
+            <div className="flex justify-between items-center pb-4 border-gray-200">
               <div className="flex w-[20%] items-center justify-start gap-2">
                 <h2 className="text-xl font-semibold">Lista de Clientes</h2>
                 <button
@@ -201,23 +100,22 @@ const Clientes = () => {
                   onClick={handleRefresh}
                 >
                   <IoRefreshOutline className="icon" />
-                  {/* <Tooltip className="toltip t" anchorSelect="#refresh" place="right-start">
-                                Refrescar
-                            </Tooltip> */}
                 </button>
               </div>
               <div className="flex ml-40 w-[60%] md:w-1/2 items-center relative">
-                <IoIosSearch className="ml-20 text-gray-500 text-2xl absolute left-1" />
+              <IoIosSearch className="ml-20 text-gray-500 text-2xl absolute left-1" />
                 <input
                   type="text"
                   className="w-[75%] ml-20 py-1.5 pl-8 pr-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   placeholder="Buscar Cliente..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 
               </div>
               <div className="w-[20%] flex justify-end">
                 <button
-                  className="flex items-center capitalize font-semibold gap-2 p-2 bg-blue-500 text-white rounded-lg"
+                  className="flex items-center capitalize drop-shadow-xl font-semibold gap-2 p-2 bg-blue-500 text-white rounded-lg"
                   onClick={() => handleOpenModalClient()}
                 >
                   <IoMdPersonAdd className="text-xl" />
@@ -225,36 +123,61 @@ const Clientes = () => {
                 </button>
               </div>
             </div>
+            <div className="sticky top-0 bg-white border-gray-300">
+              <div className="flex justify-between text-sm font-semibold text-gray-700 text-center">
+                <div className="border-gray-300 py-2">
+                  Cliente
+                </div>
+                <div className="border-gray-300 py-2">
+                  # Documento
+                </div>
+                <div className="border-gray-300 py-2">
+                  Número
+                </div>
+                <div className="border-gray-300 py-2">
+                  Valor
+                </div>
+                <div className="border-gray-300 py-2">
+                  Estado
+                </div>
+                <div className="border-gray-300 py-2">
+                  Acciones
+                </div>
+              </div>
+            </div>
 
-            <div className="overflow-x-auto max-w-full mt-4 ">
+            <div className="overflow-x-auto max-w-full mt-4">
               <div className="overflow-y-auto h-[250px] max-h-[400px]">
-                <table className="min-w-full bg-white border-collapse table-auto w-full">
-                  <thead className="sticky top-0 bg-white border-gray-300">
-                    <tr className="text-sm font-semibold text-gray-700 text-center ">
-                      <th className="border-gray-300 py-2">Cliente</th>
-                      <th className="border-gray-300 py-2">#Documento</th>
-                      <th className="border-gray-300 py-2">Telefono</th>
-                      <th className="border-gray-300 py-2"></th>
-                      <th className="border-gray-300 py-2">Estado</th>
-                      <th className="border-gray-300 py-2">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-sm text-gray-700">
-                    <tr className="border-b border-gray-300 text-center">
-                      <td className=""></td>
-                      <td className=""></td>
-                      <td className=""></td>
-                      <td className=""></td>
-                      <td className=""></td>
-                      <td className="py-2 px-4 text-center"></td>
-                    </tr>
-                  </tbody>
-                </table>
+              {filteredClientes.length === 0 ? (
+                  <div className="flex flex-col items-center py-30">
+                    <p className="flex items-center capitalize py-40 gap-2 text-gray-600 font-semibold">
+                      No hay registros de cliente
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    {filteredClientes.map((cliente) => (
+                      <div key={cliente.id} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300">
+                        <div className="col-span-3">{cliente.nombre || '-'}</div>
+                        <div className="col-span-3">{cliente.numDocumento || '-'}</div>
+                        <div className="col-span-2">{cliente.telefono || '-'}</div>
+                        <div className="col-span-2">
+                          <span className={`py-1 px-3 rounded-full text-xs font-medium ${getStatusClass(cliente.estado)}`}>
+                            {cliente.estado}
+                          </span>
+                        </div>
+                        <div className="col-span-2 flex gap-2 text-gray-500 text-xl">
+                          <button onClick={() => handleOpenModal(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><FaEye /></button>
+                          <button onClick={() => handleOpenModal(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><FaEdit /></button>
+                          <button className="hover:bg-gray-200 rounded-3xl p-1"><MdDelete /></button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
-
-          <div></div>
 
           {isModalOpenClient && (
             <FormularioCliente

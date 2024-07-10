@@ -44,10 +44,10 @@ const Sidebar = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                // const token = localStorage.getItem('token');
-                // const profile = await AuthServices.getYourProfile(token);
+                const token = localStorage.getItem('token');
+                const profile = await AuthServices.getYourProfile(token);
                 
-                // setUserProfile(profile)
+                setUserProfile(profile)
                 
             } catch (error) {
                 console.error('Error al obtener el perfil del usuario desde el servidor:', error);

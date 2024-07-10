@@ -6,6 +6,15 @@ import axios from 'axios';
 const FormularioCliente = ({ onClick, cliente }) => {
   const [loading, setLoading] = useState(false);
 
+  // const AddClienteComponent = () =>{
+  //  const[tipoDocumento, setTipoDocumento] = useState("");
+  //  const[cedula, setCedula] = useState("");
+  //  const[nombre, setNombre] = useState("");
+  //  const[apellido, setApellido] = useState("");
+  //  const[celular, setCelular] = useState("");
+  //  const[correo, setCorreo] = useState("");
+  // }
+
   const {
     register,
     handleSubmit,
