@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import Cookies from "js-cookie";  // Importar js-cookie
 
 class AuthServices {
     static BASE_URL = "http://localhost:8080/soft-prestamos/api";
@@ -81,15 +82,13 @@ class AuthServices {
 
     /**AUTHENTICATION CHECKER */
     static logout() {
-        // Eliminar el token y el rol del usuario de localStorage
-        localStorage.removeItem('token');
+        Cookies.remove('token');
         localStorage.removeItem('role');
-
     }
     
 
     static isAuthenticated() {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         return !!token;
     }
 
@@ -112,7 +111,7 @@ class AuthServices {
     }
 
     static isTokenExpired() {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         if (!token) return false;
     
         try {

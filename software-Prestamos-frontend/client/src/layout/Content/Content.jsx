@@ -195,12 +195,12 @@ const Content = () => {
                       <td className="">{payment.amount}</td>
                       <td className="">
                         <span className={`py-1 px-1 rounded-full text-xs font-medium 
-                                  ${payment.status === 'pagado' ? 'bg-green-200 text-green-800' : 'bg-orange-200 text-orange-800'}`}>
+                                  ${payment.status === 'pagado' ? 'bg-blue-500 text-white' : 'bg-red-300 text-orange-800'}`}>
                           {payment.status}
                         </span>
                       </td>
                       <td className="py-2 px-4 text-center">
-                        <button className="py-1 px-3 rounded-lg bg-gray-200 text-sm text-gray-700">Pagar</button>
+                        <button className="py-1 px-3 rounded-lg bg-gray-200 text-sm text-gray-700 hover:bg-gray-300">Pagar</button>
                       </td>
                     </tr>
                   ))}

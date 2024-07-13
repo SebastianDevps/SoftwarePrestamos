@@ -131,9 +131,9 @@ const Prestamos = () => {
 
     const getStatusClass = (status) => {
         if (status === 'activo') {
-            return 'bg-green-100 text-green-500'; // Clase para estado activo
+            return 'bg-blue-500 text-white '; // Clase para estado activo
         } else if (status === 'inactivo') {
-            return 'bg-red-100 text-red-500'; // Clase para estado inactivo
+            return 'bg-red-200 text-red-500'; // Clase para estado inactivo
         }
     };
 
@@ -149,7 +149,7 @@ const Prestamos = () => {
                         <div className="flex justify-between items-center">
                             <div className='text-xl text-gray-500 font-medium uppercase'>Registro De Préstamos</div>
                             <button
-                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-orange-400 text-white rounded hover:bg-orange-500 transition'
+                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-500 text-white rounded hover:bg-orange-500 transition'
                                 onClick={handleOpenModalFormPrestamo}
                             >
                                 <MdAddchart className='text-xl font-semibold' />
@@ -211,7 +211,7 @@ const Prestamos = () => {
                     </div>
 
                     {/* Table Prestamos */}
-                    <div className='bg-white text-gray-500'>
+                    <div className='bg-white text-gray-500 text-center'>
                         <div className='w-full h-[400px] rounded-sm overflow-x-auto'>
                             <div className="grid uppercase grid-cols-12 bg-customMain text-sm h-[44px] font-semibold p-2">
                                 <div className='mt-1 col-span-3'>cliente </div>
@@ -231,17 +231,17 @@ const Prestamos = () => {
                                     </p>
                                 </div>
                             ) : (
-                                <div>
+                                <div className='text-center'>
                                     {prestamos.map((row) => (
-                                        <div key={row.id} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300">
+                                        <div key={row.id} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300 ">
                                             <div className='col-span-3'>{row.userId || '-'}</div>
                                             <div className='-ml-1'>{row.iva || '-'}</div>
                                             <div className='-ml-1'>{row.cuotasPendientes || '-'}</div>
                                             <div className='col-span-2 -ml-1'>{row.acuerdoPago || '-'}</div>
                                             <div className='-ml-12'>{row.fechaLimitePago || '-'}</div>
                                             <div className='col-span-2'>{row.montoTotal || '-'}</div>
-                                            <div>
-                                                <span className={`py-1 px-3 rounded-full text-xs font-medium -ml-12 ${getStatusClass(row.status)}`}>
+                                            <div className='text-center pr-2  ' >
+                                                <span className={`py-1 px-3 rounded-full text-xs font-medium -ml-12 text-center ${getStatusClass(row.status)}`}>
                                                     {row.status}
                                                 </span>
                                             </div>

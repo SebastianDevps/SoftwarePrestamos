@@ -9,6 +9,7 @@ import { GiReceiveMoney, GiExitDoor } from "react-icons/gi";
 import { Link, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import AuthServices from '../../services/AuthServices';
+import Cookies from 'js-cookie'; // Asegúrate de importar js-cookie
 
 const SidebarItem = ({ icon, text, to, onClick }) => {
     const location = useLocation();
@@ -38,17 +39,18 @@ const SidebarItem = ({ icon, text, to, onClick }) => {
 };
 
 const Sidebar = () => {
-    //get mi profile
     const [userProfile, setUserProfile] = useState(null);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('token'); // Obtiene el token de la cookie
+                if (!token) {
+                    // Manejar el caso donde no hay token
+                    return;
+                }
                 const profile = await AuthServices.getYourProfile(token);
-                
-                setUserProfile(profile)
-                
+                setUserProfile(profile);
             } catch (error) {
                 console.error('Error al obtener el perfil del usuario desde el servidor:', error);
                 throw error;
@@ -72,7 +74,7 @@ const Sidebar = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire(
-                    'Session Cerrada',
+                    'Sesión Cerrada',
                     'Tu sesión ha sido cerrada exitosamente.',
                     'success'
                 );
@@ -84,22 +86,26 @@ const Sidebar = () => {
 
     return (
         <aside className="h-full bg-white border-r flex flex-col">
-            {/* Logo */}
-
             <div className="p-2 mt-2 flex items-center justify-between">
                 <div className='flex flex-row gap-2'>
-                    <span ><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
+                    <span><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
                     <div>
-                        {/* <h4 className="font-semibold capitalize">{userProfile.administradores.name}</h4> */}
-                        {/* <span className="text-xs text-gray-600">{userProfile.administradores.email}</span> */}
+                        {userProfile && (
+                            <>
+                                <h4 className="font-semibold capitalize">{userProfile.administradores.name}</h4>
+                                <span className="text-xs text-gray-600">{userProfile.administradores.email}</span>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
-            <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
-                {/* <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1> */}
-            </div>
+            {userProfile && (
+                <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
+                    <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1>
+                </div>
+            )}
             <nav className="flex-1 p-1 overflow-y-auto">
-                <ul >
+                <ul>
                     <li className="text-gray-500 font-bold px-2">General</li>
                     <SidebarItem
                         to="/app"
@@ -109,7 +115,7 @@ const Sidebar = () => {
                     <SidebarItem
                         to="/app/prestamos"
                         icon={<GiReceiveMoney className="w-5 h-6" />}
-                        text="Prestamos"
+                        text="Préstamos"
                     />
                     <SidebarItem
                         to="/app/clientes"
@@ -136,7 +142,7 @@ const Sidebar = () => {
                     <SidebarItem
                         to="/app/configuracion"
                         icon={<RiSettings4Fill className="w-5 h-6" />}
-                        text="Configuracion"
+                        text="Configuración"
                     />
                     <SidebarItem
                         icon={<GiExitDoor className="w-5 h-6" />}
@@ -145,10 +151,8 @@ const Sidebar = () => {
                     />
                 </ul>
             </nav>
-
         </aside>
     );
 };
-
 
 export default Sidebar;

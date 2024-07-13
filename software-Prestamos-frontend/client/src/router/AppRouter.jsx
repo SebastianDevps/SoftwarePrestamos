@@ -11,63 +11,64 @@ import Clientes from "../Pages/Clientes/Clientes";
 import NotFound from "./404";
 import Administrador from "../Pages/Administrador/Administrador";
 import TokenExpiredPopup from "../components/TokenExpiredPopup/TokenExpiredPopup";
+import Cookies from "js-cookie";  // Importar js-cookie
 
 const AppRouter = () => {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [isAdmin, setIsAdmin] = useState(true);
   const [isSuperAdmin, setIsSuperAdmin] = useState(true);
+  
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = Cookies.get('token');
+        if (!token) return;
 
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       if (!token) {
-  //        return
-  //       }
-        
-  //       //onst profile = await AuthServices.getYourProfile(token);
-        
-  //       if (!profile.administradores.typePlan || profile.administradores.typePlan === null) {
-  //         Swal.fire({
-  //           title: 'Plan Requerido',
-  //           text: 'Cuenta No Valida, no tienes un plan asociado a tu cuenta, comunicate con nosotros.',
-  //           icon: 'warning',
-  //           confirmButtonText: 'Entendido',
-  //         }).then((result) => {
-  //           if (result.isConfirmed) {
-  //             AuthServices.logout();
-  //             //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
-  //           }
-  //         });
-  //       }
+        const profile = await AuthServices.getYourProfile(token)
+        // setIsAdmin(AuthServices.isAdmin());
+        // setIsSuperAdmin(AuthServices.isSuperAdmin());
 
-  //       setIsAdmin(AuthServices.adminOnly());
-  //       setIsSuperAdmin(AuthServices.superAdminOnly());
-        
-  //     } catch (error) {
-  //       // console.error('Error al obtener el perfil del usuario desde el servidor:', error);
-  //       // AuthServices.logout();
-  //       // window.location.href = '/login'; // Redirigir a la página de inicio de sesión
-  //     }
-  //   };
 
-  //   const checkAuthAndToken = () => {
-  //     if (AuthServices.isAuthenticated() && AuthServices.isTokenExpired()) {
-  //       setIsTokenExpired(true);
-  //     }
-  //   };
+        if (!profile.administradores.typePlan) {
+          Swal.fire({
+            title: 'Plan Requerido',
+            text: 'Cuenta No Válida, no tienes un plan asociado a tu cuenta, comunícate con nosotros.',
+            icon: 'warning',
+            confirmButtonText: 'Entendido',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              AuthServices.logout();
+              //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+            }
+          });
+          return;
+        }
 
-  //   fetchUserProfile();
-  //   checkAuthAndToken();
-  // }, []);
 
-  // const handlePopupClose = () => {
-  //   AuthServices.logout();
-  //   setIsTokenExpired(false);
-  //   setTimeout(() => {
-  //     window.location.href = "/login";
-  //   }, 100);
-  // };
+      } catch (error) {
+        console.error('Error al obtener el perfil del usuario:', error);
+        AuthServices.logout();
+        window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+      }
+    };
+
+    const checkAuthAndToken = () => {
+      if (AuthServices.isAuthenticated() && AuthServices.isTokenExpired()) {
+        setIsTokenExpired(true);
+      }
+    };
+
+    fetchUserProfile();
+    checkAuthAndToken();
+  }, []);
+
+  const handlePopupClose = () => {
+    AuthServices.logout();
+    setIsTokenExpired(false);
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 100);
+  };
 
   return (
     <BrowserRouter>

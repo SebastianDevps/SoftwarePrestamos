@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import AuthServices from "../../services/AuthServices";
+import Cookies from "js-cookie";  // Importar js-cookie
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -30,14 +31,13 @@ const Login = () => {
         try {
             const userData = await AuthServices.login(data.username, data.password);
             if (userData.token) {
-                // Almacenar el token en localStorage
-                localStorage.setItem('token', userData.token);
+                // Almacenar el token en una cookie segura
+                Cookies.set('token', userData.token, { secure: true, sameSite: 'strict', path: '/' });
                 localStorage.setItem('role', userData.role);
-    
-    
+
                 await Swal.fire({
                     icon: "success",
-                    title: "¡Éxito!",
+                    title: "¡Ingreso Exitoso!",
                     text: "Ingreso exitoso.",
                     showConfirmButton: false,
                     timer: 1500,
@@ -47,7 +47,7 @@ const Login = () => {
             } else {
                 await Swal.fire({
                     icon: "warning",
-                    title: "Por favor, intenta nuevamente.",
+                    title: "Error de autenticación",
                     text: "Usuario y/o Contraseña incorrecto.",
                 });
             }
@@ -56,23 +56,22 @@ const Login = () => {
             await Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Ocurrió un error al iniciar sesión. Por favor, intenta mas tarde.",
+                text: "Ocurrió un error al iniciar sesión. Por favor, intenta más tarde.",
             });
         } finally {
             setLoading(false);
         }
     };
-    
 
     return (
         <div className="container-login">
             <div className="login-left">
                 <form className={`form-login ${errors ? "form-login--error" : ""}`} onSubmit={handleSubmit(onSubmit)}>
                     <div className="container-title-login">
-                        <h2 className="register-title-login">Iniciar sesión</h2>
+                        <h2 className="register-title-login">Inicio de Sesión</h2>
                     </div>
 
-                    <h1 className="text">Username</h1>
+                    <h1 className="text">Usuario</h1>
                     {errors.username && touchedFields.username && (
                         <span className="span">{errors.username.message}</span>
                     )}
@@ -86,7 +85,7 @@ const Login = () => {
                         <FaUser className="icon-login" />
                     </div>
 
-                    <h1 className="text">Password</h1>
+                    <h1 className="text">Contraseña</h1>
                     {errors.password && touchedFields.password && (
                         <span className="span">{errors.password.message}</span>
                     )}
@@ -94,7 +93,7 @@ const Login = () => {
                         <input
                             type="password"
                             className="input-login"
-                            placeholder="Ingresa tu contraseña"
+                            placeholder="Ingresa tu Contraseña"
                             {...register("password", {
                                 required: "La contraseña es requerida*",
                                 minLength: {
@@ -107,7 +106,7 @@ const Login = () => {
                     </div>
 
                     <button type="submit" className="button-login">
-                        Iniciar sesión
+                        Iniciar Sesión
                     </button>
                 </form>
             </div>
