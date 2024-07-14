@@ -130,7 +130,7 @@ const Prestamos = () => {
     );
 
     const getStatusClass = (status) => {
-        return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-200 text-red-800';
+        return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
       };
 
 
@@ -145,7 +145,7 @@ const Prestamos = () => {
                         <div className="flex justify-between items-center">
                             <div className='text-xl text-gray-500 font-medium uppercase'>Registro De Préstamos</div>
                             <button
-                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-500 text-white rounded hover:bg-orange-500 transition'
+                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-700 text-white rounded hover:bg-orange-500 transition'
                                 onClick={handleOpenModalFormPrestamo}
                             >
                                 <MdAddchart className='text-xl font-semibold' />
@@ -168,7 +168,7 @@ const Prestamos = () => {
                         <div className="flex gap-4 -mt-6">
                             <div className="relative">
                                 <div className="flex items-center -mt-8 mb-1  gap-1">
-                                    <FaFilter className="text-sm text-blue-600" />
+                                    <FaFilter className="text-sm text-blue-700" />
                                     <span className="font-semibold text-blue-600">Filtros</span>
                                 </div>
                                 <div className='flex gap-4'>

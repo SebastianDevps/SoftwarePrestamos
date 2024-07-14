@@ -97,7 +97,7 @@ const Clientes = () => {
   };
 
   const getStatusClass = (status) => {
-    return status === 'activo' ? 'bg-blue-200 text-white' : 'bg-red-200 text-red-800';
+    return status === 'activo' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
   };
 
   const filteredClientes = clientes.filter(cliente =>
@@ -115,7 +115,7 @@ const Clientes = () => {
             <div className="flex justify-between items-center">
               <div className='text-xl text-gray-500 font-medium uppercase'>Registro De Clientes</div>
               <button
-                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-500 text-white rounded hover:bg-blue-600 transition'
+                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-700 text-white rounded hover:bg-blue-600 transition'
                 onClick={() => handleOpenModalFormCliente()}
               >
                 <MdAddchart className='text-xl font-semibold' />
@@ -139,9 +139,9 @@ const Clientes = () => {
 
           <div className='bg-white text-gray-500'>
             <div className='w-full h-[400px] rounded-sm overflow-x-auto text-center'>
-              <div className="grid uppercase grid-cols-6 bg-customMain p-2 text-sm h-[44px] font-semibold">
-                <div className=''>Cliente</div>
-                <div className=''>Tipo Documento</div>
+              <div className="grid uppercase grid-cols-9 bg-customMain p-2 text-sm h-[44px] font-semibold">
+                <div className='col-span-3'>Cliente</div>
+                <div className='col-span-2'>Tipo Documento</div>
                 <div className=''># Documento</div>
                 <div className=''># Celular</div>
                 <div className=''>Estado</div>
@@ -157,9 +157,9 @@ const Clientes = () => {
               ) : (
                 <div>
                   {filteredClientes.map((cliente) => (
-                    <div key={cliente.numDocumento} className="grid grid-cols-6 gap-4 p-2 mt-2 border-b border-gray-300">
-                      <div className="">{`${cliente.nombre} ${cliente.apellido}`}</div>
-                      <div className="">{cliente.tipoDocumento}</div>
+                    <div key={cliente.numDocumento} className="grid grid-cols-9 gap-4 p-2 mt-2 border-b border-gray-300">
+                      <div className="col-span-3">{`${cliente.nombre} ${cliente.apellido}`}</div>
+                      <div className="col-span-2">{cliente.tipoDocumento}</div>
                       <div className="">{cliente.numDocumento}</div>
                       <div className="">{cliente.telefono}</div>
                       <div className="">

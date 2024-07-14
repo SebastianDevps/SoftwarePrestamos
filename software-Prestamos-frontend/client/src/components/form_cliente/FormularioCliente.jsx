@@ -187,7 +187,7 @@ const FormularioCliente = ({ onClick, onAddCliente, cliente }) => {
                 className="btn btn-primary bg-blue-600 h-9 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
                 disabled={loading}
               >
-                {loading ? 'Guardando...' : (cliente ? 'Actualizar cliente' : 'Registrar cliente')}
+                {loading ? 'Guardando...' : (cliente ? 'Actualizar' : 'Registrar')}
               </button>
               <button
                 onClick={onClick}

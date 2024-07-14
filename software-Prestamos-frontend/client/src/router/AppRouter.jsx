@@ -13,6 +13,17 @@ import Administrador from "../Pages/Administrador/Administrador";
 import TokenExpiredPopup from "../components/TokenExpiredPopup/TokenExpiredPopup";
 import Cookies from "js-cookie";  // Importar js-cookie
 
+const PrivateRoute = ({ element: Component, isAdmin, isSuperAdmin, ...rest }) => {
+  const isAuthenticated = AuthServices.isAuthenticated();
+  const isTokenExpired = AuthServices.isTokenExpired();
+
+  if (!isAuthenticated || isTokenExpired) {
+    return <Navigate to="/login" />;
+  }
+
+  return Component;
+};
+
 const AppRouter = () => {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [isAdmin, setIsAdmin] = useState(true);
@@ -24,10 +35,9 @@ const AppRouter = () => {
         const token = Cookies.get('token');
         if (!token) return;
 
-        const profile = await AuthServices.getYourProfile(token)
-        // setIsAdmin(AuthServices.isAdmin());
-        // setIsSuperAdmin(AuthServices.isSuperAdmin());
-
+        const profile = await AuthServices.getYourProfile(token);
+        // setIsAdmin(profile.administradores.isAdmin);
+        // setIsSuperAdmin(profile.administradores.isSuperAdmin);
 
         if (!profile.administradores.typePlan) {
           Swal.fire({
@@ -38,13 +48,11 @@ const AppRouter = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               AuthServices.logout();
-              //window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+              window.location.href = '/login'; // Redirigir a la página de inicio de sesión
             }
           });
           return;
         }
-
-
       } catch (error) {
         console.error('Error al obtener el perfil del usuario:', error);
         AuthServices.logout();
@@ -76,13 +84,15 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
-          {(isAdmin || isSuperAdmin) ? (
+          {isAdmin || isSuperAdmin ? (
             <>
-              {isSuperAdmin && <Route path="/register" element={<Register />} />}
-              <Route path="/app" element={<Home />} />
-              <Route path="/app/prestamos" element={<Prestamos />} />
-              <Route path="/app/clientes" element={<Clientes />} />
-              <Route path="/app/administradores" element={<Administrador />} />
+              {isSuperAdmin && (
+                <Route path="/register" element={<PrivateRoute element={<Register />} />} />
+              )}
+              <Route path="/app" element={<PrivateRoute element={<Home />} />} />
+              <Route path="/app/prestamos" element={<PrivateRoute element={<Prestamos />} />} />
+              <Route path="/app/clientes" element={<PrivateRoute element={<Clientes />} />} />
+              <Route path="/app/administradores" element={<PrivateRoute element={<Administrador />} />} />
             </>
           ) : (
             <Route path="*" element={<Navigate to="/login" />} />

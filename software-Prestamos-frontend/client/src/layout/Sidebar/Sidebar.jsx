@@ -20,7 +20,7 @@ const SidebarItem = ({ icon, text, to, onClick }) => {
             {to ? (
                 <Link to={to} className={`
                     flex items-center p-2 ml-1 text-2sm font-semibold hover:no-underline rounded-lg cursor-pointer transition-colors group
-                    ${isActive ? "bg-blue-500 text-white" : "hover:bg-indigo-50 text-customText"}
+                    ${isActive ? "bg-blue-700 text-white" : "hover:bg-indigo-50 text-customText"}
                 `}>
                     {icon}
                     <span className="ml-2">{text}</span>
@@ -88,7 +88,7 @@ const Sidebar = () => {
         <aside className="h-full bg-white border-r flex flex-col">
             <div className="p-2 mt-2 flex items-center justify-between">
                 <div className='flex flex-row gap-2'>
-                    <span><FaUserCircle className='w-11 h-11 text-blue-500' /></span>
+                    <span><FaUserCircle className='w-11 h-11 text-blue-700' /></span>
                     <div>
                         {userProfile && (
                             <>
@@ -100,7 +100,7 @@ const Sidebar = () => {
                 </div>
             </div>
             {userProfile && (
-                <div className='bg-blue-500 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
+                <div className='bg-blue-700 ml-2 mt-2 mb-2 w-[94%] p-2 rounded-2xl shadow-md'>
                     <h1 className='flex items-center justify-center uppercase text-white text-2sm font-bold'>Plan {userProfile.administradores.typePlan}</h1>
                 </div>
             )}
