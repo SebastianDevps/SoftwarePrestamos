@@ -97,7 +97,7 @@ const Clientes = () => {
   };
 
   const getStatusClass = (status) => {
-    return status === 'activo' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800';
+    return status === 'activo' ? 'bg-blue-200 text-white' : 'bg-red-200 text-red-800';
   };
 
   const filteredClientes = clientes.filter(cliente =>
@@ -138,14 +138,14 @@ const Clientes = () => {
           </div>
 
           <div className='bg-white text-gray-500'>
-            <div className='w-full h-[400px] rounded-sm overflow-x-auto'>
-              <div className="grid uppercase grid-cols-12 bg-customMain text-sm h-[44px] font-semibold p-2">
-                <div className='mt-1 col-span-4'>Cliente</div>
-                <div className='mt-1 col-span-1 -ml-11'>Tipo Documento</div>
-                <div className='mt-1 col-span-2 ml-4'># Documento</div>
-                <div className='mt-1 col-span-2'># Celular</div>
-                <div className='mt-1 col-span-2 -ml-8'>Estado</div>
-                <div className='mt-1 -ml-12'>Acciones</div>
+            <div className='w-full h-[400px] rounded-sm overflow-x-auto text-center'>
+              <div className="grid uppercase grid-cols-6 bg-customMain p-2 text-sm h-[44px] font-semibold">
+                <div className=''>Cliente</div>
+                <div className=''>Tipo Documento</div>
+                <div className=''># Documento</div>
+                <div className=''># Celular</div>
+                <div className=''>Estado</div>
+                <div className=''>Acciones</div>
               </div>
               {filteredClientes.length === 0 ? (
                 <div className="flex flex-col items-center py-30">
@@ -157,17 +157,17 @@ const Clientes = () => {
               ) : (
                 <div>
                   {filteredClientes.map((cliente) => (
-                    <div key={cliente.numDocumento} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300">
-                      <div className="col-span-4 ">{`${cliente.nombre} ${cliente.apellido}`}</div>
-                      <div className="col-span-1 -ml-11">{cliente.tipoDocumento}</div>
-                      <div className="col-span-2 ml-3">{cliente.numDocumento}</div>
-                      <div className="col-span-1 -ml-3">{cliente.telefono}</div>
-                      <div className="col-span-2 ml-5">
+                    <div key={cliente.numDocumento} className="grid grid-cols-6 gap-4 p-2 mt-2 border-b border-gray-300">
+                      <div className="">{`${cliente.nombre} ${cliente.apellido}`}</div>
+                      <div className="">{cliente.tipoDocumento}</div>
+                      <div className="">{cliente.numDocumento}</div>
+                      <div className="">{cliente.telefono}</div>
+                      <div className="">
                         <span className={`py-1 px-3 rounded-full text-xs font-medium ${getStatusClass(cliente.estadoCliente)}`}>
                           {cliente.estadoCliente}
                         </span>
                       </div>
-                      <div className="col-span-2 ml-3 flex gap-2 text-gray-500 text-xl w-[60%]">
+                      <div className="text-gray-500 text-xl mr-3]">
                         <button onClick={() => handleOpenDetails(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
                         <button onClick={() => handleOpenModalFormCliente(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><MdOutlineEdit /></button>
                         <button onClick={() => handleDelete(cliente.numDocumento)} className="hover:bg-gray-200 rounded-3xl p-1"><AiOutlineDelete /></button>

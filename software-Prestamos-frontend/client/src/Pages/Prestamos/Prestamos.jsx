@@ -26,13 +26,13 @@ const Prestamos = () => {
                 {
                     id: 1,
                     title: "Préstamo 1",
-                    userId: "Juan Alberto Peresasc Hinestroza",
+                    userId: "Juan Peresasc",
                     iva: 20,
                     cuotasPendientes: 25,
                     acuerdoPago: "Mensual",
                     fechaLimitePago: "2024-08-15",
                     montoTotal: 999999999,
-                    status: "activo"
+                    status: "ACTIVO"
                 },
                 {
                     id: 2,
@@ -43,7 +43,7 @@ const Prestamos = () => {
                     acuerdoPago: "Diario",
                     fechaLimitePago: "2024-07-20",
                     montoTotal: 500000,
-                    status: "inactivo"
+                    status: "INACTIVO"
                 },
                 {
                     id: 2,
@@ -54,7 +54,7 @@ const Prestamos = () => {
                     acuerdoPago: "Diario",
                     fechaLimitePago: "2024-07-20",
                     montoTotal: 500000,
-                    status: "inactivo"
+                    status: "INACTIVO"
                 },
                 {
                     id: 2,
@@ -65,7 +65,7 @@ const Prestamos = () => {
                     acuerdoPago: "Diario",
                     fechaLimitePago: "2024-07-20",
                     montoTotal: 500000,
-                    status: "inactivo"
+                    status: "INACTIVO"
                 },
                 {
                     id: 2,
@@ -76,7 +76,7 @@ const Prestamos = () => {
                     acuerdoPago: "Diario",
                     fechaLimitePago: "2024-07-20",
                     montoTotal: 500000,
-                    status: "inactivo"
+                    status: "INACTIVO"
                 },
                 {
                     id: 2,
@@ -87,7 +87,7 @@ const Prestamos = () => {
                     acuerdoPago: "Diario",
                     fechaLimitePago: "2024-07-20",
                     montoTotal: 500000,
-                    status: "inactivo"
+                    status: "ACTIVO"
                 }
                 
             ];
@@ -130,12 +130,8 @@ const Prestamos = () => {
     );
 
     const getStatusClass = (status) => {
-        if (status === 'activo') {
-            return 'bg-blue-500 text-white '; // Clase para estado activo
-        } else if (status === 'inactivo') {
-            return 'bg-red-200 text-red-500'; // Clase para estado inactivo
-        }
-    };
+        return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-200 text-red-800';
+      };
 
 
     return (
@@ -183,8 +179,8 @@ const Prestamos = () => {
                                             onChange={(e) => handleFilterEstado(e.target.value)}
                                         >
                                             <option value="">Seleccionar Estado</option>
-                                            <option value="activo">Activo</option>
-                                            <option value="inactivo">Inactivo</option>
+                                            <option value="activo">ACTIVO</option>
+                                            <option value="inactivo">INACTIVO</option>
                                         </select>
                                         {filterEstado && (
                                             <FaTimes className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer" onClick={clearFilterEstado} />
@@ -213,15 +209,15 @@ const Prestamos = () => {
                     {/* Table Prestamos */}
                     <div className='bg-white text-gray-500 text-center'>
                         <div className='w-full h-[400px] rounded-sm overflow-x-auto'>
-                            <div className="grid uppercase grid-cols-12 bg-customMain text-sm h-[44px] font-semibold p-2">
-                                <div className='mt-1 col-span-3'>cliente </div>
-                                <div className='mt-1'>Iva (%)</div>
-                                <div className='mt-1'># Cuotas</div>
-                                <div className='mt-1 col-span-2 '>Acuerdo Pago</div>
-                                <div className='mt-1 col-span-2 -ml-10'>Fecha Límite</div>
-                                <div className='mt-1 -ml-20'>Total</div>
-                                <div className='mt-1 -ml-8'>Estado</div>
-                                <div className='mt-1'>Acciones</div>
+                            <div className="grid uppercase grid-cols-8 bg-customMain text-sm h-[44px] font-semibold p-2 text-center align-text">
+                                <div className=''>cliente </div>
+                                <div className=''>Iva (%)</div>
+                                <div className=''># Cuotas</div>
+                                <div className=''>Acuerdo Pago</div>
+                                <div className=''>Fecha Límite</div>
+                                <div className=''>Total</div>
+                                <div className=''>Estado</div>
+                                <div className=''>Acciones</div>
                             </div>
                             {prestamos.length === 0 ? (
                                 <div className="flex flex-col items-center py-30">
@@ -233,22 +229,22 @@ const Prestamos = () => {
                             ) : (
                                 <div className='text-center'>
                                     {prestamos.map((row) => (
-                                        <div key={row.id} className="grid grid-cols-12 gap-4 p-2 mt-2 border-b border-gray-300 ">
-                                            <div className='col-span-3'>{row.userId || '-'}</div>
-                                            <div className='-ml-1'>{row.iva || '-'}</div>
-                                            <div className='-ml-1'>{row.cuotasPendientes || '-'}</div>
-                                            <div className='col-span-2 -ml-1'>{row.acuerdoPago || '-'}</div>
-                                            <div className='-ml-12'>{row.fechaLimitePago || '-'}</div>
-                                            <div className='col-span-2'>{row.montoTotal || '-'}</div>
-                                            <div className='text-center pr-2  ' >
-                                                <span className={`py-1 px-3 rounded-full text-xs font-medium -ml-12 text-center ${getStatusClass(row.status)}`}>
+                                        <div key={row.id} className="grid grid-cols-8 gap-4 p-2 mt-2 border-b border-gray-300  ">
+                                            <div className=''>{row.userId || '-'}</div>
+                                            <div className=''>{row.iva || '-'}</div>
+                                            <div className=''>{row.cuotasPendientes || '-'}</div>
+                                            <div className=''>{row.acuerdoPago || '-'}</div>
+                                            <div className=''>{row.fechaLimitePago || '-'}</div>
+                                            <div className=''>{row.montoTotal || '-'}</div>
+                                            <div className='text-center' >
+                                                <span className={`py-1 px-3 rounded-full text-xs font-medium text-center ${getStatusClass(row.status)}`}>
                                                     {row.status}
                                                 </span>
                                             </div>
-                                            <div className="flex gap-2 text-gray-500 -ml-6 text-xl">
+                                            <div className="text-gray-500 text-xl mr-3">
                                                 <button className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
-                                                <button className="hover:bg-gray-200 rounded-3xl p-1"><MdOutlineEdit /></button>
-                                                <button className="hover:bg-gray-200 rounded-3xl p-1"><AiOutlineDelete /></button>
+                                                <button className="hover:bg-yellow-200 rounded-3xl p-1"><MdOutlineEdit /></button>
+                                                <button className="hover:bg-red-200 rounded-3xl p-1"><AiOutlineDelete /></button>
                                             </div>
                                         </div>
                                     ))}
