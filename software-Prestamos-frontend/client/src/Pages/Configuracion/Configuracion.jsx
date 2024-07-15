@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from '../../layout/Sidebar/Sidebar';
 
-const Administrador = () => {
+const Configuracion = () => {
   return (
     <div className="flex bg-gray-50 min-h-screen grid grid-col-1 lg:grid-cols-5">
       <div className="col-span-1">
@@ -121,4 +121,4 @@ const Administrador = () => {
   );
 };
 
-export default Administrador;
+export default Configuracion;

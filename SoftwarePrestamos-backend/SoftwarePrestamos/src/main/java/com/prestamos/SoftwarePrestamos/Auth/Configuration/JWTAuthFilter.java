@@ -1,7 +1,9 @@
 package com.prestamos.SoftwarePrestamos.Auth.Configuration;
 
-import com.prestamos.SoftwarePrestamos.Auth.service.JWTUtils;
 import com.prestamos.SoftwarePrestamos.Auth.service.AdminDetailsServices;
+import com.prestamos.SoftwarePrestamos.Auth.service.JWTUtils;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,8 +38,22 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwtToken = authHeader.substring(7); // Extract the token without "Bearer "
-            userEmail = jwtUtils.extractUsername(jwtToken);
-        }
+             try {
+                 userEmail = jwtUtils.extractUsername(jwtToken);
+             }catch (IllegalArgumentException e){
+                 logger.warn("No se puede obtener el token JWT");
+             }catch (ExpiredJwtException e) {
+                logger.warn("Token expirado");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
+                return;
+            }catch (SignatureException e) {
+                logger.warn("La firma JWT no coincide con la firma calculada localmente");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Firma de token no válida");
+                return;
+            }
+    } else {
+        logger.warn("El token JWT no comienza con Bearer String");
+    }
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = adminDetailsServices.loadUserByUsername(userEmail);

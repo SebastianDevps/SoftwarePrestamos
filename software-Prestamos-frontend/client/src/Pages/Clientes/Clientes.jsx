@@ -140,12 +140,12 @@ const Clientes = () => {
           <div className='bg-white text-gray-500'>
             <div className='w-full h-[400px] rounded-sm overflow-x-auto text-center'>
               <div className="grid uppercase grid-cols-9 bg-customMain p-2 text-sm h-[44px] font-semibold">
-                <div className='col-span-3'>Cliente</div>
-                <div className='col-span-2'>Tipo Documento</div>
-                <div className=''># Documento</div>
-                <div className=''># Celular</div>
-                <div className=''>Estado</div>
-                <div className=''>Acciones</div>
+                <div className='col-span-3 mt-1'>Cliente</div>
+                <div className='col-span-2 mt-1'>Tipo Documento</div>
+                <div className='mt-1'># Documento</div>
+                <div className='mt-1'># Celular</div>
+                <div className='mt-1'>Estado</div>
+                <div className='mt-1'>Acciones</div>
               </div>
               {filteredClientes.length === 0 ? (
                 <div className="flex flex-col items-center py-30">
@@ -157,7 +157,7 @@ const Clientes = () => {
               ) : (
                 <div>
                   {filteredClientes.map((cliente) => (
-                    <div key={cliente.numDocumento} className="grid grid-cols-9 gap-4 p-2 mt-2 border-b border-gray-300">
+                    <div key={cliente.numDocumento} className="grid grid-cols-9 capitalize gap-4 p-2 border-b mt-2 border-gray-300">
                       <div className="col-span-3">{`${cliente.nombre} ${cliente.apellido}`}</div>
                       <div className="col-span-2">{cliente.tipoDocumento}</div>
                       <div className="">{cliente.numDocumento}</div>
