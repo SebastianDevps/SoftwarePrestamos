@@ -37,7 +37,7 @@ const Prestamos = () => {
                 {
                     id: 2,
                     title: "Préstamo 2",
-                    userId: "Pedro Gomez",
+                    userId: "Pedro Gomez ",
                     iva: 15,
                     cuotasPendientes: 10,
                     acuerdoPago: "Diario",
@@ -145,7 +145,7 @@ const Prestamos = () => {
                         <div className="flex justify-between items-center">
                             <div className='text-xl text-gray-500 font-medium uppercase'>Registro De Préstamos</div>
                             <button
-                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-700 text-white rounded hover:bg-orange-500 transition'
+                                className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-700 text-white rounded hover:bg-blue-500 transition'
                                 onClick={handleOpenModalFormPrestamo}
                             >
                                 <MdAddchart className='text-xl font-semibold' />
@@ -209,8 +209,8 @@ const Prestamos = () => {
                     {/* Table Prestamos */}
                     <div className='bg-white text-gray-500 text-center'>
                         <div className='w-full h-[400px] rounded-sm overflow-x-auto'>
-                            <div className="grid uppercase grid-cols-8 bg-customMain text-sm h-[44px] font-semibold p-2 text-center align-text">
-                                <div className=''>cliente </div>
+                            <div className="grid uppercase grid-cols-10 bg-customMain text-sm h-[44px] font-semibold p-2 text-center aling-text">
+                                <div className='col-span-3'>cliente </div>
                                 <div className=''>Iva (%)</div>
                                 <div className=''># Cuotas</div>
                                 <div className=''>Acuerdo Pago</div>
@@ -229,8 +229,8 @@ const Prestamos = () => {
                             ) : (
                                 <div className='text-center'>
                                     {prestamos.map((row) => (
-                                        <div key={row.id} className="grid grid-cols-8 gap-4 p-2 mt-2 border-b border-gray-300  ">
-                                            <div className=''>{row.userId || '-'}</div>
+                                        <div key={row.id} className="grid grid-cols-10 gap-4 p-2 mt-2 border-b border-gray-300  ">
+                                            <div className='col-span-3'>{row.userId || '-'}</div>
                                             <div className=''>{row.iva || '-'}</div>
                                             <div className=''>{row.cuotasPendientes || '-'}</div>
                                             <div className=''>{row.acuerdoPago || '-'}</div>
@@ -241,7 +241,7 @@ const Prestamos = () => {
                                                     {row.status}
                                                 </span>
                                             </div>
-                                            <div className="text-gray-500 text-xl mr-3">
+                                            <div className="text-gray-500 text-xl ">
                                                 <button className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
                                                 <button className="hover:bg-yellow-200 rounded-3xl p-1"><MdOutlineEdit /></button>
                                                 <button className="hover:bg-red-200 rounded-3xl p-1"><AiOutlineDelete /></button>
