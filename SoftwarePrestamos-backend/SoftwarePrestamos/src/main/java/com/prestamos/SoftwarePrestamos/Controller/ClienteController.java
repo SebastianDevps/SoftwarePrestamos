@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("adminsuper-admin/clientes")
-@CrossOrigin("http://localhost:5173") // Permitir peticiones desde el frontend
 @RequiredArgsConstructor
 public class ClienteController {
 

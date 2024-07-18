@@ -97,7 +97,7 @@ const Clientes = () => {
   };
 
   const getStatusClass = (status) => {
-    return status === 'activo' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
+    return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
   };
 
   const filteredClientes = clientes.filter(cliente =>

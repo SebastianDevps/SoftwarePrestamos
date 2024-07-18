@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prestamos")
+@RequestMapping("adminsuper-admin/prestamos")
 public class PrestamoController {
 
     @Autowired
