@@ -1,14 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { AiOutlineSearch } from "react-icons/ai";
+import ClientsServices from "../../services/ClientsServices";
 
 const FormularioPrestamo = ({ onClick }) => {
   const [loading, setLoading] = useState(false);
+  const cedulaClientRef = useRef(null);
+  
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+  
+  const [monto, setMonto] = useState('');
+  const [interes, setInteres] = useState('');
+  const [cuota, setCuota] = useState('');
+  const [montoTotal, setMontoTotal] = useState('');
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const calcularValores = (monto, interes) => {
+    if (!isNaN(monto) && !isNaN(interes) && monto !== '' && interes !== '') {
+      const tasaInteresDecimal = interes / 100;
+      const valorPorCuota = (monto * tasaInteresDecimal) / 12; // Ejemplo de cálculo mensual
+      const valorTotal = parseFloat(monto) + parseFloat(monto * tasaInteresDecimal);
+      setCuota(valorPorCuota.toFixed());
+      setMontoTotal(valorTotal.toFixed());
+      setValue('cuota', valorPorCuota.toFixed(0));
+      setValue('montoTotal', valorTotal.toFixed(0));
+    }
+  };
 
+  const handleMontoChange = (e) => {
+    const value = e.target.value;
+    setMonto(value);
+    calcularValores(value, interes);
+  };
+
+  const handleInteresChange = (e) => {
+    const value = e.target.value;
+    setInteres(value);
+    calcularValores(monto, value);
+  };
   useEffect(() => {
     if (loading) {
       Swal.fire({
@@ -44,6 +74,37 @@ const FormularioPrestamo = ({ onClick }) => {
     }
   };
 
+  const handleBuscarCliente = async () => {
+    const cedulaclient = cedulaClientRef.current.value;
+    //console.log('Cédula del cliente:', cedulaclient); // Depuración
+    try {
+      const response = await ClientsServices.getClientByCedula(cedulaclient);
+      console.log('Respuesta del servicio:', response);
+      console.log('cedula del cliente',response.numDocumento);
+      console.log('nombre del cliente',response.nombre); // Depuración
+      if (response) {
+        //Llenar los campos automáticamente
+        reset({
+          documento: response.numDocumento,
+          cliente: response.nombre,
+        });
+        cedulaClientRef.current.value= "";
+      
+
+      } else {
+        console.log('Respuesta del servicio no contiene data');
+      }
+    } catch (error) {
+      console.log('Error al buscar el cliente:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo encontrar el cliente. Verifica el documento e intenta nuevamente.'
+      });
+    } 
+  };
+      
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
@@ -58,9 +119,12 @@ const FormularioPrestamo = ({ onClick }) => {
                 Buscar Cliente 
               </label>
               <div className=' form-group inline-flex w-full'>
-              <input type='text' className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `} placeholder='Buscar cliente' />
+              <input type='text'  name='buscarCliente' ref={cedulaClientRef} className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`} placeholder='Buscar cliente'/>
               <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 ... text-white font-bold pt-2 pr-2 mx-1 mt-1"
-              type='button'><AiOutlineSearch /></button>
+              type='button'
+              onClick={handleBuscarCliente}
+              
+              ><AiOutlineSearch /></button>
               </div>
               {errors.tipoPrestamo && (
                 <span className="text-red-500 text-sm">{errors.tipoPrestamo.message}</span>
@@ -84,8 +148,7 @@ const FormularioPrestamo = ({ onClick }) => {
                 Cliente
               </label>
               <input
-                type="text"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="text"  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Nombre del cliente"
                 {...register('cliente', { required: 'Este campo es requerido' })}
                 readOnly
@@ -97,12 +160,14 @@ const FormularioPrestamo = ({ onClick }) => {
                 Monto a Prestar <span className="text-red-500">*</span>
               </label>
               <input
-                type="number"
+                type="number" 
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
                   errors.interes ? 'border-red-500' : ''
                 }`}
-                placeholder="Ingrese el moton del préstamo"
+                placeholder="Ingrese el monto del préstamo"
                 {...register('monto', { required: 'Este campo es requerido' })}
+                value={monto}
+                onChange={handleMontoChange}
               />
               {errors.monto && <span className="text-red-500 text-sm">{errors.monto.message}</span>}
             </div>
@@ -112,12 +177,14 @@ const FormularioPrestamo = ({ onClick }) => {
                 Tasa de interés (%) <span className="text-red-500">*</span>
               </label>
               <input
-                type="number"
+                type="number" 
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
                   errors.interes ? 'border-red-500' : ''
                 }`}
                 placeholder="Ingrese tasa de interés"
                 {...register('interes', { required: 'Este campo es requerido' })}
+                value={interes}
+                onChange={handleInteresChange}
               />
               {errors.interes && <span className="text-red-500 text-sm">{errors.interes.message}</span>}
             </div>
@@ -160,16 +227,16 @@ const FormularioPrestamo = ({ onClick }) => {
                 Valor por Cuota 
               </label>
               <input
-                type="number"
-                step="0.01"
+                type="number" step="0.01"  
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
                   errors.cuota ? 'border-red-500' : ''
                 }`}
-                placeholder="Ingrese tasa de interés"
+                placeholder="$----"
                 {...register('cuota', { required: 'Este campo es requerido' })}
+                value={cuota}
                 readOnly
               />
-              {errors.interes && <span className="text-red-500 text-sm">{errors.cuota.message}</span>}
+              {errors.cuota && <span className="text-red-500 text-sm">{errors.cuota.message}</span>}
               
             </div>
             <div className="form-group -mt-4">
@@ -178,15 +245,15 @@ const FormularioPrestamo = ({ onClick }) => {
               </label>
               <input
                 type="number"
-                step="0.01"
                 className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
                   errors.motoTotal ? 'border-red-500' : ''
                 }`}
-                placeholder="Ingrese tasa de interés"
-                {...register('motoTotal', { required: 'Este campo es requerido' })}
+                placeholder="$----"
+                {...register('montoTotal', { required: 'Este campo es requerido' })}
+                  value={montoTotal}
                 readOnly
               />
-              {errors.interes && <span className="text-red-500 text-sm">{errors.motoTotal.message}</span>}
+              {errors.motoTotal && <span className="text-red-500 text-sm">{errors.motoTotal.message}</span>}
             </div>
           </div>
           <div className="flex justify-end space-x-4">
@@ -194,6 +261,7 @@ const FormularioPrestamo = ({ onClick }) => {
               type="submit"
               className="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               disabled={loading}
+              
             >
               {loading ? 'Registrando...' : 'Registrar préstamo'}
             </button>
