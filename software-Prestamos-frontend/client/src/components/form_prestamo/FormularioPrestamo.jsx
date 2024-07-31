@@ -5,7 +5,7 @@ import axios from 'axios';
 import { AiOutlineSearch } from "react-icons/ai";
 import ClientsServices from "../../services/ClientsServices";
 
-const FormularioPrestamo = ({ onClick }) => {
+const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
   const [loading, setLoading] = useState(false);
   const cedulaClientRef = useRef(null);
   
@@ -15,12 +15,21 @@ const FormularioPrestamo = ({ onClick }) => {
   const [interes, setInteres] = useState('');
   const [cuota, setCuota] = useState('');
   const [montoTotal, setMontoTotal] = useState('');
+  const [tipoPago, setTipoPago]= useState('');
 
-  const calcularValores = (monto, interes) => {
-    if (!isNaN(monto) && !isNaN(interes) && monto !== '' && interes !== '') {
+  const calcularValores = (monto, interes, tipoPago) => {
+    if (!isNaN(monto) && !isNaN(interes)  && monto !== '' && interes !== '') {
+      let valorPorCuota
       const tasaInteresDecimal = interes / 100;
-      const valorPorCuota = (monto * tasaInteresDecimal) / 12; // Ejemplo de cálculo mensual
+       // Ejemplo de cálculo mensual
       const valorTotal = parseFloat(monto) + parseFloat(monto * tasaInteresDecimal);
+      if(isNaN(tipoPago)){
+       valorPorCuota = valorTotal / 30;
+      }
+      else{
+        valorPorCuota = valorTotal / tipoPago;
+      }
+       
       setCuota(valorPorCuota.toFixed());
       setMontoTotal(valorTotal.toFixed());
       setValue('cuota', valorPorCuota.toFixed(0));
@@ -39,6 +48,29 @@ const FormularioPrestamo = ({ onClick }) => {
     setInteres(value);
     calcularValores(monto, value);
   };
+
+  const handleTipoPagoChange = (e) => {
+    const value = e.target.value
+    let numeroPagos;
+    if(value==''){
+      numeroPagos = 30;
+   }
+    if(value=='diario'){
+       numeroPagos = 30;
+    }
+    if(value=='semanal'){
+      numeroPagos = 4;
+    }
+    if(value=='quincenal'){
+      numeroPagos = 2;
+    }
+    if(value=='mensual'){
+      numeroPagos = 1;
+    }
+    setTipoPago(value);
+    calcularValores(monto ,interes, numeroPagos);
+  };
+
   useEffect(() => {
     if (loading) {
       Swal.fire({
@@ -77,31 +109,36 @@ const FormularioPrestamo = ({ onClick }) => {
   const handleBuscarCliente = async () => {
     const cedulaclient = cedulaClientRef.current.value;
     //console.log('Cédula del cliente:', cedulaclient); // Depuración
-    try {
-      const response = await ClientsServices.getClientByCedula(cedulaclient);
-      console.log('Respuesta del servicio:', response);
-      console.log('cedula del cliente',response.numDocumento);
-      console.log('nombre del cliente',response.nombre); // Depuración
-      if (response) {
-        //Llenar los campos automáticamente
-        reset({
-          documento: response.numDocumento,
-          cliente: response.nombre,
+    if(cedulaclient!=''){
+      try {
+        const response = await ClientsServices.getClientByCedula(cedulaclient);
+        console.log('Respuesta del servicio:', response);
+        console.log('cedula del cliente',response.numDocumento);
+        console.log('nombre del cliente',response.nombre); // Depuración
+        if (response) {
+          //Llenar los campos automáticamente
+          reset({
+            documento: response.numDocumento,
+            cliente: response.nombre,
+          });
+          cedulaClientRef.current.value= "";
+        
+  
+        } else {
+          console.log('Respuesta del servicio no contiene data');
+        }
+      } catch (error) {
+        console.log('Error al buscar el cliente:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo encontrar el cliente. Verifica el documento e intenta nuevamente.',
+          showCancelButton: true,
+          confirmButtonText: "Agregar Cliente",
         });
-        cedulaClientRef.current.value= "";
-      
-
-      } else {
-        console.log('Respuesta del servicio no contiene data');
-      }
-    } catch (error) {
-      console.log('Error al buscar el cliente:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo encontrar el cliente. Verifica el documento e intenta nuevamente.'
-      });
-    } 
+      } 
+    }
+    
   };
       
 
@@ -198,11 +235,14 @@ const FormularioPrestamo = ({ onClick }) => {
                errors.tipoPago ? 'border-red-500' : ''
                }`}
                {...register('tipoPrestamo', { required: 'Este campo es requerido' })}
+                  value={tipoPago}
+                   onChange={handleTipoPagoChange}
+                   
                    >
                   <option value="diario">Diario</option>
                   <option value="semanal">Semanal</option>
-                  <option value="Quincenal">Quincenal</option>
-                  <option value="Mensual">Mensual</option>
+                  <option value="quincenal">Quincenal</option>
+                  <option value="mensual">Mensual</option>
               </select>
                {errors.tipoPago && (
                 <span className="text-red-500 text-sm">{errors.tipoPago.message}</span>

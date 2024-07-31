@@ -7,6 +7,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
 import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
 import { VscError } from "react-icons/vsc";
+import Swal from 'sweetalert2';
+import PrestamosServices from "../../services/PrestamosServices"
 
 const Prestamos = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -16,87 +18,100 @@ const Prestamos = () => {
     const [prestamos, setPrestamos] = useState([]);
 
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try {
-            // Simulación de datos
-            const simulatedData = [
-                {
-                    id: 1,
-                    title: "Préstamo 1",
-                    userId: "Juan Peresasc",
-                    iva: 20,
-                    cuotasPendientes: 25,
-                    acuerdoPago: "Mensual",
-                    fechaLimitePago: "2024-08-15",
-                    montoTotal: 999999999,
-                    status: "ACTIVO"
-                },
-                {
-                    id: 2,
-                    title: "Préstamo 2",
-                    userId: "Pedro Gomez ",
-                    iva: 15,
-                    cuotasPendientes: 10,
-                    acuerdoPago: "Diario",
-                    fechaLimitePago: "2024-07-20",
-                    montoTotal: 500000,
-                    status: "INACTIVO"
-                },
-                {
-                    id: 2,
-                    title: "Préstamo 2",
-                    userId: "Pedro Gomez",
-                    iva: 15,
-                    cuotasPendientes: 10,
-                    acuerdoPago: "Diario",
-                    fechaLimitePago: "2024-07-20",
-                    montoTotal: 500000,
-                    status: "INACTIVO"
-                },
-                {
-                    id: 2,
-                    title: "Préstamo 2",
-                    userId: "Pedro Gomez",
-                    iva: 15,
-                    cuotasPendientes: 10,
-                    acuerdoPago: "Diario",
-                    fechaLimitePago: "2024-07-20",
-                    montoTotal: 500000,
-                    status: "INACTIVO"
-                },
-                {
-                    id: 2,
-                    title: "Préstamo 2",
-                    userId: "Pedro Gomez",
-                    iva: 15,
-                    cuotasPendientes: 10,
-                    acuerdoPago: "Diario",
-                    fechaLimitePago: "2024-07-20",
-                    montoTotal: 500000,
-                    status: "INACTIVO"
-                },
-                {
-                    id: 2,
-                    title: "Préstamo 2",
-                    userId: "Pedro Gomez",
-                    iva: 15,
-                    cuotasPendientes: 10,
-                    acuerdoPago: "Diario",
-                    fechaLimitePago: "2024-07-20",
-                    montoTotal: 500000,
-                    status: "ACTIVO"
-                }
-                
-            ];
-
-            setPrestamos(simulatedData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+      const fetchData = async () => {
+       try{
+        const prestams = await PrestamosServices.getAllClients();
+        setPrestamos(prestams);
+       } catch(error){
+        await Swal.fire({
+            icon: "error",
+            title: "Error al obtener los clientes",
+            text: error.message || "Error desconocido",
+          }); 
+      }
     };
+      fetchData();
+    }, []);
+    
+
+    // const fetchData = async () => {
+    //     try {
+    //         // Simulación de datos
+    //         const simulatedData = [
+    //             {
+    //                 id: 1,
+    //                 title: "Préstamo 1",
+    //                 userId: "Juan Peresasc",
+    //                 iva: 20,
+    //                 cuotasPendientes: 25,
+    //                 acuerdoPago: "Mensual",
+    //                 fechaLimitePago: "2024-08-15",
+    //                 montoTotal: 999999999,
+    //                 status: "ACTIVO"
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Préstamo 2",
+    //                 userId: "Pedro Gomez ",
+    //                 iva: 15,
+    //                 cuotasPendientes: 10,
+    //                 acuerdoPago: "Diario",
+    //                 fechaLimitePago: "2024-07-20",
+    //                 montoTotal: 500000,
+    //                 status: "INACTIVO"
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Préstamo 2",
+    //                 userId: "Pedro Gomez",
+    //                 iva: 15,
+    //                 cuotasPendientes: 10,
+    //                 acuerdoPago: "Diario",
+    //                 fechaLimitePago: "2024-07-20",
+    //                 montoTotal: 500000,
+    //                 status: "INACTIVO"
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Préstamo 2",
+    //                 userId: "Pedro Gomez",
+    //                 iva: 15,
+    //                 cuotasPendientes: 10,
+    //                 acuerdoPago: "Diario",
+    //                 fechaLimitePago: "2024-07-20",
+    //                 montoTotal: 500000,
+    //                 status: "INACTIVO"
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Préstamo 2",
+    //                 userId: "Pedro Gomez",
+    //                 iva: 15,
+    //                 cuotasPendientes: 10,
+    //                 acuerdoPago: "Diario",
+    //                 fechaLimitePago: "2024-07-20",
+    //                 montoTotal: 500000,
+    //                 status: "INACTIVO"
+    //             },
+    //             {
+    //                 id: 2,
+    //                 title: "Préstamo 2",
+    //                 userId: "Pedro Gomez",
+    //                 iva: 15,
+    //                 cuotasPendientes: 10,
+    //                 acuerdoPago: "Diario",
+    //                 fechaLimitePago: "2024-07-20",
+    //                 montoTotal: 500000,
+    //                 status: "ACTIVO"
+    //             }
+                
+    //         ];
+
+    //         setPrestamos(simulatedData);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
 
     const handleOpenModalFormPrestamo = () => {
@@ -228,14 +243,14 @@ const Prestamos = () => {
                                 </div>
                             ) : (
                                 <div className='text-center'>
-                                    {prestamos.map((row) => (
-                                        <div key={row.id} className="grid grid-cols-10 gap-4 p-2 mt-2 border-b border-gray-300  ">
-                                            <div className='col-span-3'>{row.userId || '-'}</div>
-                                            <div className=''>{row.iva || '-'}</div>
-                                            <div className=''>{row.cuotasPendientes || '-'}</div>
-                                            <div className=''>{row.acuerdoPago || '-'}</div>
-                                            <div className=''>{row.fechaLimitePago || '-'}</div>
-                                            <div className=''>{row.montoTotal || '-'}</div>
+                                    {prestamos.map((prestamo) => (
+                                        <div key={prestamo.id} className="grid grid-cols-10 gap-4 p-2 mt-2 border-b border-gray-300  ">
+                                            <div className='col-span-3'>{prestamo.userId || '-'}</div>
+                                            <div className=''>{prestamo.iva || '-'}</div>
+                                            <div className=''>{prestamo.cuotasPendientes || '-'}</div>
+                                            <div className=''>{prestamo.acuerdoPago || '-'}</div>
+                                            <div className=''>{prestamo.fechaLimitePago || '-'}</div>
+                                            <div className=''>{prestamo.montoTotal || '-'}</div>
                                             <div className='text-center' >
                                                 <span className={`py-1 px-3 rounded-full text-xs font-medium text-center ${getStatusClass(row.status)}`}>
                                                     {row.status}
