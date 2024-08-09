@@ -4,7 +4,6 @@ import Footer from "../../components/footer/Footer";
 import Nav from "../../components/nav/Nav";
 import PlanCard from "../../components/planCard/PlanCard";
 import Steps from "../../components/steps/Steps";
-import Login from "../Login/Login";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaArrowRight } from "react-icons/fa";
@@ -40,9 +39,9 @@ function Landing() {
         <div className="absolute inset-0">
           <img className="w-full h-[820px] object-cover object-top" src="images/fondo-banner.smHlBUbJ.jpg" alt="Banner Background" />
         </div>
-        <div className="hidden md:flex absolute inset-0 flex-col">
-          <img data-aos="zoom-in" data-aos-duration="500" data-aos-once="true"
-            className="w-2/1 md:w-2/4 lg:w-2/4 xl:w-[44%] -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
+        <div data-aos="zoom-in" data-aos-duration="500"
+            className="hidden md:flex absolute inset-0 flex-col">
+          <img className="w-2/1 md:w-2/4 lg:w-2/4 xl:w-[44%] -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
         </div>
         <div className="absolute inset-0 flex flex-col">
           <img className="w-full mt-auto" src="images/banner-2.DOO8rQBY.png" alt="Banner Overlay" />
@@ -50,14 +49,14 @@ function Landing() {
         </div>
         <div data-aos="fade-up" data-aos-duration="600"
           className="relative pt-40 max-w-7xl mx-auto text-white px-4">
-          <div className="flex items-center space-x-4">
-            <span className="text-lg w-14 border-b inline-flex"></span>
-            <p className="lg:text-lg">Software Prestamos</p>
+          <div className="flex items-center space-x-2 xl:space-x-4">
+            <span className="text-lg xl:w-14 w-7 border-b inline-flex"></span>
+            <p className="lg:text-lg text-[15px]">Software Prestamos</p>
           </div>
           <div className="pt-2">
-            <p className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold lg:max-w-6xl">
-              El Software de prestamos
-              <span className="block mt-2 text-secondary-600 text-blue-800">más fácil y rápido.</span>
+            <p className="text-[40px] leading-10 xl:leading-normal sm:text-4xl md:text-5xl lg:text-6xl font-bold lg:max-w-6xl">
+              El Software <br className="xl:hidden"/>de prestamos
+              <span className="block mt-2 text-4xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary-600 text-blue-800">más fácil y rápido.</span>
             </p>
           </div>
           <div className="mt-4">
