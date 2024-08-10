@@ -80,7 +80,7 @@ export const planDetails = [
         title: "Premium",
         price: 200000,
         span: "COP anual",
-        detail: "Ideal para tu negocio",
+        detail: "Disfruta de nuestros beneficios",
         isPopular: false,
         benefits: [
             {

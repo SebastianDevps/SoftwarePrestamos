@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div data-aos="zoom-up" data-aos-duration="300" className="bg-gray-200">
+        <div className="bg-gray-20">
             <footer className="max-w-6xl mx-auto mt-20 ">
                 <div className="py-8 px-4 flex justify-between items-center">
                     <img className="w-10" src="vite.svg" alt="Logo" />
@@ -18,7 +18,7 @@ const Footer = () => {
                 </div>
             </footer>
             <div className="flex items-center justify-center py-4 bg-primary-950 text-gray-400">
-                <a href="#" target="_blank" >Hecho por SebastianDevps</a>
+                <a href="#" target="_blank" >Desarrollado Por <strong>Js-Webs</strong></a>
             </div>
         </div>
     );

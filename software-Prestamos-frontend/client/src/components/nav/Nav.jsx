@@ -26,7 +26,7 @@ function Nav() {
     <nav className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
       <div className="max-w-7xl mx-auto flex justify-between py-6">
         <div className="w-[50%] items-center justify-center">
-          <img className="xl:w-[120px] w-[90px] mt-1 xl:mt-0  xl:ml-4" src="volta-light.svg" alt="Logo" />
+          <img className="xl:w-[120px] w-[90px] mt-1 xl:mt-0  xl:ml-6" src="volta-light.svg" alt="Logo" />
         </div>
         <div className="flex lg:w-full justify-end items-center">
           <ul className="hidden lg:flex text-2sm space-x-4 gap-5 text-white mr-10">

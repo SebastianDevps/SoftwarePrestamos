@@ -44,7 +44,7 @@ function Landing() {
           <img className="w-2/1 md:w-2/4 lg:w-2/4 xl:w-[44%] -mr-10 xl:mr-0 ml-auto mt-auto mb-72 object-cover object-top" src="images/ImgLanding.png" alt="Screens" />
         </div>
         <div className="absolute inset-0 flex flex-col">
-          <img className="w-full mt-auto" src="images/banner-2.DOO8rQBY.png" alt="Banner Overlay" />
+          <img className="xl:w-full w-[40%] mt-auto" src="images/banner-2.DOO8rQBY.png" alt="Banner Overlay" />
           <div className="bg-white h-32"></div>
         </div>
         <div data-aos="fade-up" data-aos-duration="600"
@@ -81,7 +81,7 @@ function Landing() {
       <div>
         <Steps />
       </div>
-      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 }
