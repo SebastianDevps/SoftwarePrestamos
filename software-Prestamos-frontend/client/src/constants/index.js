@@ -40,10 +40,6 @@ export const planDetails = [
             {
                 id: 4,
                 description: "Descripcion de beneficios"
-            },
-            {
-                id: 5,
-                description: "Descripcion de beneficios"
             }
         ]
     },
@@ -68,10 +64,6 @@ export const planDetails = [
             },
             {
                 id: 4,
-                description: "Descripcion de beneficios"
-            },
-            {
-                id: 5,
                 description: "Descripcion de beneficios"
             }
         ]
@@ -98,11 +90,29 @@ export const planDetails = [
             {
                 id: 4,
                 description: "Descripcion de beneficios"
-            },
-            {
-                id: 5,
-                description: "Descripcion de beneficios"
             }
         ]
     }
 ]
+
+export const steps = [
+    {
+        id: 1,
+        image: "images/steps.png",
+        title: "Realiza tu orden de compra",
+        description: "Elige el plan que más se adapte a tus necesidades",
+    },
+    {
+        id: 2,
+        image: "images/steps.png",
+        title: "Realiza el pago",
+        description: "Activate en el mejor software para manejar tus prestamos",
+    },
+    {
+        id: 3,
+        image: "images/steps.png",
+        title: "Confirmación y activación",
+        description:
+            "Deja todo en nuestras manos, en 24 horas estaras disfrutando de nuestro software",
+    },
+];

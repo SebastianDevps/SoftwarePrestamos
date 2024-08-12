@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { RiCheckboxCircleLine, RiCloseCircleLine } from "react-icons/ri";
-import { planDetails } from "../../constants";
+import { planDetails } from "../constants";
 
 function PlanCard() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center h-full -mt-10 justify-between p-8 w-full">
+    <section className="flex flex-col items-center h-full -mt-10 justify-between p-8 w-full">
       <h2
         className="flex text-4xl z-50 lg:text-6xl items-center justify-center  -mt-20 xl:-mt-15 text-blue-800 font-semibold font-poppins"
       >
@@ -67,7 +67,7 @@ function PlanCard() {
                   <span className="font-semibold bg-gray-300 h-[1px] w-full inline-flex"></span>
                 </div>
               </div>
-              <ul className="-mt-8 mb-4 w-full space-y-2 text-lg font-poppins">
+              <ul className="xl:-mt-4 -mt-10 mb-2 w-full space-y-2 text-lg font-poppins">
                 {plan.benefits.map((benefit) => (
                   <li
                     key={benefit.id}
@@ -106,7 +106,7 @@ function PlanCard() {
           ))}
         </div>
       </section>
-    </div>
+    </section>
   );
 }
 

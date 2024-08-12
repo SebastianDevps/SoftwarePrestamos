@@ -7,7 +7,7 @@ import { GrConfigure } from "react-icons/gr";
 import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
-import Sidebar from "../../layout/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import FormularioCliente from "../../components/form_cliente/FormularioCliente";
 import Details from "../../components/Details/Details";
 import AdminServices from "../../services/AdminServices";

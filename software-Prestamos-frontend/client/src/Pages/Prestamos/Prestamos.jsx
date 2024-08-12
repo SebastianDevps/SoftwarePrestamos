@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Sidebar from '../../layout/Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar';
 import { FaFilter, FaTimes } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdAddchart } from "react-icons/md";

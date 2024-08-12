@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import AuthServices from "../../services/AuthServices";
-import { navLinks } from "../../constants";
+import AuthServices from "../services/AuthServices";
+import { navLinks } from "../constants";
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,7 @@ function Nav() {
           <div className="sm:block">
             <button
               onClick={handleLoginClick}
-              className="inline-block w-35 hover:no-underline bg-white hover:scale-110 duration-200 rounded-full px-3 py-1.5 sm:px-5 whitespace-nowrap text-2sm"
+              className="inline-block w-[130px] xl:w-[140px] hover:no-underline text-blue-800 font-medium bg-white hover:scale-110 duration-200 rounded-full px-3 py-1.5 sm:px-5 whitespace-nowrap text-[18px] xl:text-2sm"
             >
               Ingresar
             </button>
@@ -56,16 +56,18 @@ function Nav() {
         </div>
       </div>
       {isOpen && (
-        <div className="w-[50%] ml-[50%] -mt-3 transition-all duration-300 lg:hidden bg-white p-3 rounded-2xl shadow-md">
+        <div className="w-[55%] ml-[45%] -mt-3 transition-all duration-300 lg:hidden bg-white p-3 rounded-2xl shadow-md">
           <ul className="flex flex-col justify-center items-end space-y-4">
             {navLinks.map((nav) => (
               <li key={nav.id}>
                 <Link to={`/${nav.id}`}
-                  className="flex hover:no-underline hover:text-blue hover:scale-105 transition-all duration-300 text-black text-lg items-center"
+                  className="flex hover:no-underline hover:text-blue hover:scale-105 transition-all duration-300 text-blue-800 font-semibold text-lg items-center"
                 >
                   {nav.title}
                 </Link>
+                
               </li>
+              
             ))}
           </ul>
         </div>
