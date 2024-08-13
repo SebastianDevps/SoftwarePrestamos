@@ -83,7 +83,7 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
-      <div className="content">
+      <>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
@@ -102,7 +102,7 @@ const AppRouter = () => {
           )}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </>
       {isTokenExpired && <TokenExpiredPopup onClose={handlePopupClose} />}
     </BrowserRouter>
   );

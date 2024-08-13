@@ -6,7 +6,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
-import Sidebar from "../../layout/Sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import FormularioCliente from "../../components/form_cliente/FormularioCliente";
 import Details from "../../components/Details/Details";
 import ClientsServices from "../../services/ClientsServices";

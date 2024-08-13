@@ -9,7 +9,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Link, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import AuthServices from '../../services/AuthServices';
+import AuthServices from '../services/AuthServices';
 import Cookies from 'js-cookie'; // Asegúrate de importar js-cookie
 import Avatar from 'react-avatar';
 
