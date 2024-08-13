@@ -20,10 +20,7 @@ class PrestamosServices {
 
   static async createPrestamo(prestamoData) {
     try {
-      const response = await axios.post(
-        PrestamosServices.BASE_URL,
-        prestamoData,
-        {
+      const response = await axios.post( PrestamosServices.BASE_URL, prestamoData, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         }
       );
@@ -32,6 +29,19 @@ class PrestamosServices {
       throw error;
     }
   }
+
+  // static async updatePrestamo(cedula, prestamoData) {
+  //   try {
+  //       const response = await axios.put(`${PrestamosServices.BASE_URL}/${cedula}`, prestamoData, {
+  //           headers: { Authorization: `Bearer ${Cookies.get('token')}` }
+  //       });
+  //       return response.data;
+  //   } catch (error) {
+  //       throw error;
+  //   }
+  // }
 }
+
+
 
 export default PrestamosServices;

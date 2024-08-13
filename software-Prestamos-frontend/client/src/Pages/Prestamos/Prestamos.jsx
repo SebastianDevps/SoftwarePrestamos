@@ -9,23 +9,29 @@ import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestam
 import { VscError } from "react-icons/vsc";
 import Swal from 'sweetalert2';
 import PrestamosServices from "../../services/PrestamosServices"
+   
 
+   //buscar 
+//    fetch('http://example.com/.')
+//   .then(response => response.json())
+//   .then(data => console.log(data));
 const Prestamos = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterEstado, setFilterEstado] = useState(''); // Estado activo/inactivo
     const [filterAcuerdoPago, setFilterAcuerdoPago] = useState(''); // Mensual, Diario, Quincenal
     const [prestamos, setPrestamos] = useState([]);
+    const [currentPrestamo, setCurrentPrestamo] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
        try{
-        const prestams = await PrestamosServices.getAllClients();
+        const prestams = await PrestamosServices.getAllPrestamo();
         setPrestamos(prestams);
        } catch(error){
         await Swal.fire({
             icon: "error",
-            title: "Error al obtener los clientes",
+            title: "Error al obtener los prestamos",
             text: error.message || "Error desconocido",
           }); 
       }
@@ -33,93 +39,35 @@ const Prestamos = () => {
       fetchData();
     }, []);
     
+    const addPrestamo = (nuevoPrestamo) => {
+        setPrestamos((PrevPrestamos) => {
+        const index = PrevPrestamos.findIndex(prestamo => prestamo.Id === nuevoPrestamo.Id);
+        if(index !== -1){
+            const updatePrestamos = [...PrevPrestamos];
+            updatePrestamos[index] = nuevoPrestamo;
+            return updatePrestamos;
+        }{
+            //cliente nuevo, lo agregamos
+            return [...PrevPrestamos, nuevoPrestamo];
+        }
 
-    // const fetchData = async () => {
-    //     try {
-    //         // Simulación de datos
-    //         const simulatedData = [
-    //             {
-    //                 id: 1,
-    //                 title: "Préstamo 1",
-    //                 userId: "Juan Peresasc",
-    //                 iva: 20,
-    //                 cuotasPendientes: 25,
-    //                 acuerdoPago: "Mensual",
-    //                 fechaLimitePago: "2024-08-15",
-    //                 montoTotal: 999999999,
-    //                 status: "ACTIVO"
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Préstamo 2",
-    //                 userId: "Pedro Gomez ",
-    //                 iva: 15,
-    //                 cuotasPendientes: 10,
-    //                 acuerdoPago: "Diario",
-    //                 fechaLimitePago: "2024-07-20",
-    //                 montoTotal: 500000,
-    //                 status: "INACTIVO"
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Préstamo 2",
-    //                 userId: "Pedro Gomez",
-    //                 iva: 15,
-    //                 cuotasPendientes: 10,
-    //                 acuerdoPago: "Diario",
-    //                 fechaLimitePago: "2024-07-20",
-    //                 montoTotal: 500000,
-    //                 status: "INACTIVO"
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Préstamo 2",
-    //                 userId: "Pedro Gomez",
-    //                 iva: 15,
-    //                 cuotasPendientes: 10,
-    //                 acuerdoPago: "Diario",
-    //                 fechaLimitePago: "2024-07-20",
-    //                 montoTotal: 500000,
-    //                 status: "INACTIVO"
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Préstamo 2",
-    //                 userId: "Pedro Gomez",
-    //                 iva: 15,
-    //                 cuotasPendientes: 10,
-    //                 acuerdoPago: "Diario",
-    //                 fechaLimitePago: "2024-07-20",
-    //                 montoTotal: 500000,
-    //                 status: "INACTIVO"
-    //             },
-    //             {
-    //                 id: 2,
-    //                 title: "Préstamo 2",
-    //                 userId: "Pedro Gomez",
-    //                 iva: 15,
-    //                 cuotasPendientes: 10,
-    //                 acuerdoPago: "Diario",
-    //                 fechaLimitePago: "2024-07-20",
-    //                 montoTotal: 500000,
-    //                 status: "ACTIVO"
-    //             }
-                
-    //         ];
-
-    //         setPrestamos(simulatedData);
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //     }
-    // };
-
-
-    const handleOpenModalFormPrestamo = () => {
-        setIsFormOpen(true);
+        });
     };
+    
+
+    const handleOpenModalFormPrestamo = (prestamo = null) => {
+        setIsFormOpen(true);
+        setCurrentPrestamo(prestamo);
+    };
+    
+    // const handleOpenDetails = (prestamo) => {
+    //     setCurrentPrestamo(prestamo);
+    //     setIsDetailsOpen(true);
+    //   };
 
     const handleCloseModal = () => {
         setIsFormOpen(false)
+        setCurrentPrestamo(null);
     };
 
     const handleFilterEstado = (estado) => {
@@ -138,15 +86,15 @@ const Prestamos = () => {
         setFilterAcuerdoPago('');
     };
 
-    const filteredRows = prestamos.filter(row =>
-        row.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filterEstado ? row.status === filterEstado : true) &&
-        (filterAcuerdoPago ? row.acuerdoPago === filterAcuerdoPago : true)
-    );
+    // const filteredRows = prestamos.filter(row =>
+    //     row.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    //     (filterEstado ? row.status === filterEstado : true) &&
+    //     (filterAcuerdoPago ? row.acuerdoPago === filterAcuerdoPago : true)
+    // );
 
-    const getStatusClass = (status) => {
-        return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
-      };
+    // const getStatusClass = (status) => {
+    //     return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
+    //   };
 
 
     return (
@@ -245,16 +193,16 @@ const Prestamos = () => {
                                 <div className='text-center'>
                                     {prestamos.map((prestamo) => (
                                         <div key={prestamo.id} className="grid grid-cols-10 gap-4 p-2 mt-2 border-b border-gray-300  ">
-                                            <div className='col-span-3'>{prestamo.userId || '-'}</div>
-                                            <div className=''>{prestamo.iva || '-'}</div>
-                                            <div className=''>{prestamo.cuotasPendientes || '-'}</div>
-                                            <div className=''>{prestamo.acuerdoPago || '-'}</div>
-                                            <div className=''>{prestamo.fechaLimitePago || '-'}</div>
-                                            <div className=''>{prestamo.montoTotal || '-'}</div>
+                                            <div className='col-span-3'>{prestamo.clienteId || '-'}</div>
+                                            <div className=''>{prestamo.monto || '-'}</div>
+                                            <div className=''>{prestamo.porcentaje || '-'}</div>
+                                            <div className=''>{prestamo.montoAPagar || '-'}</div>
+                                            <div className=''>{prestamo.fechaCreacion || '-'}</div>
+                                            <div className=''>{prestamo.tipoPago || '-'}</div>
                                             <div className='text-center' >
-                                                <span className={`py-1 px-3 rounded-full text-xs font-medium text-center ${getStatusClass(row.status)}`}>
+                                                {/* <span className={`py-1 px-3 rounded-full text-xs font-medium text-center ${getStatusClass(row.status)}`}>
                                                     {row.status}
-                                                </span>
+                                                </span> */}
                                             </div>
                                             <div className="text-gray-500 text-xl ">
                                                 <button className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
@@ -268,7 +216,12 @@ const Prestamos = () => {
                         </div>
                     </div>
 
-                    {isFormOpen && <FormularioPrestamo onClick={handleCloseModal} />}
+                    {isFormOpen && (
+                        <FormularioPrestamo 
+                            onClick={handleCloseModal}
+                            onAddPrestamo={addPrestamo}
+                            prestamo={currentPrestamo} />
+                    )}
 
                 </div>
             </div>

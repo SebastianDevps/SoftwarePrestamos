@@ -26,6 +26,7 @@ const FormularioCliente = ({ onClick, onAddCliente, cliente }) => {
     }
   }, [loading]);
 
+  // actualizar Cliente
   useEffect(() => {
     if (cliente) {
       reset({

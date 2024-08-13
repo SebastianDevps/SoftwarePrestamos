@@ -4,32 +4,90 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { AiOutlineSearch } from "react-icons/ai";
 import ClientsServices from "../../services/ClientsServices";
+import PrestamosServices from '../../services/PrestamosServices';
+import { format, parse, set } from 'date-fns';
 
-const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
+const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
   const [loading, setLoading] = useState(false);
   const cedulaClientRef = useRef(null);
-  
+
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
-  
+
   const [monto, setMonto] = useState('');
   const [interes, setInteres] = useState('');
-  const [cuota, setCuota] = useState('');
+  const [cuota, setCuota] = useState('');   
   const [montoTotal, setMontoTotal] = useState('');
   const [tipoPago, setTipoPago]= useState('');
+  const [date, setDate]=useState('');
+   // Estado para la fecha
+
+  useEffect(()=>{
+    if(loading){
+      Swal.fire({
+        title: 'Cargando...',
+        html: 'Por favor, espera mientras registramos el prestamo.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+  }, [loading]);
+
+  const prestamista= "dualbert";
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const prestamoData = {
+      monto: data.monto,
+      interes: data.porcentaje,
+      tipoPrestamo: data.tipoPago,
+      fecha: data.date,
+      prestamista: data.prestamista,
+    };
+
+    try {
+      let response;
+      if (prestamo) {
+        alert("HAY")
+        // response = await PrestamosServices.updatePrestamo(prestamo.id, prestamoData);
+      } else {
+       
+        response = await PrestamosServices.createPrestamo(prestamoData);
+        
+      }
+
+      onAddPrestamo(response);
+      await Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: prestamo ? 'Prestamo actualizado correctamente.' : 'Prestamo registrado correctamente.',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      reset();
+      onClick();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al registrar o actualizar el cliente. Por favor, intenta nuevamente.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const calcularValores = (monto, interes, tipoPago) => {
-    if (!isNaN(monto) && !isNaN(interes)  && monto !== '' && interes !== '') {
-      let valorPorCuota
+    if (!isNaN(monto) && !isNaN(interes) && monto !== '' && interes !== '') {
+      let valorPorCuota;
       const tasaInteresDecimal = interes / 100;
-       // Ejemplo de cálculo mensual
       const valorTotal = parseFloat(monto) + parseFloat(monto * tasaInteresDecimal);
-      if(isNaN(tipoPago)){
-       valorPorCuota = valorTotal / 30;
-      }
-      else{
+      if (isNaN(tipoPago)) {
+        valorPorCuota = valorTotal / 30;
+      } else {
         valorPorCuota = valorTotal / tipoPago;
       }
-       
+
       setCuota(valorPorCuota.toFixed());
       setMontoTotal(valorTotal.toFixed());
       setValue('cuota', valorPorCuota.toFixed(0));
@@ -49,86 +107,45 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
     calcularValores(monto, value);
   };
 
+  const handleDateChange = (e) => {
+    const inputDate = e.target.value;
+    setDate(inputDate);
+  }
   const handleTipoPagoChange = (e) => {
-    const value = e.target.value
+    const value = e.target.value;
     let numeroPagos;
-    if(value==''){
+    if (value === '') {
       numeroPagos = 30;
-   }
-    if(value=='diario'){
-       numeroPagos = 30;
     }
-    if(value=='semanal'){
+    if (value === 'diario') {
+      numeroPagos = 30;
+    }
+    if (value === 'semanal') {
       numeroPagos = 4;
     }
-    if(value=='quincenal'){
+    if (value === 'quincenal') {
       numeroPagos = 2;
     }
-    if(value=='mensual'){
+    if (value === 'mensual') {
       numeroPagos = 1;
     }
     setTipoPago(value);
-    calcularValores(monto ,interes, numeroPagos);
-  };
-
-  useEffect(() => {
-    if (loading) {
-      Swal.fire({
-        title: 'Cargando...',
-        html: 'Por favor, espera mientras validamos tus datos.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-    }
-  }, [loading]);
-
-  const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      await axios.post('http://localhost:8080/api/prestamos', data);
-      await Swal.fire({
-        icon: 'success',
-        title: '¡Éxito!',
-        text: 'Préstamo registrado correctamente.',
-        showConfirmButton: true,
-      });
-      reset();
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ocurrió un error al registrar el préstamo. Por favor, intenta nuevamente.',
-      });
-    } finally {
-      setLoading(false);
-    }
+    calcularValores(monto, interes, numeroPagos);
   };
 
   const handleBuscarCliente = async () => {
     const cedulaclient = cedulaClientRef.current.value;
-    //console.log('Cédula del cliente:', cedulaclient); // Depuración
-    if(cedulaclient!=''){
+    if (cedulaclient !== '') {
       try {
         const response = await ClientsServices.getClientByCedula(cedulaclient);
-        console.log('Respuesta del servicio:', response);
-        console.log('cedula del cliente',response.numDocumento);
-        console.log('nombre del cliente',response.nombre); // Depuración
         if (response) {
-          //Llenar los campos automáticamente
           reset({
             documento: response.numDocumento,
             cliente: response.nombre,
           });
-          cedulaClientRef.current.value= "";
-        
-  
-        } else {
-          console.log('Respuesta del servicio no contiene data');
+          cedulaClientRef.current.value = "";
         }
       } catch (error) {
-        console.log('Error al buscar el cliente:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -136,12 +153,9 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
           showCancelButton: true,
           confirmButtonText: "Agregar Cliente",
         });
-      } 
+      }
     }
-    
   };
-      
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
@@ -156,11 +170,10 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
                 Buscar Cliente 
               </label>
               <div className=' form-group inline-flex w-full'>
-              <input type='text'  name='buscarCliente' ref={cedulaClientRef} className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`} placeholder='Buscar cliente'/>
+              <input type='text' name='buscarCliente' ref={cedulaClientRef} className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`} placeholder='Buscar cliente'/>
               <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 ... text-white font-bold pt-2 pr-2 mx-1 mt-1"
               type='button'
               onClick={handleBuscarCliente}
-              
               ><AiOutlineSearch /></button>
               </div>
               {errors.tipoPrestamo && (
@@ -185,7 +198,7 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
                 Cliente
               </label>
               <input
-                type="text"  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                type="text" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Nombre del cliente"
                 {...register('cliente', { required: 'Este campo es requerido' })}
                 readOnly
@@ -259,6 +272,9 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, Prestamo }) => {
                   errors.fecha ? 'border-red-500' : ''
                 }`}
                 {...register('fecha', { required: 'Este campo es requerido' })}
+                value={date}
+                onChange={handleDateChange}
+                 // Actuaizar el valor y el formato
               />
               {errors.fecha && <span className="text-red-500 text-sm">{errors.fecha.message}</span>}
             </div>
