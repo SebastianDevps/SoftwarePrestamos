@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
-import Content from '../../components/Sidebar';
+import Content from '../../components/Content';
 
 const Home = () => {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
