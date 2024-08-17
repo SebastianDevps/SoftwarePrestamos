@@ -7,11 +7,11 @@ import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import Sidebar from "../../components/Sidebar";
-import FormularioCliente from "../../components/form_cliente/FormularioCliente";
-import Details from "../../components/Details/Details";
+import FormularioCliente from "./FormularioCliente";
+import Details from "./Details";
 import ClientsServices from "../../services/ClientsServices";
 
-const Clientes = () => {
+const Cliente = () => {
   const [clientes, setClientes] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -195,4 +195,4 @@ const Clientes = () => {
   );
 };
 
-export default Clientes;
+export default Cliente;

@@ -5,7 +5,6 @@ import axios from 'axios';
 import { AiOutlineSearch } from "react-icons/ai";
 import ClientsServices from "../../services/ClientsServices";
 import PrestamosServices from '../../services/PrestamosServices';
-import { format, parse, set } from 'date-fns';
 
 const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
   const [loading, setLoading] = useState(false);
@@ -15,14 +14,14 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
 
   const [monto, setMonto] = useState('');
   const [interes, setInteres] = useState('');
-  const [cuota, setCuota] = useState('');   
+  const [cuota, setCuota] = useState('');
   const [montoTotal, setMontoTotal] = useState('');
-  const [tipoPago, setTipoPago]= useState('');
-  const [date, setDate]=useState('');
-   // Estado para la fecha
+  const [tipoPago, setTipoPago] = useState('');
+  const [date, setDate] = useState('');
+  // Estado para la fecha
 
-  useEffect(()=>{
-    if(loading){
+  useEffect(() => {
+    if (loading) {
       Swal.fire({
         title: 'Cargando...',
         html: 'Por favor, espera mientras registramos el prestamo.',
@@ -34,7 +33,7 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
     }
   }, [loading]);
 
-  const prestamista= "dualbert";
+  const prestamista = "dualbert";
   const onSubmit = async (data) => {
     setLoading(true);
     const prestamoData = {
@@ -51,9 +50,9 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
         alert("HAY")
         // response = await PrestamosServices.updatePrestamo(prestamo.id, prestamoData);
       } else {
-       
+
         response = await PrestamosServices.createPrestamo(prestamoData);
-        
+
       }
 
       onAddPrestamo(response);
@@ -167,14 +166,14 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="form-group md:col-span-2 md:w-4/5">
               <label className="block text-sm font-medium text-gray-700 flex-">
-                Buscar Cliente 
+                Buscar Cliente
               </label>
               <div className=' form-group inline-flex w-full'>
-              <input type='text' name='buscarCliente' ref={cedulaClientRef} className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`} placeholder='Buscar cliente'/>
-              <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 ... text-white font-bold pt-2 pr-2 mx-1 mt-1"
-              type='button'
-              onClick={handleBuscarCliente}
-              ><AiOutlineSearch /></button>
+                <input type='text' name='buscarCliente' ref={cedulaClientRef} className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`} placeholder='Buscar cliente' />
+                <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 ... text-white font-bold pt-2 pr-2 mx-1 mt-1"
+                  type='button'
+                  onClick={handleBuscarCliente}
+                ><AiOutlineSearch /></button>
               </div>
               {errors.tipoPrestamo && (
                 <span className="text-red-500 text-sm">{errors.tipoPrestamo.message}</span>
@@ -210,10 +209,9 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
                 Monto a Prestar <span className="text-red-500">*</span>
               </label>
               <input
-                type="number" 
-                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  errors.interes ? 'border-red-500' : ''
-                }`}
+                type="number"
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.interes ? 'border-red-500' : ''
+                  }`}
                 placeholder="Ingrese el monto del préstamo"
                 {...register('monto', { required: 'Este campo es requerido' })}
                 value={monto}
@@ -221,16 +219,15 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
               />
               {errors.monto && <span className="text-red-500 text-sm">{errors.monto.message}</span>}
             </div>
-          
+
             <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Tasa de interés (%) <span className="text-red-500">*</span>
               </label>
               <input
-                type="number" 
-                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  errors.interes ? 'border-red-500' : ''
-                }`}
+                type="number"
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.interes ? 'border-red-500' : ''
+                  }`}
                 placeholder="Ingrese tasa de interés"
                 {...register('interes', { required: 'Este campo es requerido' })}
                 value={interes}
@@ -238,28 +235,27 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
               />
               {errors.interes && <span className="text-red-500 text-sm">{errors.interes.message}</span>}
             </div>
-            
+
             <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Tipo de Pago <span className="text-red-500">*</span>
               </label>
-             <select
-               className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-               errors.tipoPago ? 'border-red-500' : ''
-               }`}
-               {...register('tipoPrestamo', { required: 'Este campo es requerido' })}
-                  value={tipoPago}
-                   onChange={handleTipoPagoChange}
-                   
-                   >
-                  <option value="diario">Diario</option>
-                  <option value="semanal">Semanal</option>
-                  <option value="quincenal">Quincenal</option>
-                  <option value="mensual">Mensual</option>
+              <select
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.tipoPago ? 'border-red-500' : ''
+                  }`}
+                {...register('tipoPrestamo', { required: 'Este campo es requerido' })}
+                value={tipoPago}
+                onChange={handleTipoPagoChange}
+
+              >
+                <option value="diario">Diario</option>
+                <option value="semanal">Semanal</option>
+                <option value="quincenal">Quincenal</option>
+                <option value="mensual">Mensual</option>
               </select>
-               {errors.tipoPago && (
+              {errors.tipoPago && (
                 <span className="text-red-500 text-sm">{errors.tipoPago.message}</span>
-                   )}
+              )}
             </div>
 
             <div className="form-group -mt-4">
@@ -268,45 +264,42 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
               </label>
               <input
                 type="date"
-                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  errors.fecha ? 'border-red-500' : ''
-                }`}
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.fecha ? 'border-red-500' : ''
+                  }`}
                 {...register('fecha', { required: 'Este campo es requerido' })}
                 value={date}
                 onChange={handleDateChange}
-                 // Actuaizar el valor y el formato
+              // Actuaizar el valor y el formato
               />
               {errors.fecha && <span className="text-red-500 text-sm">{errors.fecha.message}</span>}
             </div>
             <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
-                Valor por Cuota 
+                Valor por Cuota
               </label>
               <input
-                type="number" step="0.01"  
-                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  errors.cuota ? 'border-red-500' : ''
-                }`}
+                type="number" step="0.01"
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.cuota ? 'border-red-500' : ''
+                  }`}
                 placeholder="$----"
                 {...register('cuota', { required: 'Este campo es requerido' })}
                 value={cuota}
                 readOnly
               />
               {errors.cuota && <span className="text-red-500 text-sm">{errors.cuota.message}</span>}
-              
+
             </div>
             <div className="form-group -mt-4">
               <label className="block text-sm font-medium text-gray-700">
-                Monto Total 
+                Monto Total
               </label>
               <input
                 type="number"
-                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                  errors.motoTotal ? 'border-red-500' : ''
-                }`}
+                className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.motoTotal ? 'border-red-500' : ''
+                  }`}
                 placeholder="$----"
                 {...register('montoTotal', { required: 'Este campo es requerido' })}
-                  value={montoTotal}
+                value={montoTotal}
                 readOnly
               />
               {errors.motoTotal && <span className="text-red-500 text-sm">{errors.motoTotal.message}</span>}
@@ -317,7 +310,7 @@ const FormularioPrestamo = ({ onClick, onAddPrestamo, prestamo }) => {
               type="submit"
               className="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               disabled={loading}
-              
+
             >
               {loading ? 'Registrando...' : 'Registrar préstamo'}
             </button>

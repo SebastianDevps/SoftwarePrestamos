@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Landing from "../Pages/landing/Landing";
+import Landing from "../Pages/Landing/Landing";
 import Login from "../Pages/Login/Login";
 import Home from "../Pages/Home/Home";
 import AuthServices from "../services/AuthServices";
-import Prestamos from "../Pages/Prestamos/Prestamos";
-import Clientes from "../Pages/Clientes/Clientes";
-import NotFound from "./404";
+import Prestamo from "../Pages/Prestamo/Prestamo";
+import Cliente from "../Pages/Cliente/Cliente";
+import NotFound from "../Pages/NotFound/404";
 import Configuracion from "../Pages/Configuracion/Configuracion";
-import TokenExpiredPopup from "../components/TokenExpiredPopup/TokenExpiredPopup";
+import TokenExpiredPopup from "./TokenExpiredPopup";
 import Cookies from "js-cookie";  // Importar js-cookie
-import UsersAndPlanes from "../Pages/Usuarios/UsersAndPlanes";
+import UsersAndPlanes from "../Pages/Usuario/UsersAndPlanes";
 
 const PrivateRoute = ({ element: Component, isAdmin, isSuperAdmin, ...rest }) => {
   const isAuthenticated = AuthServices.isAuthenticated();
@@ -93,8 +93,8 @@ const AppRouter = () => {
                 <Route path="/app/usuarios-y-planes" element={<PrivateRoute element={<UsersAndPlanes />} />} />
               )}
               <Route path="/app" element={<PrivateRoute element={<Home />} />} />
-              <Route path="/app/prestamos" element={<PrivateRoute element={<Prestamos />} />} />
-              <Route path="/app/clientes" element={<PrivateRoute element={<Clientes />} />} />
+              <Route path="/app/prestamos" element={<PrivateRoute element={<Prestamo />} />} />
+              <Route path="/app/clientes" element={<PrivateRoute element={<Cliente />} />} />
               <Route path="/app/configuracion" element={<PrivateRoute element={<Configuracion />} />} />
             </>
           ) : (

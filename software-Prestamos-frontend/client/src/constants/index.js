@@ -1,21 +1,22 @@
 export const navLinks = [
     {
-        id: " ",
+        id: "principal",
         title: "Principal",
     },
     {
-        id: " ",
+        id: "planes",
         title: "Planes",
     },
     {
-        id: " ",
+        id: "indicaciones",
         title: "Indicaciones",
     },
     {
-        id: " ",
+        id: "sobre-nosotros",
         title: "Sobre Nosotros",
     }
-]
+];
+
 
 export const planDetails = [
 

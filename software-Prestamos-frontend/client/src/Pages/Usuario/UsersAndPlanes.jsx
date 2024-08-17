@@ -8,8 +8,8 @@ import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import Sidebar from "../../components/Sidebar";
-import FormularioCliente from "../../components/form_cliente/FormularioCliente";
-import Details from "../../components/Details/Details";
+import FormularioCliente from "../Cliente/FormularioCliente";
+import Details from "../Cliente/Details";
 import AdminServices from "../../services/AdminServices";
 
 const UsersAndPlanes = () => {

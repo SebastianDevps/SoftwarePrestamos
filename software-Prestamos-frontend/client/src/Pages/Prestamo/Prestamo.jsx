@@ -5,17 +5,17 @@ import { IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdAddchart } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
-import FormularioPrestamo from '../../components/form_prestamo/FormularioPrestamo';
+import FormularioPrestamo from './FormularioPrestamo';
 import { VscError } from "react-icons/vsc";
 import Swal from 'sweetalert2';
 import PrestamosServices from "../../services/PrestamosServices"
-   
 
-   //buscar 
+
+//buscar 
 //    fetch('http://example.com/.')
 //   .then(response => response.json())
 //   .then(data => console.log(data));
-const Prestamos = () => {
+const Prestamo = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterEstado, setFilterEstado] = useState(''); // Estado activo/inactivo
@@ -24,42 +24,42 @@ const Prestamos = () => {
     const [currentPrestamo, setCurrentPrestamo] = useState(null);
 
     useEffect(() => {
-      const fetchData = async () => {
-       try{
-        const prestams = await PrestamosServices.getAllPrestamo();
-        setPrestamos(prestams);
-       } catch(error){
-        await Swal.fire({
-            icon: "error",
-            title: "Error al obtener los prestamos",
-            text: error.message || "Error desconocido",
-          }); 
-      }
-    };
-      fetchData();
+        const fetchData = async () => {
+            try {
+                const prestams = await PrestamosServices.getAllPrestamo();
+                setPrestamos(prestams);
+            } catch (error) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Error al obtener los prestamos",
+                    text: error.message || "Error desconocido",
+                });
+            }
+        };
+        fetchData();
     }, []);
-    
+
     const addPrestamo = (nuevoPrestamo) => {
         setPrestamos((PrevPrestamos) => {
-        const index = PrevPrestamos.findIndex(prestamo => prestamo.Id === nuevoPrestamo.Id);
-        if(index !== -1){
-            const updatePrestamos = [...PrevPrestamos];
-            updatePrestamos[index] = nuevoPrestamo;
-            return updatePrestamos;
-        }{
-            //cliente nuevo, lo agregamos
-            return [...PrevPrestamos, nuevoPrestamo];
-        }
+            const index = PrevPrestamos.findIndex(prestamo => prestamo.Id === nuevoPrestamo.Id);
+            if (index !== -1) {
+                const updatePrestamos = [...PrevPrestamos];
+                updatePrestamos[index] = nuevoPrestamo;
+                return updatePrestamos;
+            } {
+                //cliente nuevo, lo agregamos
+                return [...PrevPrestamos, nuevoPrestamo];
+            }
 
         });
     };
-    
+
 
     const handleOpenModalFormPrestamo = (prestamo = null) => {
         setIsFormOpen(true);
         setCurrentPrestamo(prestamo);
     };
-    
+
     // const handleOpenDetails = (prestamo) => {
     //     setCurrentPrestamo(prestamo);
     //     setIsDetailsOpen(true);
@@ -217,7 +217,7 @@ const Prestamos = () => {
                     </div>
 
                     {isFormOpen && (
-                        <FormularioPrestamo 
+                        <FormularioPrestamo
                             onClick={handleCloseModal}
                             onAddPrestamo={addPrestamo}
                             prestamo={currentPrestamo} />
@@ -229,4 +229,4 @@ const Prestamos = () => {
     );
 };
 
-export default Prestamos;
+export default Prestamo;
