@@ -103,6 +103,31 @@ public class AdminServices {
         }
     }
 
+    public ReqRes checkToken(String token) {
+        ReqRes response = new ReqRes();
+        try {
+            // Extraer el correo del token
+            String email = jwtUtils.extractUsername(token);
+
+            // Buscar el administrador por correo
+            Administradores admin = adminRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Administrador no encontrado"));
+
+            // Verificar si el token es válido
+            if (jwtUtils.isTokenValid(token, admin)) {
+                response.setStatusCode(200);
+                response.setMessage("Token es válido");
+            } else {
+                response.setStatusCode(401); // No autorizado
+                response.setMessage("Token no válido");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error ocurrió: " + e.getMessage());
+        }
+        return response;
+    }
+
 
     public ReqRes getAllAdmin() {
         ReqRes reqRes = new ReqRes();

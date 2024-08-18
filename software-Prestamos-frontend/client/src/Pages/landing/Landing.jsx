@@ -20,10 +20,9 @@ function Landing() {
   };
 
   const handleLoginClick = () => {
-    const isAdmin = AuthServices.adminOnly();
-    const isSuperAdmin = AuthServices.superAdminOnly();
+    const userRole = AuthServices.getRoleFromUserInfo();
 
-    if (isAdmin || isSuperAdmin) {
+    if (userRole) {
       window.location.href = "/app";
     } else {
       window.location.href = "/login";

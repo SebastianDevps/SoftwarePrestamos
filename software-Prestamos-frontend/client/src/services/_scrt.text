@@ -1,0 +1,5 @@
+// Recuperar y utilizar la información en cualquier parte de la aplicación
+const storedUserInfo = JSON.parse(localStorage.getItem('_UserInfo'));
+
+console.log(storedUserInfo.name); // Mostrar nombre en el sidebar, por ejemplo
+console.log(storedUserInfo.role); // Mostrar el rol o controlar el acceso según el rol

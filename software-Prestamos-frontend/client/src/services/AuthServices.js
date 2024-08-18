@@ -25,6 +25,19 @@ class AuthServices {
         }
     }
 
+    static async checkToken(token) {
+        try {
+            const response = await axios.post(`${AuthServices.BASE_URL}/public/check-token`, {token});
+            if(response.data.statusCode == 200) {
+                return true;
+            }
+
+            return false;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getAllUser(token) {
         try {
             const response = await axios.get(`${AuthServices.BASE_URL}/admin/get-all-users`, {
@@ -83,7 +96,7 @@ class AuthServices {
     /**AUTHENTICATION CHECKER */
     static logout() {
         Cookies.remove('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('_UserInfo');
     }
     
 
@@ -92,22 +105,9 @@ class AuthServices {
         return !!token;
     }
 
-    static isAdmin() {
-        const role = localStorage.getItem('role');
-        return role === 'ADMIN';
-    }
-
-    static isSuperAdmin() {
-        const role = localStorage.getItem('role');
-        return role === 'SUPER_ADMIN';
-    }
-
-    static adminOnly() {
-        return this.isAuthenticated() && this.isAdmin();
-    }
-
-    static superAdminOnly() {
-        return this.isAuthenticated() && this.isSuperAdmin();
+    static getRoleFromUserInfo() {
+        const userInfo = JSON.parse(localStorage.getItem('_UserInfo'));
+        return userInfo?.administradores?.role || null;
     }
 
     static isTokenExpired() {

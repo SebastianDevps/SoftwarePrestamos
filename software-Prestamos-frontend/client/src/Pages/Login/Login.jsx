@@ -29,13 +29,46 @@ const Login = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const userData = await AuthServices.login(data.username, data.password);
+            const res = await AuthServices.login(data.username, data.password);
+            if (res.statusCode === 500) {
+                await Swal.fire({
+                    icon: "warning",
+                    title: "Error de autenticación",
+                    text: "Usuario y/o Contraseña incorrecto.",
+                });
+                return;
+            }
+            const isTokenValid = await AuthServices.checkToken(res.token);
+            if (isTokenValid) {
+                Cookies.set('token', res.token, { secure: true, sameSite: 'strict', path: '/' });
 
-            if (userData.token) {
-                Cookies.set('token', userData.token, { secure: true, sameSite: 'strict', path: '/' });
-                const { password, ...userInfo } = userData;
-                localStorage.setItem('_UserInfo', JSON.stringify(userInfo));
+                const profile = await AuthServices.getYourProfile(res.token);
+                if (!profile) {
+                    await Swal.fire({
+                        icon: "warning",
+                        title: "Error al intentar ingresar",
+                        text: "Recargue la pagina o intentelo mas tarde.",
+                    });
+                }
+                localStorage.setItem('_UserInfo', JSON.stringify(profile));
+                // check plan
+                if (!profile.administradores.typePlan) {
+                    AuthServices.logout();
+                    Swal.fire({
+                        title: 'Plan Requerido',
+                        text: 'No cuentas con alguno de nuestros planes o tu plan expiro. Para mas ser parte de nuestro sistema comunicate con nosotros!',
+                        icon: 'warning',
+                        confirmButtonText: 'Entendido',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
 
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/login'; // Redirigir a la página de inicio de sesión
+                        }
+                    });
+                    return;
+                }
                 await Swal.fire({
                     icon: "success",
                     title: "¡Ingreso Exitoso!",
@@ -48,19 +81,20 @@ const Login = () => {
                 await Swal.fire({
                     icon: "warning",
                     title: "Error de autenticación",
-                    text: "Usuario y/o Contraseña incorrecto.",
+                    text: "Token no válido.",
                 });
             }
         } catch (error) {
             await Swal.fire({
                 icon: "error",
-                title: "Error al intentar una conexion con el servidor",
-                text: error,
+                title: "Error al intentar una conexión con el servidor",
+                text: error.message || "Ocurrió un error inesperado.",
             });
         } finally {
             setLoading(false);
         }
     };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

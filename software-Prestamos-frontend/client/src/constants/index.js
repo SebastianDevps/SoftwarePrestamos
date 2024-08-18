@@ -1,3 +1,62 @@
+
+// src/config/sidebarLinks.js
+
+import {
+    MdDashboardCustomize,
+    MdCalculate,
+    MdAdminPanelSettings,
+} from "react-icons/md";
+import { HiMiniUsers } from "react-icons/hi2";
+import { BiSolidReport } from "react-icons/bi";
+import { GiReceiveMoney } from "react-icons/gi";
+
+export const sidebarLinks = [
+    {
+        id: "dashboard",
+        title: "Principal",
+        icon: MdDashboardCustomize,
+        to: "/app",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "prestamos",
+        title: "Préstamos",
+        icon: GiReceiveMoney,
+        to: "/app/prestamos",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "clientes",
+        title: "Clientes",
+        icon: HiMiniUsers,
+        to: "/app/clientes",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "reportes",
+        title: "Reportes",
+        icon: BiSolidReport,
+        to: "/app/reportes",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "usuariosYPlanes",
+        title: "Usuarios y planes",
+        icon: MdAdminPanelSettings,
+        to: "/app/usuarios-y-planes",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        id: "simularPrestamos",
+        title: "Simular Préstamos",
+        icon: MdCalculate,
+        to: "/app/simular",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+];
+
+
+
 export const navLinks = [
     {
         id: "principal",
