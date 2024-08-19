@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthServices from "../../services/AuthServices";
 import { navLinks, planDetails, steps } from "../../constants";
+import { SiMoneygram } from "react-icons/si";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -14,9 +15,14 @@ import { FaBars, FaTimes } from "react-icons/fa";
 function Landing() {
   //Nav Logic Open
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleClick = () => {
+    navigate('/'); // O history.push('/') para v5
   };
 
   const handleLoginClick = () => {
@@ -45,9 +51,12 @@ function Landing() {
     <div className="font-poppins w-full">
       {/* Nav Section */}
       <header className="absolute inset-x-0 z-10 w-full px-4 bg-transparent">
-        <div className="max-w-7xl mx-auto flex justify-between py-6">
-          <div className="w-[50%] items-center justify-center">
-            <img className="xl:w-[120px] w-[90px] mt-1 xl:mt-0  xl:ml-6" src="" alt="Logo" />
+        <div className="max-w-7xl gap-2 mx-auto flex justify-between py-6">
+          <div className="w-[50%] -ml-2 xl:ml-4 items-center justify-center">
+            <div onClick={handleClick} className="flex flex-row cursor-pointer items-center gap-3">
+              <SiMoneygram className="text-[42px] text-white" />
+              <h1 className="text-2xl text-white font-bold">PrestaCol</h1>
+            </div>
           </div>
           <div className="flex lg:w-full justify-end items-center">
             <ul className="hidden lg:flex text-2sm space-x-4 gap-5 text-white mr-10">

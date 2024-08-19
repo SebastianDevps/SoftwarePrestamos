@@ -1,6 +1,6 @@
 import React from "react";
 
-const Configuracion = () => {
+const Perfil = () => {
   return (
     <div className="flex bg-gray-50">
 
@@ -115,4 +115,4 @@ const Configuracion = () => {
   );
 };
 
-export default Configuracion;
+export default Perfil;

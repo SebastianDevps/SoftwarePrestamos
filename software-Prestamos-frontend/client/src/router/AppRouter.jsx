@@ -7,7 +7,7 @@ import AuthServices from "../services/AuthServices";
 import Prestamo from "../Pages/Prestamo/Prestamo";
 import Cliente from "../Pages/Cliente/Cliente";
 import NotFound from "../Pages/NotFound/404";
-import Configuracion from "../Pages/Configuracion/Configuracion";
+import Perfil from "../Pages/Perfil/Perfil";
 import TokenExpiredPopup from "./TokenExpiredPopup";
 import UsersAndPlanes from "../Pages/Usuario/UsersAndPlanes";
 import Layout from "../components/Layout";
@@ -63,26 +63,26 @@ const AppRouter = () => {
 
           {/* Rutas para SUPER_ADMIN */}
           <Route
-            path="/app/usuarios-y-planes"
+            path="app/usuarios-y-planes"
             element={<PrivateRoute element={<UsersAndPlanes />} allowedRoles={['SUPER_ADMIN']} />}
           />
 
           {/* Rutas para ADMIN y SUPER_ADMIN */}
           <Route
-            path="/app"
+            path="app"
             element={<PrivateRoute element={<Home />} allowedRoles={['ADMIN', 'SUPER_ADMIN']} />}
           />
           <Route
-            path="/app/prestamos"
+            path="app/prestamos"
             element={<PrivateRoute element={<Prestamo />} allowedRoles={['ADMIN', 'SUPER_ADMIN']} />}
           />
           <Route
-            path="/app/clientes"
+            path="app/clientes"
             element={<PrivateRoute element={<Cliente />} allowedRoles={['ADMIN', 'SUPER_ADMIN']} />}
           />
           <Route
-            path="/app/configuracion"
-            element={<PrivateRoute element={<Configuracion />} allowedRoles={['ADMIN', 'SUPER_ADMIN']} />}
+            path="app/perfil"
+            element={<PrivateRoute element={<Perfil />} allowedRoles={['ADMIN', 'SUPER_ADMIN']} />}
           />
 
           {/* Ruta para página no encontrada */}

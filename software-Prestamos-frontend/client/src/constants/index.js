@@ -2,54 +2,54 @@
 // src/config/sidebarLinks.js
 
 import {
-    MdDashboardCustomize,
-    MdCalculate,
-    MdAdminPanelSettings,
+    MdOutlineDashboardCustomize,
+    MdOutlineCalculate ,
+    MdOutlineAdminPanelSettings ,
 } from "react-icons/md";
-import { HiMiniUsers } from "react-icons/hi2";
-import { BiSolidReport } from "react-icons/bi";
-import { GiReceiveMoney } from "react-icons/gi";
+import { HiOutlineUserGroup  } from "react-icons/hi2";
+import { TbReport } from "react-icons/tb";
+import { HiOutlineBanknotes } from "react-icons/hi2";
 
 export const sidebarLinks = [
     {
         id: "dashboard",
         title: "Principal",
-        icon: MdDashboardCustomize,
+        icon: MdOutlineDashboardCustomize,
         to: "/app",
         roles: ["ADMIN", "SUPER_ADMIN"],
     },
     {
         id: "prestamos",
         title: "Préstamos",
-        icon: GiReceiveMoney,
+        icon: HiOutlineBanknotes,
         to: "/app/prestamos",
         roles: ["ADMIN", "SUPER_ADMIN"],
     },
     {
         id: "clientes",
         title: "Clientes",
-        icon: HiMiniUsers,
+        icon: HiOutlineUserGroup ,
         to: "/app/clientes",
         roles: ["ADMIN", "SUPER_ADMIN"],
     },
     {
         id: "reportes",
         title: "Reportes",
-        icon: BiSolidReport,
+        icon: TbReport,
         to: "/app/reportes",
         roles: ["ADMIN", "SUPER_ADMIN"],
     },
     {
         id: "usuariosYPlanes",
         title: "Usuarios y planes",
-        icon: MdAdminPanelSettings,
+        icon: MdOutlineAdminPanelSettings ,
         to: "/app/usuarios-y-planes",
         roles: ["SUPER_ADMIN"],
     },
     {
         id: "simularPrestamos",
         title: "Simular Préstamos",
-        icon: MdCalculate,
+        icon: MdOutlineCalculate ,
         to: "/app/simular",
         roles: ["ADMIN", "SUPER_ADMIN"],
     },

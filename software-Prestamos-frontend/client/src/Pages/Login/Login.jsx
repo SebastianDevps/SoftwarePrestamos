@@ -6,6 +6,8 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill, RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 import AuthServices from "../../services/AuthServices";
 import Cookies from "js-cookie";
+import { SiMoneygram } from "react-icons/si";
+
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -25,6 +27,10 @@ const Login = () => {
             });
         }
     }, [loading]);
+
+    const handleClick = () => {
+        navigate('/'); // O history.push('/') para v5
+    };
 
     const onSubmit = async (data) => {
         setLoading(true);
@@ -108,6 +114,10 @@ const Login = () => {
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="text-start mb-6">
+                        <div onClick={handleClick} className="flex flex-row cursor-pointer items-center gap-3">
+                            <SiMoneygram className="text-[42px] text-blue-700" />
+                            <h1 className="text-2xl text-blue-700 font-bold">PrestaCol</h1>
+                        </div>
                         <h2 className="text-2xl font-bold text-blue-900 mb-6"></h2>
                         <h2 className="text-2xl font-bold text-gray-700">Bienvenido!👋</h2>
                         <h2 className="text-md text-gray-600">Inicia Sesion en tu cuenta para iniciar a administrar tus prestamos.</h2>
