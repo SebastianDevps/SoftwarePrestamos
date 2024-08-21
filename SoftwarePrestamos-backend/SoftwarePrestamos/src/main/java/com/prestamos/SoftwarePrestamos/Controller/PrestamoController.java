@@ -1,5 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Controller;
 
+import com.prestamos.SoftwarePrestamos.Auth.service.JWTUtils;
 import com.prestamos.SoftwarePrestamos.Dto.PrestamoDto;
 import com.prestamos.SoftwarePrestamos.Services.PrestamoService;
 import jakarta.validation.Valid;
@@ -27,8 +28,25 @@ public class PrestamoController {
 
     //implementacion del controlador para crear un prestamo.
     @PostMapping("/{cedula}")
-    public ResponseEntity<PrestamoDto> crearPrestamos(@PathVariable(value = "cedula") String cedula,@Valid @RequestBody PrestamoDto prestamoDto) {
-        return new ResponseEntity<>(prestamoService.crearPrestamo(cedula, prestamoDto), HttpStatus.CREATED);
+    public ResponseEntity<PrestamoDto> crearPrestamos(@PathVariable(value = "cedula") String cedula,  @RequestHeader("Authorization") String authHeader, @Valid @RequestBody PrestamoDto prestamoDto) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    PrestamoDto nuevoPrestamo = prestamoService.crearPrestamo(cedula, userId, prestamoDto);
+                    return new ResponseEntity<>(nuevoPrestamo, HttpStatus.CREATED);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PutMapping("/{id}")

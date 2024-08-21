@@ -48,6 +48,9 @@ public class Cliente {
     @ColumnDefault("'INACTIVO'")
     private EstadoCliente estadoCliente;
 
+    @Column(name = "user_id")
+    private String userId;
+
     @JsonBackReference
     @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos = new ArrayList<>();

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { FaFilter } from "react-icons/fa";
+import { CiBookmark, CiFilter } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
-import { IoEyeOutline } from "react-icons/io5";
-import { MdOutlineEdit, MdAddchart } from "react-icons/md";
+import { MdOutlineEdit } from "react-icons/md";
+import { IoPersonAddOutline, IoEyeOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import FormularioCliente from "./FormularioCliente";
 import Details from "./Details";
 import ClientsServices from "../../services/ClientsServices";
+import AuthServices from "../../services/AuthServices";
+import Cookies from "js-cookie";
 
 const Cliente = () => {
   const [clientes, setClientes] = useState([]);
@@ -23,16 +25,35 @@ const Cliente = () => {
         const clients = await ClientsServices.getAllClients();
         setClientes(clients);
       } catch (error) {
-        await Swal.fire({
-          icon: "error",
-          title: "Error al obtener los clientes",
-          text: error.message || "Error desconocido",
-        });
+        if (error.response && error.response.status === 403) {
+          await Swal.fire({
+            icon: "error",
+            title: "Sesión Expirada",
+            html: "<p>Tu sesión ha expirado o el token es inválido.</p>" +
+              "<p>Por favor, inicia sesión nuevamente para continuar.</p>",
+            confirmButtonText: "Iniciar Sesión",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handlePopupClose();
+            }
+          });
+          return;
+
+        } else {
+          await Swal.fire({
+            icon: "error",
+            title: "Error al obtener los clientes",
+            text: error.message || "Error desconocido",
+          });
+        }
       }
     };
 
     fetchData();
   }, []);
+
 
   const addCliente = (nuevoCliente) => {
     setClientes((prevClientes) => {
@@ -46,13 +67,11 @@ const Cliente = () => {
       }
     });
   };
-  
 
   const handleOpenModalFormCliente = (cliente = null) => {
     setCurrentCliente(cliente);
     setIsFormOpen(true);
   };
-
 
   const handleOpenDetails = (cliente) => {
     setCurrentCliente(cliente);
@@ -65,6 +84,13 @@ const Cliente = () => {
     setCurrentCliente(null);
   };
 
+  const handlePopupClose = () => {
+    AuthServices.logout();
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 100);
+  };
+
   const handleDelete = async (cedula) => {
     const result = await Swal.fire({
       title: '¿Estás seguro?',
@@ -74,7 +100,7 @@ const Cliente = () => {
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
     });
-  
+
     if (result.isConfirmed) {
       try {
         await ClientsServices.deleteClient(cedula);
@@ -93,7 +119,7 @@ const Cliente = () => {
   };
 
   const getStatusClass = (status) => {
-    return status === 'ACTIVO' ? 'bg-blue-800 text-white' : 'bg-red-500 text-white';
+    return status === 'ACTIVO' ? 'bg-green-600 px-4 text-white' : 'bg-red-500 text-white';
   };
 
   const filteredClientes = clientes.filter(cliente =>
@@ -101,74 +127,127 @@ const Cliente = () => {
   );
 
   return (
-    <div className='flex flex-col'>
-      <div className='p-2 bg-customMain border-b mb-4 h-[70px]'>
-        <div className="flex justify-between items-center">
-          <div className='text-xl text-gray-500 font-medium uppercase'>Registro De Clientes</div>
+    <section className="flex flex-col xl:w-full">
+      <header className="flex justify-between p-4 items-center">
+        <h1 className="text-2xl font-semibold text-gray-700">Clientes</h1>
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <IoIosSearch className="text-gray-400 text-xl absolute top-2 left-3" />
+            <input
+              type="text"
+              className="pl-10 pr-4 py-1.5 w-72 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none"
+              placeholder="Buscar Cliente..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <button
-            className='flex items-center text-2sm gap-2 px-2 py-1.5 font-semibold bg-blue-700 text-white rounded hover:bg-blue-600 transition'
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md  hover:bg-blue-500 transition"
             onClick={() => handleOpenModalFormCliente()}
           >
-            <MdAddchart className='text-xl font-semibold' />
-            Agregar Cliente
+            <IoPersonAddOutline className="text-xl" />
+            <span className="text-sm font-medium">Agregar Cliente</span>
           </button>
         </div>
-      </div>
+      </header>
 
-      <div className="w-full border-b bg-white h-20 flex justify-between items-center px-4 shadow-md">
-        <div className="flex w-full md:w-1/2 -mt-7 items-center relative">
-          <IoIosSearch className="text-gray-500 text-2xl absolute left-1" />
-          <input
-            type="text"
-            className="w-full py-1.5 pl-8 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Buscar Cliente..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
+      <section className="h-[460px] -mt-2 p-4">
+        <header className="flex  justify-between border p-2 rounded-xl items-center  mb-4">
+          <h2 className="text-lg font-semibold text-gray-700">Información General</h2>
+          <button className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition">
+            <CiFilter className="text-xl" />
+            <span className="text-sm font-medium">Filtrar</span>
+          </button>
+        </header>
 
-      <div className='bg-white text-gray-500'>
-        <div className='w-full h-[400px] rounded-sm overflow-x-auto text-center'>
-          <div className="grid uppercase grid-cols-9 bg-customMain p-2 text-sm h-[44px] font-semibold">
-            <div className='col-span-3 mt-1'>Cliente</div>
-            <div className='col-span-2 mt-1'>Tipo Documento</div>
-            <div className='mt-1'># Documento</div>
-            <div className='mt-1'># Celular</div>
-            <div className='mt-1'>Estado</div>
-            <div className='mt-1'>Acciones</div>
+        {filteredClientes.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+            <VscError className="text-red-500 text-5xl mb-4" />
+            <p className="text-lg font-medium">No hay registros de clientes</p>
           </div>
-          {filteredClientes.length === 0 ? (
-            <div className="flex flex-col items-center py-30">
-              <p className="flex items-center capitalize py-40 gap-2 text-gray-600 font-semibold">
-                <VscError className="text-red-500 text-4xl" />
-                No hay registros de clientes
-              </p>
-            </div>
-          ) : (
-            <div>
-              {filteredClientes.map((cliente) => (
-                <div key={cliente.numDocumento} className="grid grid-cols-9 capitalize gap-4 p-2 border-b mt-2 border-gray-300">
-                  <div className="col-span-3">{`${cliente.nombre} ${cliente.apellido}`}</div>
-                  <div className="col-span-2">{cliente.tipoDocumento}</div>
-                  <div className="">{cliente.numDocumento}</div>
-                  <div className="">{cliente.telefono}</div>
-                  <div className="">
-                    <span className={`py-1 px-3 rounded-full text-xs font-medium ${getStatusClass(cliente.estadoCliente)}`}>
-                      {cliente.estadoCliente}
-                    </span>
-                  </div>
-                  <div className="text-gray-500 text-xl mr-3]">
-                    <button onClick={() => handleOpenDetails(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><IoEyeOutline /></button>
-                    <button onClick={() => handleOpenModalFormCliente(cliente)} className="hover:bg-gray-200 rounded-3xl p-1"><MdOutlineEdit /></button>
-                    <button onClick={() => handleDelete(cliente.numDocumento)} className="hover:bg-gray-200 rounded-3xl p-1"><AiOutlineDelete /></button>
-                  </div>
-                </div>
-              ))} 
-            </div>
-          )}
-        </div>
-      </div>
+        ) : (
+          <div className="overflow-x-auto border rounded-xl max-h-[400px] overflow-y-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Cliente
+                  </th>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Tipo Documento
+                  </th>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Número de Documento
+                  </th>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Número de Celular
+                  </th>
+                  <th className="px-6 py-3 text-left text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Creado por
+                  </th>
+                  <th className="px-6 py-3 text-center text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Estado
+                  </th>
+                  <th className="px-6 py-3 text-center text-[14px] font-medium text-gray-600 capitalize tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredClientes.map((cliente) => (
+                  <tr key={cliente.numDocumento} className="hover:bg-gray-50">
+                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                      {`${cliente.nombre} ${cliente.apellido}`}
+                    </td>
+                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                      {cliente.tipoDocumento}
+                    </td>
+                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                      {cliente.numDocumento}
+                    </td>
+                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                      {cliente.telefono}
+                    </td>
+                    <td className="px-4 whitespace-nowrap uppercase text-sm text-gray-700">
+                      {cliente.userId.split('@')[0]}
+                    </td>
+                    <td className="px-4 whitespace-nowrap text-center">
+                      <span
+                        className={`py-1 px-3 uppercase rounded-full text-xs font-medium ${getStatusClass(
+                          cliente.estadoCliente
+                        )}`}
+                      >
+                        {cliente.estadoCliente}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center flex justify-center space-x-2">
+                      <button
+                        onClick={() => handleOpenDetails(cliente)}
+                        className="text-gray-500 hover:text-indigo-900 transition"
+                      >
+                        <IoEyeOutline className="text-lg" />
+                      </button>
+                      <button
+                        onClick={() => handleOpenModalFormCliente(cliente)}
+                        className="text-gray-500 hover:text-blue-900 transition"
+                      >
+                        <MdOutlineEdit className="text-lg" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(cliente.numDocumento)}
+                        className="text-gray-500 hover:text-red-900 transition"
+                      >
+                        <AiOutlineDelete className="text-lg" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+        )}
+      </section>
 
       {isFormOpen && (
         <FormularioCliente
@@ -180,7 +259,7 @@ const Cliente = () => {
       {isDetailsOpen && (
         <Details onClick={handleCloseModal} cliente={currentCliente} />
       )}
-    </div>
+    </section>
   );
 };
 

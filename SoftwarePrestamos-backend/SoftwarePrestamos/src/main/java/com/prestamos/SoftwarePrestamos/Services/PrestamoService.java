@@ -39,8 +39,8 @@ public class PrestamoService {
     }
 
     @Transactional
-    public PrestamoDto crearPrestamo(String cedula, PrestamoDto prestamoDto) {
-        Cliente cliente = clienteRepository.findByNumDocumento(cedula)
+    public PrestamoDto crearPrestamo(String cedula,String userId, PrestamoDto prestamoDto) {
+        Cliente cliente = clienteRepository.findByNumDocumentoAndUserId(cedula, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
 
         Prestamo prestamo = modelMapper.map(prestamoDto, Prestamo.class);

@@ -22,7 +22,7 @@ function Landing() {
   };
 
   const handleClick = () => {
-    navigate('/'); // O history.push('/') para v5
+    navigate('/');
   };
 
   const handleLoginClick = () => {
@@ -116,14 +116,14 @@ function Landing() {
         </div>
         <div data-aos="fade-up" data-aos-duration="600"
           className="relative xl:mt-0 -mt-8 pt-40 max-w-7xl mx-auto text-white px-4">
-          <div className="flex items-center space-x-2 xl:space-x-4">
+          <div className="flex items-center xl:mt-4 xl:-mb-6  space-x-2 xl:space-x-4">
             <span className="text-lg xl:w-14 w-7 border-b inline-flex"></span>
             <p className="lg:text-lg text-[18px]">Software Prestamos</p>
           </div>
           <div className="pt-2">
             <p className="text-[44px] leading-10 xl:leading-normal sm:text-4xl md:text-5xl lg:text-6xl font-bold lg:max-w-6xl">
               El Software <br className="xl:hidden" />de prestamos
-              <span className="block mt-2 text-[38px] sm:text-4xl md:text-5xl lg:text-6xl text-secondary-600 text-blue-800">más fácil y rápido.</span>
+              <span className="block  xl:-mt-3 text-[38px] sm:text-4xl md:text-5xl lg:text-6xl text-secondary-600 text-blue-800">más fácil y rápido.</span>
             </p>
           </div>
           <div className="mt-4">
@@ -149,10 +149,7 @@ function Landing() {
         >
           Nuestros Planes
         </h2>
-
-        <section
-          className="text-center w-full xl:w-[90%]"
-        >
+        <section className="text-center w-full xl:w-[90%]">
           <div className="grid grid-cols-1 mt-2 -ml-4 w-[110%] h-full md:grid-cols-1 md:ml-14 lg:ml-0 md:w-[80%] lg:w-full lg:grid-cols-6 gap-6 pt-10">
             {planDetails.map((plan, index) => (
               <div

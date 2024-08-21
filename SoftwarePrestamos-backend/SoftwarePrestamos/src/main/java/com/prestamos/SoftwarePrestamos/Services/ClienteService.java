@@ -23,33 +23,36 @@ public class ClienteService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-    public ClienteDto getClienteByCedula(String cedula) {
-        Cliente clienteExistente = clienteRepository.findByNumDocumento(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
+    public ClienteDto getClienteByCedula(String cedula, String userId) {
+        Cliente clienteExistente = clienteRepository.findByNumDocumentoAndUserId(cedula, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Número de documento y usuario", cedula));
 
         return modelMapper.map(clienteExistente, ClienteDto.class);
     }
 
-    @Transactional(readOnly = true)
-    public List<ClienteDto> getClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
+
+
+    public List<ClienteDto> getClientes(String userId) {
+        List<Cliente> clientes = clienteRepository.findByUserId(userId);
         return clientes.stream()
                 .map(cliente -> modelMapper.map(cliente, ClienteDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ClienteDto crearCliente(ClienteDto clienteDto) {
+    public ClienteDto crearCliente(ClienteDto clienteDto, String userId) {
         Cliente cliente = modelMapper.map(clienteDto, Cliente.class);
         cliente.setEstadoCliente(obtenerEstadoCliente(cliente)); // Establecer el estado del cliente
+        cliente.setUserId(userId); // Establecer el userId
         Cliente newCliente = clienteRepository.save(cliente);
         return modelMapper.map(newCliente, ClienteDto.class);
     }
 
+
     @Transactional
-    public ClienteDto editarCliente(ClienteDto clienteDto, String cedula) {
-        Cliente clienteExistente = clienteRepository.findByNumDocumento(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
+    public ClienteDto editarCliente(ClienteDto clienteDto, String cedula, String userId) {
+        Cliente clienteExistente = clienteRepository.findByNumDocumentoAndUserId(cedula, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Número de documento y usuario", cedula));
 
         // Actualizar los campos del cliente existente con los datos del clienteDto
         clienteExistente.setNombre(clienteDto.getNombre());
@@ -73,17 +76,19 @@ public class ClienteService {
         return modelMapper.map(clienteActualizado, ClienteDto.class);
     }
 
+
     @Transactional
-    public void eliminarCliente(String cedula) {
-        Cliente cliente = clienteRepository.findByNumDocumento(cedula)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Numero de documento", cedula));
+    public void eliminarCliente(String cedula, String userId) {
+        Cliente cliente = clienteRepository.findByNumDocumentoAndUserId(cedula, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "Número de documento y usuario", cedula));
 
         if (!cliente.getPrestamos().isEmpty()) {
-            throw new IllegalStateException("No se puede eliminar un cliente con prestamos asociados");
+            throw new IllegalStateException("No se puede eliminar un cliente con préstamos asociados");
         }
 
         clienteRepository.delete(cliente);
     }
+
 
     private EstadoCliente obtenerEstadoCliente(Cliente cliente) {
         return cliente.getPrestamos().isEmpty() ? EstadoCliente.INACTIVO : EstadoCliente.ACTIVO;

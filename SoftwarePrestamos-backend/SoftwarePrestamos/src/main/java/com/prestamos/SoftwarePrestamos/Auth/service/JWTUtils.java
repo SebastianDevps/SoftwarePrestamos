@@ -2,6 +2,7 @@ package com.prestamos.SoftwarePrestamos.Auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,13 @@ import java.util.function.Function;
 @Service
 public class JWTUtils {
 
-    private final SecretKey key;
+    private static SecretKey key = null;
 
     private static final long EXPIRATION_TIME = 86400000; //24 hours
 
     public JWTUtils() {
         // Generate a random 256-bit (32-byte) key
-        this.key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String generateToken(UserDetails userDetails){
@@ -42,11 +43,11 @@ public class JWTUtils {
                 .compact();
     }
 
-    public  String extractUsername(String token){
+    public static String extractUsername(String token){
         return  extractClaims(token, Claims::getSubject);
     }
 
-    private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction){
+    private static <T> T extractClaims(String token, Function<Claims, T> claimsTFunction){
         return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
     }
 

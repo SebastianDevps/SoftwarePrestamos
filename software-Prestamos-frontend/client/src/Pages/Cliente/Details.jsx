@@ -1,102 +1,113 @@
 import React from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
 
+// Funciones de formato integradas en el componente
+const formatDate = (date) => {
+    return new Intl.DateTimeFormat('es-CO', { dateStyle: 'short' }).format(new Date(date));
+}
+
+const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(amount);
+}
+
+const getClienteEstadoClass = (estadoCliente) => {
+    return estadoCliente.toLowerCase() === 'activo' ? 'text-green-600' : 'text-red-600';
+}
+
 const Details = ({ onClick, cliente }) => {
     if (!cliente) return <div className="text-center text-red-500 font-bold">No hay datos disponibles</div>;
 
-    const getClienteEstadoClass = (estadoCliente) => {
-        return estadoCliente.toLowerCase() === 'activo' ? 'font-bold text-green-700' : 'font-bold text-red-500';
-    };
-
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl">
-                <button onClick={onClick} className="absolute top-2 right-2 text-3xl text-gray-700 hover:text-red-500">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-80 z-50">
+            <div className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl border border-gray-300">
+                <button
+                    onClick={onClick}
+                    className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-800 transition"
+                >
                     <IoIosCloseCircle />
                 </button>
-                <h2 className="text-2xl font-bold text-center mb-4">Datos del Cliente</h2>
-                <div className="border p-4 rounded-lg shadow-sm">
-                    <div className="flex items-center mb-4">
-                        <div className="w-16 h-16 rounded-full  border border-gray-300 mr-4">
-                            <img
-                                src="/vite.svg" // URL de la foto de perfil
-                                alt="Foto de perfil"
-                                className="w-full h-full object-cover filter grayscale"
-                            />
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">Detalles del Cliente</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Información del Cliente */}
+                    <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                        <div className="flex items-center mb-6">
+                            <div className="w-16 h-16 bg-gray-300 rounded-full mr-4 flex items-center justify-center text-gray-500">
+                                <span className="text-2xl uppercase font-bold">{cliente.nombre[0]}</span>
+                            </div>
+                            <div>
+                                <div className="text-lg font-medium text-gray-800">{cliente.nombre} {cliente.apellido}</div>
+                                <div className="text-sm text-gray-600">{cliente.tipoDocumento}: {cliente.numDocumento}</div>
+                            </div>
                         </div>
-                        <div className="flex-1">
-                            <div className="text-lg font-semibold">{cliente.nombre} {cliente.apellido}</div>
-                            <div className="text-gray-600">{cliente.tipoDocumento}: {cliente.numDocumento}</div>
+                        <div className="space-y-4">
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Celular</div>
+                                <div className="text-sm text-gray-700">{cliente.telefono}</div>
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Dirección</div>
+                                <div className="text-sm text-gray-700">{cliente.direccion}</div>
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Fecha de Creación</div>
+                                <div className="text-sm text-gray-700">{formatDate(cliente.fechaCreacion)}</div>
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Fecha de Edición</div>
+                                <div className="text-sm text-gray-700">{formatDate(cliente.fechaEdicion)}</div>
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Correo Electrónico</div>
+                                <div className="text-sm text-gray-700">{cliente.correo}</div>
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-600">Estado</div>
+                                <div className={`text-sm ${getClienteEstadoClass(cliente.estadoCliente)}`}>{cliente.estadoCliente}</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-sm font-semibold text-gray-500"># Celular</div>
-                            <div className="text-sm">{cliente.telefono}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm font-semibold text-gray-500">Dirección</div>
-                            <div className="text-sm">{cliente.direccion}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm font-semibold text-gray-500">Fecha de Creación</div>
-                            <div className="text-sm">{cliente.fechaCreacion}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm font-semibold text-gray-500">Fecha de Edición</div>
-                            <div className="text-sm">{cliente.fechaEdicion}</div>
-                        </div>
-                        <div>
-                            <div className="text-sm font-semibold text-gray-500">Correo Electronico</div>
-                            <div className="text-sm">{cliente.correo}</div>
-                        </div>
-                        <div className={`rounded ${getClienteEstadoClass(cliente.estadoCliente)}`}>
-                            <div className="text-sm font-semibold text-gray-500">Estado</div>
-                            <div className="text-sm">{cliente.estadoCliente}</div>
-                        </div>
+
+                    {/* Tabla de Préstamos */}
+                    <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Préstamos del Cliente</h3>
+                        {cliente.prestamos && cliente.prestamos.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm text-gray-600 border-collapse">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="py-2 px-3 border-b">Monto</th>
+                                            <th className="py-2 px-3 border-b">IVA %</th>
+                                            <th className="py-2 px-3 border-b">Monto a Pagar</th>
+                                            <th className="py-2 px-3 border-b">Fecha Límite</th>
+                                            <th className="py-2 px-3 border-b">Estado</th>
+                                            <th className="py-2 px-3 border-b">Prestamista</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {cliente.prestamos.map((prestamo, index) => (
+                                            <tr key={index} className="border-b">
+                                                <td className="py-2 px-3">{formatCurrency(prestamo.monto)}</td>
+                                                <td className="py-2 px-3">{prestamo.porcentaje}</td>
+                                                <td className="py-2 px-3">{formatCurrency(prestamo.montoAPagar)}</td>
+                                                <td className="py-2 px-3">{formatDate(prestamo.fechaLimite)}</td>
+                                                <td className="py-2 px-3">{prestamo.estado}</td>
+                                                <td className="py-2 px-3">{prestamo.prestamista}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <div className="text-center text-sm text-gray-500 mt-4">
+                                Este cliente no tiene préstamos
+                            </div>
+                        )}
                     </div>
-                </div>
-                <h2 className="text-2xl font-bold text-center my-4">Datos del Préstamo</h2>
-                <div className="max-h-64 overflow-y-auto">
-                    {cliente.prestamos && cliente.prestamos.length > 0 ? (
-                        <table className="w-full border-collapse text-sm text-gray-700">
-                            <thead className="bg-gray-200">
-                                <tr className="text-sm text-gray-600">
-                                    <th className="py-2 px-4 border">Monto</th>
-                                    <th className="py-2 px-4 border">Iva %</th>
-                                    <th className="py-2 px-4 border">Monto a Pagar</th>
-                                    <th className="py-2 px-4 border">Fecha Límite</th>
-                                    <th className="py-2 px-4 border">Estado</th>
-                                    <th className="py-2 px-4 border">Prestamista</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {cliente.prestamos.map((prestamo, index) => (
-                                    <tr key={index} className="border-b">
-                                        <td className="py-2 px-4">{formatCurrency(prestamo.monto)}</td>
-                                        <td className="py-2 px-4">{prestamo.porcentaje}</td>
-                                        <td className="py-2 px-4">{formatCurrency(prestamo.montoAPagar)}</td>
-                                        <td className="py-2 px-4">{prestamo.fechaLimite}</td>
-                                        <td className="py-2 px-4">{prestamo.estado}</td>
-                                        <td className="py-2 px-4">{prestamo.prestamista}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <div className="text-center text-sm text-red-500 font-semibold mb-4">
-                            Este cliente no tiene préstamos
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
     );
-}
-
-const formatCurrency = (amount) => {
-    const formattedAmount = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(amount);
-    return formattedAmount;
-}
+};
 
 export default Details;
