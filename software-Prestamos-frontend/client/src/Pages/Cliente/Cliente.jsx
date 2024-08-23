@@ -11,12 +11,15 @@ import Details from "./Details";
 import ClientsServices from "../../services/ClientsServices";
 import AuthServices from "../../services/AuthServices";
 import Cookies from "js-cookie";
+import { IoMdCopy } from "react-icons/io";
+import { RiCheckboxCircleLine } from "react-icons/ri";
 
 const Cliente = () => {
   const [clientes, setClientes] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [currentCliente, setCurrentCliente] = useState(null);
+  const [isCopy, setIsCopy] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -123,8 +126,13 @@ const Cliente = () => {
   };
 
   const filteredClientes = clientes.filter(cliente =>
-    `${cliente.nombre} ${cliente.apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${cliente.nombre} ${cliente.apellido} ${cliente.numDocumento}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCopy = (dato) => {
+    navigator.clipboard.writeText(dato)
+    setIsCopy(true);
+  }
 
   return (
     <section className="flex flex-col xl:w-full">
@@ -195,20 +203,23 @@ const Cliente = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredClientes.map((cliente) => (
-                  <tr key={cliente.numDocumento} className="hover:bg-gray-50">
-                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                  <tr key={cliente.numDocumento} className="">
+                    <td className="px-4 items-center whitespace-nowrap capitalize text-sm text-gray-700">
                       {`${cliente.nombre} ${cliente.apellido}`}
                     </td>
-                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                    <td className="px-4 items-center whitespace-nowrap capitalize text-sm text-gray-700">
                       {cliente.tipoDocumento}
                     </td>
-                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
-                      {cliente.numDocumento}
+                    <td className="flex items-center gap-2 px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                      {cliente.numDocumento} 
+                        { isCopy 
+                          ? <span className="flex border rounded-xl p-1 items-center gap-1 cursor-pointer text-xs text-gray-700">Copiado <RiCheckboxCircleLine className="cursor-pointer text-[15px] text-gray-700"/></span> 
+                          : <span className="flex border rounded-xl p-1 items-center gap-1 cursor-pointer text-xs text-gray-700">Copiado <IoMdCopy onClick={handleCopy(cliente.numDocumento)} className="cursor-pointer text-lg text-gray-700"/></span>}
                     </td>
-                    <td className="px-4 whitespace-nowrap capitalize text-sm text-gray-700">
+                    <td className="px-4 items-center whitespace-nowrap capitalize text-sm text-gray-700">
                       {cliente.telefono}
                     </td>
-                    <td className="px-4 whitespace-nowrap uppercase text-sm text-gray-700">
+                    <td className="px-4 items-center whitespace-nowrap uppercase text-sm text-gray-700">
                       {cliente.userId.split('@')[0]}
                     </td>
                     <td className="px-4 whitespace-nowrap text-center">
