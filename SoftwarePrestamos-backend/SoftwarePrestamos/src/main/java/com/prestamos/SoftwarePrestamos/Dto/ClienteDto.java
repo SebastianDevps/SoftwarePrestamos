@@ -31,6 +31,9 @@ public class ClienteDto {
 
     private String correo;
 
+    private String userId;
+
+
     //formatear fechas
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaCreacion;

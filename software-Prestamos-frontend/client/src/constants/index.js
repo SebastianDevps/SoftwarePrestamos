@@ -1,21 +1,81 @@
+
+// src/config/sidebarLinks.js
+
+import {
+    MdOutlineDashboardCustomize,
+    MdOutlineCalculate ,
+    MdOutlineAdminPanelSettings ,
+} from "react-icons/md";
+import { HiOutlineUserGroup  } from "react-icons/hi2";
+import { TbReport } from "react-icons/tb";
+import { HiOutlineBanknotes } from "react-icons/hi2";
+
+export const sidebarLinks = [
+    {
+        id: "dashboard",
+        title: "Principal",
+        icon: MdOutlineDashboardCustomize,
+        to: "/app",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "prestamos",
+        title: "Préstamos",
+        icon: HiOutlineBanknotes,
+        to: "/app/prestamos",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "clientes",
+        title: "Clientes",
+        icon: HiOutlineUserGroup ,
+        to: "/app/clientes",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "reportes",
+        title: "Reportes",
+        icon: TbReport,
+        to: "/app/reportes",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+    {
+        id: "usuariosYPlanes",
+        title: "Usuarios y planes",
+        icon: MdOutlineAdminPanelSettings ,
+        to: "/app/usuarios-y-planes",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        id: "simularPrestamos",
+        title: "Simular Préstamos",
+        icon: MdOutlineCalculate ,
+        to: "/app/simular",
+        roles: ["ADMIN", "SUPER_ADMIN"],
+    },
+];
+
+
+
 export const navLinks = [
     {
-        id: " ",
+        id: "principal",
         title: "Principal",
     },
     {
-        id: " ",
+        id: "planes",
         title: "Planes",
     },
     {
-        id: " ",
+        id: "indicaciones",
         title: "Indicaciones",
     },
     {
-        id: " ",
+        id: "sobre-nosotros",
         title: "Sobre Nosotros",
     }
-]
+];
+
 
 export const planDetails = [
 

@@ -1,5 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Controller;
 
+import com.prestamos.SoftwarePrestamos.Auth.service.JWTUtils;
 import com.prestamos.SoftwarePrestamos.Dto.ClienteDto;
 import com.prestamos.SoftwarePrestamos.Services.ClienteService;
 import lombok.RequiredArgsConstructor;
@@ -19,31 +20,116 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDto>> getClientes() {
-        List<ClienteDto> clientes = clienteService.getClientes();
-        return ResponseEntity.ok(clientes);
+    public ResponseEntity<List<ClienteDto>> getClientes(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    List<ClienteDto> clientes = clienteService.getClientes(userId);
+                    return ResponseEntity.ok(clientes);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/{cedula}")
-    public ResponseEntity<ClienteDto> getClienteById(@PathVariable String cedula) {
-        ClienteDto cliente = clienteService.getClienteByCedula(cedula);
-        return ResponseEntity.ok(cliente);
+    public ResponseEntity<ClienteDto> getClienteById(@PathVariable String cedula, @RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    ClienteDto cliente = clienteService.getClienteByCedula(cedula, userId);
+                    return ResponseEntity.ok(cliente);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @PostMapping
-    public ResponseEntity<ClienteDto> crearCliente(@Validated @RequestBody ClienteDto clienteDto) {
-        return new ResponseEntity<>(clienteService.crearCliente(clienteDto), HttpStatus.CREATED);
+    public ResponseEntity<ClienteDto> crearCliente(@Validated @RequestBody ClienteDto clienteDto, @RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    ClienteDto nuevoCliente = clienteService.crearCliente(clienteDto, userId);
+                    return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @PutMapping("/{cedula}")
-    public ResponseEntity<ClienteDto> editarCliente(@Validated @RequestBody ClienteDto clienteDto, @PathVariable String cedula) {
-        ClienteDto clienteActualizado = clienteService.editarCliente(clienteDto, cedula);
-        return ResponseEntity.ok(clienteActualizado);
+    public ResponseEntity<ClienteDto> editarCliente(@Validated @RequestBody ClienteDto clienteDto, @PathVariable String cedula, @RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    ClienteDto clienteActualizado = clienteService.editarCliente(clienteDto, cedula, userId);
+                    return ResponseEntity.ok(clienteActualizado);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+
     @DeleteMapping("/{cedula}")
-    public ResponseEntity<String> eliminarCliente(@PathVariable String cedula) {
-        clienteService.eliminarCliente(cedula);
-        return ResponseEntity.ok("Cliente eliminado correctamente");
+    public ResponseEntity<String> eliminarCliente(@PathVariable String cedula, @RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                String userId = JWTUtils.extractUsername(token);
+
+                if (userId != null) {
+                    clienteService.eliminarCliente(cedula, userId);
+                    return ResponseEntity.ok("Cliente eliminado correctamente");
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token requerido");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        }
     }
+
 }

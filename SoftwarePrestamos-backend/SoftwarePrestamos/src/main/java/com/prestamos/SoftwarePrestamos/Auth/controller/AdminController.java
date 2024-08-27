@@ -30,6 +30,12 @@ public class AdminController {
         return ResponseEntity.ok(adminServices.refreshToken(data));
     }
 
+    @PostMapping("public/check-token")
+    public ResponseEntity<ReqRes> checkToken(@RequestBody ReqRes data) {
+        String token = data.getToken();
+        return ResponseEntity.ok(adminServices.checkToken(token));
+    }
+
     @GetMapping("/super-admin/get-all-admins")
     public ResponseEntity<ReqRes> getAllUsers(){
         return ResponseEntity.ok(adminServices.getAllAdmin());

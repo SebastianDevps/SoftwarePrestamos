@@ -1,5 +1,6 @@
 package com.prestamos.SoftwarePrestamos.Auth.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ public class Administradores implements UserDetails{
 
     private String name;
 
+    @JsonIgnore
     private String password;
 
     private String city;
