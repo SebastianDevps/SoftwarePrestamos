@@ -117,7 +117,7 @@ const FormularioCliente = ({ onClick, onAddCliente, cliente }) => {
                 placeholder="Ingrese número"
                 {...register('cedula', { required: 'Este campo es requerido' })}
               />
-              {errors.cedula && <span className="text-red-500 text-sm">{errors.cedula.message}</span>}
+           {errors.cedula && <span className="text-red-500 text-sm">{errors.cedula.message}</span>}
             </div>
             <div className="form-group">
               <label className="block text-sm font-medium text-gray-700">
